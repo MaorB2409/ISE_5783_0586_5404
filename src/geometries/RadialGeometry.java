@@ -1,4 +1,7 @@
 package geometries;
+import static primitives.Util.*;
+
+
 
 /**
  * abstract radial geometry class that implements geometry

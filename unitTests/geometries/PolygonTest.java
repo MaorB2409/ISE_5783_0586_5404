@@ -73,4 +73,13 @@ class PolygonTest {
         assertTrue(new Vector(sqrt3, sqrt3, sqrt3).equals(pl.getNormal(new Point(0, 0, 1)))||
                 new Vector(-sqrt3, -sqrt3, -sqrt3).equals(pl.getNormal(new Point(0, 0, 1))), "bad normal to Polygon");
     }
+
+    /**
+     * Test method for
+     */
+    @Test
+    public void testFindIntersections() {
+
+
+    }
 }

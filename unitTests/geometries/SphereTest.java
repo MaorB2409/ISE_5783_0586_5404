@@ -18,4 +18,15 @@ class SphereTest {
         Vector normal = new Vector(1,0,0);
         assertEquals(normal, s1.getNormal(new Point(1,0,0)), "Bad normal for sphere");
     }
+
+
+    /**
+     *
+     */
+    @Test
+    public void testFindIntersections()
+    {
+
+
+    }
 }

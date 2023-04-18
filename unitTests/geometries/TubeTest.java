@@ -44,4 +44,13 @@ class TubeTest {
         assertEquals(new Vector(0,1,0), pl.getNormal(new Point(0, 1,0)), "Bad normal to Tube"); //checks for point on the tube
     }
 
+
+    /**
+     * Test method for
+     */
+    @Test
+    public void testFindIntersections() {
+
+
+    }
 }

@@ -37,4 +37,6 @@ class PointTest {
         assertEquals(0d, p.distance(p), 0.0001, "Wrong squared distance between the point and itself");
 
     }
+
+
 }

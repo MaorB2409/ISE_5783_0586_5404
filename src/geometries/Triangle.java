@@ -1,8 +1,12 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 
+import java.util.List;
 import java.util.Objects;
+import static primitives.Util.*;
+
 
 /**
  * Triangle class that extends polygon
@@ -26,4 +30,12 @@ public class Triangle extends Polygon{
     }
 
 
+    /**
+     * @param ray
+     * @return
+     */
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        return null;
+    }
 }

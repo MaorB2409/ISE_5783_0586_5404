@@ -1,7 +1,11 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+import java.util.List;
+import static primitives.Util.*;
+
 
 /**
  * Sphere class that extends RadialGeometry and includes a center point and radius
@@ -46,5 +50,14 @@ public class Sphere extends RadialGeometry{
     @Override
     public Vector getNormal(Point p0) {
         return p0.subtract(center).normalize();
+    }
+
+    /**
+     * @param ray
+     * @return
+     */
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        return null;
     }
 }

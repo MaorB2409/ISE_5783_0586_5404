@@ -38,4 +38,13 @@ class PlaneTest {
         assertTrue(normal.equals(p1.getNormal(new Point(1, 1, 0))) ||
                 normal.equals(p1.getNormal(new Point(-1, -1, 0))), "bad normal to plane");
     }
+
+    /**
+     * Test method for
+     */
+    @Test
+    public void testFindIntersections() {
+
+
+    }
 }

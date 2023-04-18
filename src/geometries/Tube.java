@@ -4,7 +4,11 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import static primitives.Util.isZero;
+import java.util.List;
+
+//import static primitives.Util.isZero;
+import static primitives.Util.*;
+
 
 public class Tube extends RadialGeometry {
     final Ray axisRay;
@@ -80,6 +84,15 @@ public class Tube extends RadialGeometry {
      */
     public Ray getAxisRay() {
         return axisRay;
+    }
+
+    /**
+     * @param ray
+     * @return
+     */
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        return null;
     }
 
 }

@@ -33,4 +33,13 @@ class CylinderTest {
         assertEquals(new Vector(0, 0, -1), cylinder.getNormal(new Point(0, 1, 0)), "Bad normal to the bottom-edge of the cylinder");
 
     }
+
+    /**
+     * Test method for
+     */
+    @Test
+    public void testFindIntersections() {
+
+
+    }
 }

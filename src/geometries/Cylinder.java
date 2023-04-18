@@ -1,11 +1,10 @@
 package geometries;
-
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
-import static primitives.Util.isZero;
-
+import java.util.List;
+//import static primitives.Util.isZero;
+import static primitives.Util.*;
 /**
  * cylinder class that extends the tube shape
  */
@@ -70,6 +69,15 @@ public class Cylinder extends Tube{
 
         Point o=p0.add(v.scale(t));
         return p.subtract(o).normalize();
+    }
+
+    /**
+     * @param ray
+     * @return
+     */
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        return null;
     }
 
 

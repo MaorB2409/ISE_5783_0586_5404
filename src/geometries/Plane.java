@@ -1,7 +1,12 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+import java.util.List;
+import static primitives.Util.*;
+
+
 
 /**
  * Plane class that implements geometry shapes
@@ -50,4 +55,12 @@ public class Plane implements Geometry {
         return normal;
     }
 
+    /**
+     * @param ray
+     * @return
+     */
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        return null;
+    }
 }
