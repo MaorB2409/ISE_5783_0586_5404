@@ -2,6 +2,8 @@ package primitives;
 
 import java.util.Objects;
 
+import static primitives.Util.isZero;
+
 public class Ray {
     Point p0;
     Vector dir;
@@ -31,6 +33,16 @@ public class Ray {
      */
     public Vector getDir() {
         return dir;
+    }
+
+    /**
+     * Getter for point at a given distance from ray origin
+     *
+     * @param t distance from ray origin
+     * @return point
+     */
+    public Point getPoint(double t) {
+        return isZero(t) ? p0 : p0.add(dir.scale(t));
     }
 
     /**

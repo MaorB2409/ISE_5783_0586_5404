@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Vector;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,11 +32,13 @@ public class Triangle extends Polygon{
 
 
     /**
-     * @param ray
-     * @return
+     * method calculates a list of Points that a ray from the light source to the object intersects
+     * @param ray ray
+     * @return returns a list of Points between the geometry and the light source
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        //returns polygon findIntersections because it is the same
+        return super.findIntersections(ray);
     }
 }

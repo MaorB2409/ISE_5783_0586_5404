@@ -1,7 +1,10 @@
 package geometries;
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
+
+import java.util.ArrayList;
 import java.util.List;
 //import static primitives.Util.isZero;
 import static primitives.Util.*;
@@ -72,13 +75,23 @@ public class Cylinder extends Tube{
     }
 
     /**
-     * @param ray
-     * @return
+     * method calculates a list of Points that a ray from the light source to the object intersects
+     * @param ray ray
+     * @return returns a list of Points between the geometry and the light source
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        List<Point> res = new ArrayList<>();
+        List<Point> lst = super.findIntersections(ray);
+        if (lst != null)
+            for (Point point : lst) {
+                double distance = Util.alignZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()));
+                if (distance > 0 && distance <= height)
+                    res.add(point);
+            }
+        if (res.size() == 0)
+            return null;
+        return res;
     }
-
 
 }
