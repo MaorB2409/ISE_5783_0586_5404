@@ -4,13 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import renderer.Camera;
 import primitives.*;
+import renderer.Camera;
 
 /**
  * Testing Camera Class
  *
  * @author Dan
+ *
  */
 class CameraTest {
     static final Point ZERO_POINT = new Point(0, 0, 0);

@@ -30,7 +30,7 @@ public class Camera {
             throw new IllegalArgumentException("vUp and vTo are not orthogonal");
         this.vUp = vUp.normalize();
         this.vTo = vTo.normalize();
-        this.vRight = (vUp.crossProduct(vTo)).normalize();
+        this.vRight = (vTo.crossProduct(vUp)).normalize();
     }
 
     /**
@@ -132,28 +132,30 @@ public class Camera {
      * @return Ray that goes through the requested pixel in the view plane
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
-        //Center of the view plane
-        Point pIJ = p0.add(vTo.scale(distance));
-        //height of each pixel
-        double Ry = height / nY;
-        //width of each pixel
-        double Rx = width / nX;
-        //vertical distance of the required pixel from the center of the view plane
-        double yI = -(i - ((double) (nY - 1)) / 2) * Ry;
-        //horizontal distance of the required pixel from the center of the view plane
-        double xJ = -(j - ((double) (nX - 1)) / 2) * Rx;
+        Point pc = p0.add(vTo.scale(distance)); // center point of the view plane
+        double pixelWidth = width / nX; // width of a pixel
+        double pixelHeight = height / nY; // height of a pixel
+        double pcX = (nX - 1) / 2.0; // center pixel value in x direction
+        double pcY = (nY - 1) / 2.0; // center pixel value in y direction
+        double rightDistance = (j - pcX) * pixelWidth; // x offset of j from the center pixel
+        double upDistance = -1 * (i - pcY) * pixelHeight; // y offset of i from the center pixel
 
-        //changing the position of the center point so that the ray will intersect the view plane in the right place
-        if (xJ != 0) {
-            pIJ = pIJ.add(vRight.scale(xJ));
-        }
-        if (yI != 0) {
-            pIJ = pIJ.add(vUp.scale(yI));
+        Point pij = pc; // start at the center of the view plane
+
+        // we need to check if the distance is zero, because we can't scale a vector by
+        // zero
+        if (rightDistance!=0) {
+            // if the distance to move right is not zero, move right
+            pij = pij.add(vRight.scale(rightDistance));
         }
 
-        //return the ray
-        return new Ray(p0, pIJ.subtract(p0).normalize());
+        if (upDistance!=0) {
+            // if the distance to move up is not zero, move up
+            pij = pij.add(vUp.scale(upDistance));
+        }
 
+        // construct a ray from the camera origin in the direction of the pixel at (j,i)
+        return new Ray(p0, pij.subtract(p0));
     }
 
 
@@ -166,9 +168,9 @@ public class Camera {
      */
     public Camera turnCamera(Vector axis, double theta) {
         if (theta == 0) return this; //there is nothing to turn
-        //this.vUp = this.vUp.rotateVector(axis, theta);
-        //this.vRight = this.vRight.rotateVector(axis, theta);
-        //this.vTo = this.vTo.rotateVector(axis, theta);
+        this.vUp = this.vUp.rotateVector(axis, theta);
+        this.vRight = this.vRight.rotateVector(axis, theta);
+        this.vTo = this.vTo.rotateVector(axis, theta);
         return this;
     }
 

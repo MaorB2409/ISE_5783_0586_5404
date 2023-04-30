@@ -4,6 +4,10 @@ import java.util.Objects;
 
 public class Point {
     protected Double3 xyz;
+    /**
+     * Constant object of Point at the center of our cartesian coordinate system
+     */
+    public static final Point ZERO = new Point(Double3.ZERO);
 
     /**
      * Constructor1
