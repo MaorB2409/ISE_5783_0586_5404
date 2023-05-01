@@ -10,15 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class GeometriesTest {
 
     @Test
-    void add() {
-    }
-
-    @Test
     void findIntersections() throws IllegalAccessException {
         //Equivalence Partitions test ===========================================================
         //EP01 - Ray intersects with a Sphere and plane but not with a Triangle
         Geometries geometries = new Geometries();
-        geometries.add(new Sphere(new Point(1, 0, 0), 1));
+        geometries.add(new Sphere(new Point(1, 0, 0),1));
         geometries.add(new Plane(new Point(1, 0, 0), new Vector(0, 1, 0)));
         geometries.add(new Triangle(new Point(1, 0, 0), new Point(1, 5, 0), new Point(6, 0, 0)));
         assertEquals(3, geometries.findIntersections(new Ray(new Point(0.5, 4, 0.5), new Vector(0, -1, 0))).size(), "Ray intersects with a Sphere and plane but not with a Triangle");

@@ -1,84 +1,65 @@
 package primitives;
 
-import java.util.Objects;
+import java.util.List;
 
 import static primitives.Util.isZero;
 
+/**
+ * Ray class represents a ray in 3D Cartesian coordinate system,
+ * using a point and a vector
+ */
 public class Ray {
-    Point p0;
-    Vector dir;
+    final private Point p0;
+    final private Vector dir;
 
     /**
-     *
-     * @param p0 Point
-     * @param dir Vector to calculate normalization of
+     * constructor
+     * normalize the vector received
+     * @param p0 point
+     * @param dir direction vector
      */
     public Ray(Point p0, Vector dir) {
-        dir.normalize();
         this.p0 = p0;
-        this.dir = dir;
+        this.dir = dir.normalize();
     }
 
-    /**
-     * getter for p0
-     * @return the Point p0
-     */
-    public Point getP0() {
-        return p0;
-    }
-
-    /**
-     * getter for dir
-     * @return the Vector dir
-     */
-    public Vector getDir() {
-        return dir;
-    }
-
-    /**
-     * Getter for point at a given distance from ray origin
-     *
-     * @param t distance from ray origin
-     * @return point
-     */
     public Point getPoint(double t) {
         return isZero(t) ? p0 : p0.add(dir.scale(t));
     }
 
-    /**
-     *
-     * @param o Object
-     * @return true if equals and false otherwise
-     */
+    public Point getP0() {
+        return p0;
+    }
+
+    public Vector getDir() {
+        return dir;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ray ray = (Ray) o;
-        if (o instanceof Ray other){
-            return this.dir.equals(other.dir) && this.p0.equals((other.p0));
-        }
-        return false;
+        if (!p0.equals(ray.p0)) return false;
+        return dir.equals(ray.dir);
     }
 
-    /**
-     *
-     * @return hash of Object with p0 and dir
-     */
     @Override
     public int hashCode() {
-        return Objects.hash(p0, dir);
+        int result = p0.hashCode();
+        result = 31 * result + dir.hashCode();
+        return result;
     }
 
-    /**
-     * Overriding the toString function
-     * @return Ray- p0 and dir
-     */
     @Override
     public String toString() {
         return "Ray{" +
                 "p0=" + p0 +
                 ", dir=" + dir +
                 '}';
+    }
+
+    public Point findClosestPoint(List<Point> pointList) {
+        return null;
     }
 }

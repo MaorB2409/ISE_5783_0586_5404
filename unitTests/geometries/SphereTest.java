@@ -1,102 +1,119 @@
 package geometries;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SphereTest {
+/**
+ * Unit tests for geometries.Sphere class
+ * @author Sarah Daatyah Furmanski and Efrat Kartman
+ */
+public class SphereTest {
+
     /**
-     * Test method for {@link geometries.Sphere#getNormal(primitives.Point)}.
+     * Test method for {@link geometries.Sphere#getNormal(Point)}
+     * checks that the normal of a sphere is calculated correctly
      */
     @Test
-    void testGetNormal() {
-        // Equivalence Partitions tests ======================================================================
-        // EP01 get normal of point on sphere
-        Sphere s1 = new Sphere (new Point(0,0,0), 1);
-        Vector normal = new Vector(1,0,0);
-        assertEquals(normal, s1.getNormal(new Point(1,0,0)), "Bad normal for sphere");
+    public void testGetNormal() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP1: test normal vector
+        Sphere sphere = new Sphere( new Point(0, 0, 0),1);
+        Vector result = sphere.getNormal(new Point(0, 0, 1));
+        //ensure the result is correct
+        assertEquals(result, new Vector(0, 0, 1), "Bad normal to sphere");
+        // ensure |result| = 1
+        assertEquals(1, result.length(), 0.00000001,
+                "Sphere's normal is not a unit vector");
     }
 
+    /**
+     * Test method for {@link geometries.Sphere#findIntersections(primitives.Ray)}.
+     * Checks that intersections for a sphere are calculated correctly
+     */
+    @Test
+    public void testFindIntersections() {
+        //@TODO: BVA: 12
 
-//    /**
-//     * Test method for {@link geometries.Sphere#findIntersections(Ray)} (primitives.Point)}.
-//     */
-//    @Test
-//    public void testFindIntersections() {
-//        Sphere sphere = new Sphere(new Point(2,0,0),1);
-//        Point pnt1 = new Point(1.1339745962156,0.5,0);
-//        Point pnt2 = new Point(2.8660254037844,0.5,0);
-//
-//
-//
-//        //============ Equivalence Partitions Tests ==============//
-//
-//        //EP1: Head of the ray is outside the sphere and intersects the sphere twice
-//        assertEquals(2, sphere.findIntersections(new Ray(new Point(0, 0.5, 0), new Vector(1, 0, 0))).size(), "EP1: Wrong number of points - 2");
-//        assertEquals(List.of(pnt1,pnt2), sphere.findIntersections(new Ray(new Point(0, 0.5, 0), new Vector(1, 0, 0))), "EP1: Wrong intersections");
-//        //EP2: Ray doesn't intersect the sphere
-//        assertNull(sphere.findIntersections(new Ray(new Point(0, 2, 0), new Vector(1, 0, 0))),"EP2: Ray's line out of sphere");
-//        //EP3: Ray starts inside the sphere
-//        assertEquals(1, sphere.findIntersections(new Ray(new Point(1.5, 0.5, 0), new Vector(1, 0, 0))).size(), "EP3: Wrong number of points - 1");
-//        assertEquals(List.of(pnt1), sphere.findIntersections(new Ray(new Point(1.5, 0.5, 0), new Vector(-1, 0, 0))), "EP3: Wrong intersection");
-//
-//        //EP4: Ray starts after the sphere
-//        assertNull(sphere.findIntersections(new Ray(new Point(3, 0.5, 0), new Vector(1, 0, 0))),"EP4: Ray starts after the sphere");
-//
-//        //============ Boundary Tests ==============//
-//
-//        // **** Group: Ray's line crosses the sphere (but not the center)
-//
-//
-//        //BVA1: Ray starts at the sphere and goes inside
-//        assertEquals(1, sphere.findIntersections(new Ray(pnt1, new Vector(1, 0, 0))).size(), "BVA1: Wrong number of points - 1");
-//        assertEquals(List.of(pnt2), sphere.findIntersections(new Ray(pnt1, new Vector(1, 0, 0))), "BVA1: Wrong intersection");
-//        //BVA2: Ray starts at the sphere and goes outside
-//        assertNull(sphere.findIntersections(new Ray(pnt1, new Vector(-1, 0, 0))),"BVA2: Ray's line out of sphere");
-//
-//        // **** Group: Ray's line goes through the center
-//
-//
-//        //BVA3: Ray starts before the sphere
-//        assertEquals(2, sphere.findIntersections(new Ray(new Point(0.5, 0, 0), new Vector(1, 0, 0))).size(), "BVA3: Wrong number of points - 2");
-//        assertEquals(List.of(new Point(1,0,0),new Point(3,0,0)), sphere.findIntersections(new Ray(new Point(0.5, 0, 0), new Vector(1, 0, 0))), "BVA3: Wrong intersections");
-//        //BVA4: Ray starts at sphere and goes inside
-//        assertEquals(1, sphere.findIntersections(new Ray(new Point(1, 0, 0), new Vector(1, 0, 0))).size(), "BVA4: Wrong number of points - 1");
-//        assertEquals(List.of(new Point(3,0,0)), sphere.findIntersections(new Ray(new Point(1, 0, 0), new Vector(1, 0, 0))), "BVA4: Wrong intersection");
-//        //BVA5: Ray starts at the sphere and goes outside
-//        assertNull(sphere.findIntersections(new Ray(new Point(1,0,0), new Vector(-1, 0, 0))),"BVA5: Ray's line out of sphere");
-//        //BVA6: Ray starts inside the sphere before the center
-//        assertEquals(1, sphere.findIntersections(new Ray(new Point(1.5, 0, 0), new Vector(1, 0, 0))).size(), "BVA6: Wrong number of points - 1");
-//        assertEquals(List.of(new Point(3,0,0)), sphere.findIntersections(new Ray(new Point(1.5, 0, 0), new Vector(1, 0, 0))), "BVA6: Wrong intersection");
-//        //BVA7: Ray starts inside the sphere after the center
-//        assertEquals(1, sphere.findIntersections(new Ray(new Point(2.5, 0, 0), new Vector(1, 0, 0))).size(), "BVA7: Wrong number of points - 1");
-//        assertEquals(List.of(new Point(3,0,0)), sphere.findIntersections(new Ray(new Point(2.5, 0, 0), new Vector(1, 0, 0))), "BVA7: Wrong intersection");
-//        //BVA8: Ray starts at the center
-//        assertEquals(1, sphere.findIntersections(new Ray(new Point(2, 0, 0), new Vector(1, 0, 0))).size(), "BVA8: Wrong number of points - 1");
-//        assertEquals(List.of(new Point(3,0,0)), sphere.findIntersections(new Ray(new Point(2, 0, 0), new Vector(1, 0, 0))), "BVA8: Wrong intersection");
-//        //BVA9: Ray starts after the sphere
-//        assertNull(sphere.findIntersections(new Ray(new Point(4,0,0), new Vector(1, 0, 0))),"BVA9: Ray's line inside of sphere");
-//
-//        // **** Group: Ray's line is tangent to the sphere
-//
-//        //BVA10: Ray starts before the tangent point
-//        assertNull(sphere.findIntersections(new Ray(new Point(0,1,0), new Vector(1, 0, 0))),"BVA10: Ray starts before the tangent point");
-//        //BVA11: Ray starts at the tangent point
-//        assertNull(sphere.findIntersections(new Ray(new Point(2,1,0), new Vector(1, 0, 0))),"BVA11: Ray starts at the tangent point");
-//        //BVA12: Ray starts after the tangent point
-//        assertNull(sphere.findIntersections(new Ray(new Point(3,1,0), new Vector(1, 0, 0))),"BVA12: Ray starts after the tangent point");
-//
-//        // **** Group: Special cases
-//
-//        //BVA13: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
-//        assertNull(sphere.findIntersections(new Ray(new Point(0,1,0), new Vector(0, 1, 0))),"BVA13: Ray's line is outside, ray is orthogonal to ray start to sphere's center line");
-//
-//
-//    }
+        Sphere sphere = new Sphere( new Point (1, 0, 0),1d);
+        Sphere sphere1 = new Sphere(new Point (3, -2, 4),1d);
 
+        // ============ Equivalence Partitions Tests ==============
+        // EP1: Ray's line is outside the sphere (0 points)
+        assertNull(sphere.findIntersections(new Ray(new Point(-1, 0, 0), new Vector(1, 1, 0))),
+                "Ray's line out of sphere");
+        // EP2: Ray starts before and crosses the sphere (2 points)
+        Point p1 = new Point(0.0651530771650466, 0.355051025721682, 0);
+        Point p2 = new Point(1.53484692283495, 0.844948974278318, 0);
+        List<Point> result = sphere.findIntersections(new Ray(new Point(-1, 0, 0), new Vector(3, 1, 0)));
+        assertEquals(2, result.size(), "Wrong number of points");
+        if (result.get(0).getX() > result.get(1).getX())
+            result = List.of(result.get(1), result.get(0));
+        assertEquals(List.of(p1, p2), result, "Ray crosses sphere");
+
+        // EP3: Ray starts inside the sphere (1 point)
+        List<Point> result1 = sphere.findIntersections(new Ray(new Point(0.6, -0.51, 0), new Vector(0.32,1.18,0.74)));
+        assertEquals(1, result1.size(), "Wrong number of points - Ray starts inside the sphere (1 point)");
+        // EP4: Ray starts after the sphere (0 points)
+        assertNull(sphere.findIntersections(new Ray(new Point(0.6, 1.44, 0.5), new Vector(0.2,-0.63,0.63))),
+                "Wrong number of points - Ray starts after the sphere (0 points)");
+
+        // =============== Boundary Values Tests ==================
+        // **** Group: Ray's line crosses the sphere (but not the center)
+        // BVA1: Ray starts at sphere and goes inside (1 point)
+        assertEquals(1,
+                sphere.findIntersections(new Ray(new Point(1.73, 0.37, 0.57), new Vector(-0.3,-0.37,-0.57))).size(),
+                "Wrong number of points - Ray starts at sphere and goes inside (1 point)");
+        // BVA2: Ray starts at sphere and goes outside (0 points)
+        assertNull(sphere.findIntersections(new Ray(new Point(2,0,0), new Vector(0.56,1.21,0))),
+                "Wrong number of points - Ray starts at sphere and goes outside (0 points)");
+
+        // **** Group: Ray's line goes through the center
+        // BVA3: Ray starts before the sphere (2 points)
+        assertEquals(2,
+                sphere.findIntersections(new Ray(new Point(1.52, -0.78, 1), new Vector(-0.52,0.78,-1))).size(),
+                "Wrong number of points Ray starts before the sphere (2 points)");
+        // BVA4: Ray starts at sphere and goes inside (1 point)
+        assertEquals(1,
+                sphere.findIntersections(new Ray(new Point(1.73, 0.37, 0.57), new Vector(-0.73,-0.37,-0.57))).size(),
+                "Wrong number of points - Ray starts at sphere and goes inside (1 point)");
+        // BVA5: Ray starts inside (1 point)
+        assertEquals(1,
+                sphere.findIntersections(new Ray(new Point(1.52, 0.42, 0.16), new Vector(-0.52,-0.42,-0.16))).size(),
+                "Wrong number of points - Ray starts inside (1 point)");
+        // BVA6: Ray starts at the center (1 point)
+        assertEquals(1d,
+                sphere.findIntersections(new Ray(new Point(1,0,0), new Vector(-0.05,0.77,0.63))).size(),
+                "Wrong number of points - Ray starts at the center (1 point)");
+        // BVA7: Ray starts at sphere and goes outside (0 points)
+        assertNull(sphere.findIntersections(new Ray(new Point(2,0,0), new Vector(0.56,1.21,0))),
+                "Wrong number of points - Ray starts at sphere and goes outside (0 points)");
+        // BVA8: Ray starts after sphere (0 points)
+        assertNull(sphere.findIntersections(new Ray(new Point(-0.24, 1.19, -0.59), new Vector(-0.78,-2.59,-0.02))),
+                "Wrong number of points - Ray starts after sphere (0 points)");
+
+        // **** Group: Ray's line is tangent to the sphere (all tests 0 points)
+        // BVA9: Ray starts before the tangent point
+        //intersect point/ tangent point is (1,0,1)
+        assertNull(sphere.findIntersections(new Ray(new Point(2.18,-0.67,1), new Vector(-1.18,0.67,0))),
+                "Wrong number of points - Ray starts before the tangent point");
+        // BVA10: Ray starts at the tangent point
+        assertNull(sphere.findIntersections(new Ray(new Point(1,0,1), new Vector(-1.35,0,0))),
+                "Wrong number of points - Ray starts at the tangent point");
+        // BVA11: Ray starts after the tangent point
+        assertNull(sphere.findIntersections(new Ray(new Point(0.45, 0, 1), new Vector(-1.69,0,0))),
+                "Wrong number of points - Ray starts after the tangent point");
+
+        // **** Group: Special cases
+        // BVA12: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
+        assertNull(sphere1.findIntersections( new Ray(new Point(3,-2,1),new Vector(0,-2,1))),
+                "Ray is orthogonal to the center line of the sphere");
+    }
 }

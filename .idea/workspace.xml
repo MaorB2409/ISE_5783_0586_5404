@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="beginning of camera">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unitTests/renderer/IntegrationTest.java" afterDir="false" />
+    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment=" with integrations tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/primitives/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Point.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/primitives/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Vector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/geometries/Sphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Sphere.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/primitives/Ray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Ray.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/Camera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unitTests/geometries/GeometriesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/geometries/GeometriesTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unitTests/geometries/SphereTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/geometries/SphereTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unitTests/geometries/TubeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/geometries/TubeTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unitTests/renderer/CameraTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/renderer/CameraTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unitTests/renderer/IntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/renderer/IntegrationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +80,7 @@
       <recent name="primitives" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SphereTest.testFindIntersections">
+  <component name="RunManager" selected="JUnit.IntegrationTest.cameraRaySphereIntegration">
     <configuration name="CameraTest.testConstructRay" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE_5783_0586_5404" />
       <extension name="coverage">
@@ -144,7 +145,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SphereTest.testFindIntersections" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TubeTest.testFindIntersections" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE_5783_0586_5404" />
       <extension name="coverage">
         <pattern>
@@ -153,7 +154,7 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="geometries" />
-      <option name="MAIN_CLASS_NAME" value="geometries.SphereTest" />
+      <option name="MAIN_CLASS_NAME" value="geometries.TubeTest" />
       <option name="METHOD_NAME" value="testFindIntersections" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -162,11 +163,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SphereTest.testFindIntersections" />
         <item itemvalue="JUnit.IntegrationTest.cameraRaySphereIntegration" />
         <item itemvalue="JUnit.IntegrationTest.cameraRayPlaneIntegration" />
         <item itemvalue="JUnit.IntegrationTest.cameraRayTriangleIntegration" />
         <item itemvalue="JUnit.CameraTest.testConstructRay" />
+        <item itemvalue="JUnit.TubeTest.testFindIntersections" />
       </list>
     </recent_temporary>
   </component>
@@ -228,7 +229,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682423296985</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary=" with integrations tests">
+      <created>1682843187972</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1682843187973</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -250,6 +258,7 @@
     <MESSAGE value="unit tests for findIntersections finished besides Tube" />
     <MESSAGE value="stage 3 tag" />
     <MESSAGE value="beginning of camera" />
-    <option name="LAST_COMMIT_MESSAGE" value="beginning of camera" />
+    <MESSAGE value=" with integrations tests" />
+    <option name="LAST_COMMIT_MESSAGE" value=" with integrations tests" />
   </component>
 </project>
