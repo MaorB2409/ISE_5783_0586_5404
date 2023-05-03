@@ -1,8 +1,11 @@
 package renderer;
 
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
+import java.util.MissingResourceException;
 
 /**
  * Camera class to take the picture
@@ -14,6 +17,8 @@ public class Camera {
     private Vector vUp, vRight, vTo;
     //view plane attributes
     double width, height, distance;
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracerBase;
 
 
     /**
@@ -190,4 +195,84 @@ public class Camera {
         if (to != 0) this.p0.add(this.vTo.scale(to));
         return this;
     }
+
+    public Camera setImageWriter(ImageWriter imageWriter) {
+        this.imageWriter = imageWriter;
+        return this;
+    }
+
+    /**
+     * RayTracerBase setter
+     *
+     * @param rayTracerBase a Ray Tracer Base
+     * @return the camera with modified Ray Tracer Base
+     */
+    public Camera setRayTracer(RayTracerBasic rayTracerBase) {
+        this.rayTracerBase = rayTracerBase;
+        return this;
+    }
+
+
+
+    /**
+     * Checks if there are any empty camera fields
+     */
+    public void renderImage() {
+        if (width == 0)
+            throw new MissingResourceException("One of the camera's attributes are missing", "width", "4");
+        if (height == 0)
+            throw new MissingResourceException("One of the camera's attributes are missing", "height", "5");
+        if (distance == 0)
+            throw new MissingResourceException("One of the camera's attributes are missing", "distance", "6");
+        if (imageWriter == null)
+            throw new MissingResourceException("One of the camera's attributes are missing", "imageWriter", "7");
+        if (rayTracerBase == null)
+            throw new MissingResourceException("One of the camera's attributes are missing", "rayTracerBase", "8");
+        //move over the coordinates of the grid
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                //get the ray through the pixel
+                Ray ray = this.constructRay(nX, nY, j, i);
+                imageWriter.writePixel(j, i, rayTracerBase.traceRay(ray));
+            }
+        }
+    }/////////////////////////UnsupportedOperationException, void???
+
+
+    /**
+     * Prints a grid
+     *
+     * @param interval the interval of the distance between ech grid line
+     * @param color    the color of the grid
+     */
+    public void printGrid(int interval, Color color) {
+        if (imageWriter == null)
+            throw new MissingResourceException("One of the camera's attributes are missing", "imageWriter", "7");
+        //move over the coordinates of the grid
+        for (int i = 0; i < imageWriter.getNx(); i++) {
+            for (int j = 0; j < imageWriter.getNy(); j++) {
+                //Coordinates of the net
+                if (i % interval == 0 || j % interval == 0) {
+                    //print in Red
+                    imageWriter.writePixel(i, j, color);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * uses the writeToImage function by delegation of imageWriter
+     */
+    public void writeToImage() {
+        if (imageWriter == null)
+            throw new MissingResourceException("One of the camera's attributes are missing", "imageWriter", "7");
+        imageWriter.writeToImage();
+    }
+
+
+
+
 }
