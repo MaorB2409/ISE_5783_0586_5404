@@ -18,7 +18,7 @@ public class RenderTests {
    /** Produce a scene with basic 3D model and render it into a png image with a
     * grid */
    @Test
-   public void basicRenderTwoColorTest() {
+   public void basicRenderTwoColorTest() throws IllegalAccessException {
       Scene scene = new Scene("Test scene")//
          .setAmbientLight(new AmbientLight(new Color(255, 191, 191), //
                                            new Double3(1, 1, 1))) //

@@ -215,30 +215,42 @@ public class Camera {
 
 
     /**
-     * Checks if there are any empty camera fields
+     * This function renders image's pixel color map from the scene included with
+     * the Renderer object
      */
-    public void renderImage() {
-        if (width == 0)
-            throw new MissingResourceException("One of the camera's attributes are missing", "width", "4");
-        if (height == 0)
-            throw new MissingResourceException("One of the camera's attributes are missing", "height", "5");
-        if (distance == 0)
-            throw new MissingResourceException("One of the camera's attributes are missing", "distance", "6");
-        if (imageWriter == null)
-            throw new MissingResourceException("One of the camera's attributes are missing", "imageWriter", "7");
-        if (rayTracerBase == null)
-            throw new MissingResourceException("One of the camera's attributes are missing", "rayTracerBase", "8");
-        //move over the coordinates of the grid
-        int nX = imageWriter.getNx();
-        int nY = imageWriter.getNy();
-        for (int i = 0; i < nX; i++) {
-            for (int j = 0; j < nY; j++) {
-                //get the ray through the pixel
-                Ray ray = this.constructRay(nX, nY, j, i);
-                imageWriter.writePixel(j, i, rayTracerBase.traceRay(ray));
+
+    public Camera renderImage() {
+        try {
+            if (imageWriter == null) {
+                throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
             }
+            if (rayTracerBase == null) {
+                throw new MissingResourceException("missing resource", RayTracerBase.class.getName(), "");
+            }
+            int nX = imageWriter.getNx();
+            int nY = imageWriter.getNy();
+//            if (isMultithreading) {
+//                Pixel.initialize(nX, nY, 1);
+//                while (numOfThreads-- > 0) {
+//                    new Thread(() -> {
+//                        for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
+//                            castRay(nX, nY, pixel.row, pixel.col);
+//                    }).start();
+//                }
+//               Pixel.waitToFinish();
+//            } else {
+            //rendering the image
+            for (int i = 0; i < nY; i++) {
+                for (int j = 0; j < nX; j++) {
+                    constructRay(nX, nY, i, j);
+                }
+            }
+//            }
+        } catch (MissingResourceException e) {
+            throw new UnsupportedOperationException("Not implemented yet" + e.getClassName());
         }
-    }/////////////////////////UnsupportedOperationException, void???
+        return this;
+    }
 
 
     /**

@@ -59,7 +59,29 @@ public class Ray {
                 '}';
     }
 
+    /**
+     *
+     * @param pointList is a collection of points
+     * @return the closest Point to start of Ray
+     */
+
     public Point findClosestPoint(List<Point> pointList) {
-        return null;
-    }
+        //In case of empty list return null
+        if (pointList == null || pointList.isEmpty()) {
+            return null;
+        }
+
+        Point p = null;
+        double d = Double.POSITIVE_INFINITY;
+        //Iterating through the list. Once we find smaller distance
+        //than we have we replace the values.
+        //This goes on until the end of the list.
+        for (Point pnt : pointList) {
+            if (d > this.getP0().distance(pnt)) {
+                d = this.getP0().distance(pnt);
+                p = pnt;
+            }
+        }
+
+        return p;    }
 }

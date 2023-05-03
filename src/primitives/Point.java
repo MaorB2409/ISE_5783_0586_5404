@@ -91,7 +91,7 @@ public class Point {
 
     /**
      * @param p Point to ca
-     * @return square root of squared distance (aka the actual distance from Point)
+     * @return square root of squared distance (aka the actual distance between 2 Points)
      */
     public double distance(Point p) {
         return (Math.sqrt(distanceSquared(p)));
