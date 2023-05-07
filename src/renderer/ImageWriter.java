@@ -79,6 +79,22 @@ public class ImageWriter {
 	}
 
 	/**
+	 * Create a grid [over the picture] in the pixel color map. given the grid's
+	 * step and color.
+	 *
+	 * @param interval  grid's step
+	 * @param color grid's color
+	 */
+	public void printGrid(int interval, Color color) {
+		for (int i = 0; i < nY; i++) {
+			for (int j = 0; j < nX; j++) {
+				if (i % interval == 0 || j % interval == 0) {
+					writePixel(j, i, color);
+				}
+			}
+		}
+	}
+	/**
 	 * The function writePixel writes a color of a specific pixel into pixel color
 	 * matrix
 	 * 

@@ -5,108 +5,103 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.MissingResourceException;
+import java.util.Random;
+
+import static primitives.Util.isZero;
 
 /**
- * Camera class to take the picture
+ * Class Camera represent a view of the geometric world through the view plane (which represent the picture),
+ * Through the view plane the camera captures the geometric world.
+ * it produces graphic views of the objects using the view plane and rays and object intersections.
+ * The rays converge according to the location of the pixel centers in the view plane.
+ * directions of the camera to the right, up and front  (compared to the original x,y,z axis),
+ * all vectors orthogonal to each other
  */
 public class Camera {
-    //position point
-    Point p0;
-    //3 camera directions
-    private Vector vUp, vRight, vTo;
-    //view plane attributes
-    double width, height, distance;
-    private ImageWriter imageWriter;
-    private RayTracerBase rayTracerBase;
-
 
     /**
-     * Constructor to camera
+     * _P0 - the camera location
+     */
+    private Point p0;
+
+    /**
+     * X axis vector
+     */
+    private Vector vTo;
+
+    /**
+     * _Vup - Y axis vector
+     */
+    private Vector vUp;
+
+    /**
+     * Z axis vector
+     */
+    private Vector vRight;
+
+    /**
+     * object's actual distance from the camera center
+     */
+    private int distance;
+
+    /**
+     * object's actual width
+     */
+    private double width;
+
+    /**
+     * object's actual height
+     */
+    private double height;
+
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracer;
+    private double superSampling;
+    private double aperture;
+    private double focus;
+    private double dofSampling;
+    private boolean isMultithreading = true;
+    private int numOfThreads = 4;
+
+    /**
+     * simple Camera constructor which get as input location point and two orthogonal vectors represent the direction
      *
-     * @param p0  camera position
-     * @param vUp camera upward vector
-     * @param vTo camera front vector
+     * @param p0  - the camera location
+     * @param vTo - Y axis vector
+     * @param vUp - X axis vector
      */
     public Camera(Point p0, Vector vTo, Vector vUp) {
+        if (!isZero(vTo.dotProduct(vUp))) {
+            throw new IllegalArgumentException("vto  and vup are not orthogonal");
+        }
         this.p0 = p0;
-        //check if vUp and Vto are orthogonal.
-        if (vUp.dotProduct(vTo) != 0) //if not, throw.
-            throw new IllegalArgumentException("vUp and vTo are not orthogonal");
-        this.vUp = vUp.normalize();
+
         this.vTo = vTo.normalize();
-        this.vRight = (vTo.crossProduct(vUp)).normalize();
+        this.vUp = vUp.normalize();
+
+        vRight = this.vTo.crossProduct(this.vUp);
     }
 
     /**
-     * V up getter
+     * setter - chaining method
      *
-     * @return V up vector
+     * @param distance - the object's actual distance from the camera center
+     * @return the camera with the configured distance
      */
-    public Vector getVup() {
-        return vUp;
+    public Camera setVPDistance(int distance) {
+        this.distance = distance;
+        return this;
     }
 
     /**
-     * V to getter
+     * setter - chaining method
      *
-     * @return V to vector
-     */
-    public Vector getVto() {
-        return vTo;
-    }
-
-    /**
-     * V right getter
-     *
-     * @return V right vector
-     */
-    public Vector getVRight() {
-        return vRight;
-    }
-
-    /**
-     * P0 getter
-     *
-     * @return camera's position
-     */
-    public Point getP0() {
-        return p0;
-    }
-
-    /**
-     * height getter
-     *
-     * @return view plane's height
-     */
-    public double getHeight() {
-        return height;
-    }
-
-    /**
-     * width getter
-     *
-     * @return view plane's width
-     */
-    public double getWidth() {
-        return width;
-    }
-
-    /**
-     * distance getter
-     *
-     * @return view plane's distance from the camera
-     */
-    public double getDistance() {
-        return distance;
-    }
-
-    /**
-     * View plane size setter
-     *
-     * @param width  view plane's width
-     * @param height view plane's height
-     * @return the camera with changed view plane size
+     * @param width   - the width of the view plane
+     * @param height- the height of the view plane
+     * @return the camera with the configured view plane
      */
     public Camera setVPSize(double width, double height) {
         this.width = width;
@@ -115,127 +110,127 @@ public class Camera {
     }
 
     /**
-     * View plane's distance setter
+     * setter for imageWriter
      *
-     * @param distance distance from camera
-     * @return the camera with changed view plane distance
+     * @param imageWriter
+     * @return the image writer for the camera
      */
-    public Camera setVPDistance(double distance) {
-        this.distance = distance;
-        return this;
-    }
-
-    /**
-     * A method that generates a ray, starting at the point and going through
-     * specific pixel in the view plane. Gets the resolution of the view plane and
-     * the coordinates of the requested pixel as parameters.
-     *
-     * @param nX Horizontal component of the resolution. Number of partitions for the horizontal axis in the view plane.
-     * @param nY Vertical component of the resolution. Number of partitions for the vertical axis in the view plane.
-     * @param j The horizontal index of the pixel
-     * @param i The vertical index of the pixel
-     * @return Ray that goes through the requested pixel in the view plane
-     */
-    public Ray constructRay(int nX, int nY, int j, int i) {
-        Point pc = p0.add(vTo.scale(distance)); // center point of the view plane
-        double pixelWidth = width / nX; // width of a pixel
-        double pixelHeight = height / nY; // height of a pixel
-        double pcX = (nX - 1) / 2.0; // center pixel value in x direction
-        double pcY = (nY - 1) / 2.0; // center pixel value in y direction
-        double rightDistance = (j - pcX) * pixelWidth; // x offset of j from the center pixel
-        double upDistance = -1 * (i - pcY) * pixelHeight; // y offset of i from the center pixel
-
-        Point pij = pc; // start at the center of the view plane
-
-        // we need to check if the distance is zero, because we can't scale a vector by
-        // zero
-        if (rightDistance!=0) {
-            // if the distance to move right is not zero, move right
-            pij = pij.add(vRight.scale(rightDistance));
-        }
-
-        if (upDistance!=0) {
-            // if the distance to move up is not zero, move up
-            pij = pij.add(vUp.scale(upDistance));
-        }
-
-        // construct a ray from the camera origin in the direction of the pixel at (j,i)
-        return new Ray(p0, pij.subtract(p0));
-    }
-
-
-    /**
-     * Given a vector axis and a double theta, rotate the camera's up, right, and to vectors by theta radians about axis
-     *
-     * @param axis the axis about which the camera will be rotated
-     * @param theta the angle of rotation in radians
-     * @return the rotated camera.
-     */
-    public Camera turnCamera(Vector axis, double theta) {
-        if (theta == 0) return this; //there is nothing to turn
-        this.vUp = this.vUp.rotateVector(axis, theta);
-        this.vRight = this.vRight.rotateVector(axis, theta);
-        this.vTo = this.vTo.rotateVector(axis, theta);
-        return this;
-    }
-
-
-    /**
-     * Move the camera by the given amounts
-     *
-     * @param up the distance to move the camera up
-     * @param right the distance to move right
-     * @param to the distance to move the camera in the direction of the to vector
-     * @return the moved camera.
-     */
-    public Camera moveCamera(double up, double right, double to) {
-        if (up == 0 && right == 0 && to == 0) return this; //there is nothing to move
-        if (up != 0) this.p0.add(this.vUp.scale(up));
-        if (right != 0) this.p0.add(this.vRight.scale(right));
-        if (to != 0) this.p0.add(this.vTo.scale(to));
-        return this;
-    }
-
     public Camera setImageWriter(ImageWriter imageWriter) {
         this.imageWriter = imageWriter;
         return this;
     }
 
-    /**
-     * RayTracerBase setter
-     *
-     * @param rayTracerBase a Ray Tracer Base
-     * @return the camera with modified Ray Tracer Base
-     */
-    public Camera setRayTracer(RayTracerBasic rayTracerBase) {
-        this.rayTracerBase = rayTracerBase;
+    public Camera setRayTracer(RayTracerBase rayTracer) {
+        this.rayTracer = rayTracer;
         return this;
     }
 
     /**
+     * Enable Super Sampling feature, providing superSampling density
      *
-     * @param nX resolution on X axis = number of pixels in row
-     * @param nY resolution on Y axis = number of pixels in column
-     * @param icol pixels column number
-     * @param jrow pixels row number
+     * @param density amount of rays per pixel width or height
+     * @return the camera itself - for chaining
      */
-    private void castRay(int nX,int nY,int icol,int jrow){
-        Ray ray=constructRay(nX,nY,icol,jrow);
-        Color pixelColor=rayTracerBase.traceRay(ray);
-        imageWriter.writePixel(jrow,icol,pixelColor);
+    public Camera enableSuperSampling(int density) {
+        this.superSampling = density;
+        return this;
+    }
+
+    /**
+     * Setter of builder patters
+     * sets the multithreading
+     * If set to 1, the render won't use the thread pool.
+     * If set to 0, the thread pool will pick the number of threads.
+     *
+     * @param threads number of threads to use
+     * @return the current render
+     * @throws IllegalArgumentException when threads is less than 0
+     */
+    public Camera setMultithreading(int threads) {
+        if (threads < -1)//threads cannot be less than zero
+            throw new IllegalArgumentException("Multithreading parameter must be 0 or higher");
+        if(threads== -1){
+            isMultithreading = false;
+            return this;
+        }
+        isMultithreading = true;
+
+        if (threads != 0)//any number that is not zero is acceptable
+            numOfThreads = threads;
+
+        else {//if number received was zero:
+            int cores = Runtime.getRuntime().availableProcessors() - 2; //leave 2 spare threads
+            numOfThreads = cores <= 2 ? 1 : cores;//if cores is smaller than 2 than threads is 1, i=otherwise it is equal to cores
+        }
+        return this;
+    }
+
+    /**
+     * Enable Depthe of Field feature, providing aperture and focus distance
+     *
+     * @param aperture at the view plane
+     * @param distance from view plane to focal plane
+     * @param density  amount of rays per aperture window width or height
+     * @return the camera itself - for chaining
+     */
+    public Camera enableDepthOfField(double aperture, double distance, int density) {
+        this.aperture = aperture;
+        this.focus = distance;
+        this.dofSampling = density;
+        return this;
+    }
+    // ***************** Operations ******************** //
+
+    /**
+     * this function gets the view plane size and a selected pixel,
+     * and return the ray from the camera which intersects this pixel
+     *
+     * @param nX - amount of rows in view plane (number of pixels)
+     * @param nY - amount of columns in view plane (number of pixels)
+     * @param j  - X's index
+     * @param i  - Y's index
+     * @return - the ray which goes through the pixel
+     */
+    public Ray constructRay(int nX, int nY, int j, int i) {
+
+        //view plane center Point
+        Point Pc = p0.add(vTo.scale(distance));
+
+        //pixels ratios
+        double Rx = width / nX;
+        double Ry = height / nY;
+
+        //Pij point[i,j] in view-plane coordinates
+        Point Pij = Pc;
+
+        //delta values for moving on the view=plane
+        double Xj = (j - (nX - 1) / 2d) * Rx;
+        double Yi = -(i - (nY - 1) / 2d) * Ry;
+
+        if (!isZero(Xj)) {
+            Pij = Pij.add(vRight.scale(Xj));
+        }
+        if (!isZero(Yi)) {
+            Pij = Pij.add(vUp.scale(Yi));
+        }
+
+        // vector from camera's eye in the direction of point(i,j) in the viewplane
+        Vector Vij = Pij.subtract(p0);
+
+        return new Ray(p0, Vij);
+
     }
 
     /**
      * This function renders image's pixel color map from the scene included with
      * the Renderer object
      */
-
     public Camera renderImage() {
         try {
             if (imageWriter == null) {
                 throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
             }
-            if (rayTracerBase == null) {
+            if (rayTracer == null) {
                 throw new MissingResourceException("missing resource", RayTracerBase.class.getName(), "");
             }
             int nX = imageWriter.getNx();
@@ -253,7 +248,7 @@ public class Camera {
             //rendering the image
             for (int i = 0; i < nY; i++) {
                 for (int j = 0; j < nX; j++) {
-                    castRay(nX, nY, i, j);///////
+                    castRay(nX, nY, i, j);
                 }
             }
 //            }
@@ -263,39 +258,123 @@ public class Camera {
         return this;
     }
 
+    /**
+     * Cast ray from camera in order to color a pixel
+     *
+     * @param nX   - resolution on X axis (number of pixels in row)
+     * @param nY   - resolution on Y axis (number of pixels in column)
+     * @param icol - pixel's column number (pixel index in row)
+     * @param jrow - pixel's row number (pixel index in column)
+     */
+    private void castRay(int nX, int nY, int icol, int jrow) {
+        Ray ray = constructRay(nX, nY, jrow, icol);
+        Color pixelColor = rayTracer.traceRay(ray);
+        imageWriter.writePixel(jrow, icol, pixelColor);
+    }
 
     /**
-     * Prints a grid
+     * Cast ray from camera in order to color a pixel
      *
-     * @param interval the interval of the distance between ech grid line
-     * @param color    the color of the grid
+     * @param nX   - resolution on X axis (number of pixels in row)
+     * @param nY   - resolution on Y axis (number of pixels in column)
+     * @param icol - pixel's column number (pixel index in row)
+     * @param jrow - pixel's row number (pixel index in column)
+     */
+    private void castBeamRay(int nX, int nY, int icol, int jrow) {
+        Ray mainRay = constructRay(nX, nY, jrow, icol);
+
+        Color pixelColor = rayTracer.traceRay(mainRay);
+        imageWriter.writePixel(jrow, icol, pixelColor);
+    }
+
+    /**
+     * chaining functios
      */
     public void printGrid(int interval, Color color) {
-        if (imageWriter == null)
-            throw new MissingResourceException("One of the camera's attributes are missing", "imageWriter", "7");
-        //move over the coordinates of the grid
-        for (int i = 0; i < imageWriter.getNx(); i++) {
-            for (int j = 0; j < imageWriter.getNy(); j++) {
-                //Coordinates of the net
-                if (i % interval == 0 || j % interval == 0) {
-                    //print in Red
-                    imageWriter.writePixel(i, j, color);
-                }
-            }
-        }
+        imageWriter.printGrid(interval, color);
     }
 
 
     /**
-     * uses the writeToImage function by delegation of imageWriter
+     * The function constructs a beam of rays from Camera location throw the pixel
+     * (i,j) in the view plane - the ray starts at the pixel if Depth of Field is
+     * activated!!!
+     *
+     * @param nX     number of pixels in a row of view plane
+     * @param nY     number of pixels in a column of view plane
+     * @param j      number of the pixel in a row
+     * @param i      number of the pixel in a column
+     * @param dist   distance from the camera to the view plane
+     * @param width  view plane width
+     * @param height view plane height
+     * @return the beam of rays from pixel (if DoF is active) or from camera
      */
-    public void writeToImage() {
-        if (imageWriter == null)
-            throw new MissingResourceException("One of the camera's attributes are missing", "imageWriter", "7");
-        imageWriter.writeToImage();
+    public List<Ray> constructRaysThroughPixel(int nX, int nY, int j, int i, double dist, double width, double height) {
+        double rX = width / nX;
+        double rY = height / nY;
+        double xJ = (j - (nX - 1) / 2d) * rX;
+        double yI = (i - (nY - 1) / 2d) * rY;
+        Point pIJ = p0.add(vTo.scale(dist)); // the view plane center point
+        if (xJ != 0)
+            pIJ = pIJ.add(vRight.scale(xJ));
+        if (yI != 0)
+            pIJ = pIJ.add(vUp.scale(-yI)); // it's possible pIJ.subtract(_vUp.scale(yI));
+
+        if (superSampling == 0)
+            return constructFocalRays(pIJ);
+
+        List<Ray> rays = new LinkedList<>();
+        double y = -rY / 2d;
+        double dY = rY / superSampling;
+        double xStart = -rX / 2d;
+        double dX = rX / superSampling;
+        for (double row = superSampling; row >= 0; --row, y += dY) {
+            double x = xStart;
+            for (double col = superSampling; col >= 0; --col, x += dX) {
+                Point p = pIJ;
+                if (!isZero(x))
+                    p = pIJ.add(vRight.scale(x));
+                if (!isZero(y))
+                    p = p.add(vUp.scale(y));
+                rays.addAll(constructFocalRays(p));
+            }
+        }
+        return rays;
     }
 
+    private static Random rnd = new Random();
 
+    /**
+     * Create beam of rays from view plane aperture hole through focal point
+     *
+     * @param pnt point at View Plane
+     * @return beam of rays
+     */
+    private List<Ray> constructFocalRays(Point pnt) {
+        Vector v = pnt.subtract(p0);
+        if (dofSampling == 0)
+            return List.of(new Ray(p0, v));
 
+        v.normalize();
+        Point f = pnt.add(v.scale(focus / vTo.dotProduct(v)));
 
+        List<Ray> rays = new LinkedList<>();
+        for (double i = dofSampling; i > 0; --i) {
+            double x = rnd.nextDouble() * 2 - 1;
+            double y = Math.sqrt(1 - x * x);
+            Point p = pnt;
+            double mult = (rnd.nextDouble() - 0.5) * aperture;
+            if (!isZero(x))
+                p.add(vRight.scale(x * mult));
+            if (!isZero(y))
+                p.add(vUp.scale(y * mult));
+            rays.add(new Ray(p, f.subtract(p)));
+        }
+        return rays;
+    }
+
+    public Camera writeToImage() {
+        imageWriter.writeToImage();
+        return this;
+    }
 }

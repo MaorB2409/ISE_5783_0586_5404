@@ -1,69 +1,100 @@
 package scene;
 
-import geometries.Geometries;
 import lighting.AmbientLight;
+import geometries.Geometries;
+//import lighting.Light;
+//import lighting.LightSource;
 import primitives.Color;
+import primitives.Point;
 
-/**
- * The class Scene is a passive data structure (PDS)
- * its purpose is to bind the different components that
- * usually make up a scene. It has no functionality of itself.
- */
+import java.util.LinkedList;
+import java.util.List;
+
 public class Scene {
-    //public fields
 
-    //Name of the scene
-    public String name;
-    //Background color of the scene
-    public Color background;
-    //The ambient light in the scene
-    public AmbientLight ambientLight;
-    //The geometric bodies in the scene
-    public Geometries geometries;
-    /**
-     * Constructor that sets the scene name and sets the other fields to their default values
-     * @param name The name of the scene
-     */
-    public Scene(String name){
-        this.name = name;
-        //Default values
-        this.background = Color.BLACK;
-        this.ambientLight = new AmbientLight();
-        this.geometries = new Geometries();
+    private final String name;
+    private final Color background;
+    private final Geometries geometries;
+   // private final List<LightSource> lights;
+    private AmbientLight ambientLight;
+
+    private Scene(SceneBuilder builder) {
+        name = builder.name;
+        background = builder.background;
+        ambientLight = builder.ambientLight;
+        geometries = builder.geometries;
+        //lights = builder.lights;
     }
 
-    //Since this class is just a PDS, it is essential
-    //that it will include setters. In each setter we return 'this'
-    //so that we will be able to concatenate the setters.
-
-
-    /**
-     * Set the background of the scene
-     * @param background background of the scene
-     * @return this
-     */
-    public Scene setBackground(Color background) {
-        this.background = background;
-        return this;
+    public String getName() {
+        return name;
     }
 
-    /**
-     * Set the ambientLight of the scene
-     * @param ambientLight ambientLight of the scene
-     * @return this
-     */
+    public Color getBackground() {
+        return background;
+    }
+
+    public AmbientLight getAmbientLight() {
+        return ambientLight;
+    }
+
     public Scene setAmbientLight(AmbientLight ambientLight) {
         this.ambientLight = ambientLight;
         return this;
     }
 
-    /**
-     * Set the geometric bodies of the scene
-     * @param geometries geometric bodies of the scene
-     * @return this
-     */
-    public Scene setGeometries(Geometries geometries) {
-        this.geometries = geometries;
-        return this;
+    public Geometries getGeometries() {
+        return geometries;
+    }
+
+//    public List<LightSource> getLights() {
+//        return lights;
+//    }
+
+    public static class SceneBuilder {
+
+        private final String name;
+        //private List<LightSource> lights = new LinkedList<>();
+        private Color background = Color.BLACK;
+        private AmbientLight ambientLight = new AmbientLight();
+        private Geometries geometries = new Geometries();
+
+        public SceneBuilder(String name) {
+            this.name = name;
+        }
+
+        public SceneBuilder setBackground(Color background) {
+            this.background = background;
+            return this;
+        }
+
+//        public SceneBuilder setLights(List<LightSource> lights) {
+//            this.lights = lights;
+//            return this;
+//        }
+
+        public SceneBuilder setAmbientLight(AmbientLight ambientLight) {
+            this.ambientLight = ambientLight;
+            return this;
+        }
+
+        public SceneBuilder setGeometries(Geometries geometries) {
+            this.geometries = geometries;
+            return this;
+        }
+
+        public Scene build() {
+            //            validateObject(scene);
+            return new Scene(this);
+        }
+
+        private void validateObject(Scene scene) {
+            //nothing to do
+        }
+
+        public SceneBuilder readXmlFile(String filename) {
+            //to do
+            return this;
+        }
     }
 }
