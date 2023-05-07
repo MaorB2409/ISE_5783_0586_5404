@@ -36,6 +36,7 @@ public class Scene {
     //that it will include setters. In each setter we return 'this'
     //so that we will be able to concatenate the setters.
 
+
     /**
      * Set the background of the scene
      * @param background background of the scene

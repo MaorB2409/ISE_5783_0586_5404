@@ -212,7 +212,18 @@ public class Camera {
         return this;
     }
 
-
+    /**
+     *
+     * @param nX resolution on X axis = number of pixels in row
+     * @param nY resolution on Y axis = number of pixels in column
+     * @param icol pixels column number
+     * @param jrow pixels row number
+     */
+    private void castRay(int nX,int nY,int icol,int jrow){
+        Ray ray=constructRay(nX,nY,icol,jrow);
+        Color pixelColor=rayTracerBase.traceRay(ray);
+        imageWriter.writePixel(jrow,icol,pixelColor);
+    }
 
     /**
      * This function renders image's pixel color map from the scene included with
@@ -242,7 +253,7 @@ public class Camera {
             //rendering the image
             for (int i = 0; i < nY; i++) {
                 for (int j = 0; j < nX; j++) {
-                    constructRay(nX, nY, i, j);
+                    castRay(nX, nY, i, j);///////
                 }
             }
 //            }
