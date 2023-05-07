@@ -1,0 +1,230 @@
+Index: src/renderer/RayTracerBasic.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package renderer;\r\n\r\nimport primitives.Color;\r\nimport primitives.Point;\r\nimport primitives.Ray;\r\nimport scene.Scene;\r\n\r\n/**\r\n * A class that inherits from RayTracerBase to trace rays in a scene\r\n */\r\npublic class RayTracerBasic extends  RayTracerBase{\r\n    /**\r\n     * RayTracerBasic Constructor.\r\n     * @param scene the scene we trace rays in.\r\n     */\r\n    public RayTracerBasic(Scene scene){\r\n        super(scene);\r\n    }\r\n\r\n    /**\r\n     * Trace the ray to find the color at the intersection point\r\n     * @param ray the ray to find the color at the intersection point\r\n     * @return the color at the intersection point\r\n     */\r\n    @Override\r\n    public Color traceRay(Ray ray) {\r\n        Point point= ray.findClosestPoint(scene.geometries.findIntersections(ray));//all intersection points wit the ray\r\n        if (point==null)//if no intersection return background color\r\n            return scene.background;\r\n        return calcColor(point);\r\n    }\r\n\r\n    /**\r\n     * calculates the color of given point\r\n     * @param point the point to calculate the color of it\r\n     * @return the color that was calculated\r\n     */\r\n    private Color calcColor(Point point)\r\n    {\r\n        return scene.ambientLight.getIntensity();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/renderer/RayTracerBasic.java b/src/renderer/RayTracerBasic.java
+--- a/src/renderer/RayTracerBasic.java	(revision 8b1a291257735b08a8be53f4c6a03248893b4888)
++++ b/src/renderer/RayTracerBasic.java	(date 1683446251270)
+@@ -5,6 +5,8 @@
+ import primitives.Ray;
+ import scene.Scene;
+ 
++import java.util.List;
++
+ /**
+  * A class that inherits from RayTracerBase to trace rays in a scene
+  */
+@@ -24,7 +26,8 @@
+      */
+     @Override
+     public Color traceRay(Ray ray) {
+-        Point point= ray.findClosestPoint(scene.geometries.findIntersections(ray));//all intersection points wit the ray
++        List<Point> points = scene.geometries.findIntersections(ray);
++        Point point= ray.findClosestPoint(points);//all intersection points wit the ray
+         if (point==null)//if no intersection return background color
+             return scene.background;
+         return calcColor(point);
+Index: unitTests/renderer/RenderTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package renderer;\r\n\r\nimport static java.awt.Color.YELLOW;\r\n\r\nimport org.junit.jupiter.api.Test;\r\n\r\nimport geometries.Sphere;\r\nimport geometries.Triangle;\r\nimport lighting.AmbientLight;\r\nimport primitives.*;\r\nimport renderer.*;\r\nimport scene.Scene;\r\n\r\n/** Test rendering a basic image\r\n * @author Dan */\r\npublic class RenderTests {\r\n\r\n   /** Produce a scene with basic 3D model and render it into a png image with a\r\n    * grid */\r\n   @Test\r\n   public void basicRenderTwoColorTest() throws IllegalAccessException {\r\n      Scene scene = new Scene(\"Test scene\")//\r\n         .setAmbientLight(new AmbientLight(new Color(255, 191, 191), //\r\n                                           new Double3(1, 1, 1))) //\r\n         .setBackground(new Color(75, 127, 90));\r\n\r\n      scene.geometries.add(new Sphere(new Point(0, 0, -100), 50d),\r\n                           new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100)), // up\r\n                           // left\r\n                           new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100),\r\n                                        new Point(-100, -100, -100)), // down\r\n                           // left\r\n                           new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))); // down\r\n      // right\r\n      Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0)) //\r\n         .setVPDistance(100) //\r\n         .setVPSize(500, 500) //\r\n         .setImageWriter(new ImageWriter(\"base render test\", 1000, 1000))\r\n         .setRayTracer(new RayTracerBasic(scene));\r\n\r\n      camera.renderImage();\r\n      camera.printGrid(100, new Color(YELLOW));\r\n      camera.writeToImage();\r\n   }\r\n\r\n   // For stage 6 - please disregard in stage 5\r\n   /** Produce a scene with basic 3D model - including individual lights of the\r\n    * bodies and render it into a png image with a grid */\r\n   // @Test\r\n   // public void basicRenderMultiColorTest() {\r\n   // Scene scene = new Scene(\"Test scene\")//\r\n   // .setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.2))); //\r\n   //\r\n   // scene.geometries.add( //\r\n   // new Sphere(new Point(0, 0, -100), 50),\r\n   // // up left\r\n   // new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new\r\n   // Point(-100, 100, -100))\r\n   // .setEmission(new Color(GREEN)),\r\n   // // down left\r\n   // new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100), new\r\n   // Point(-100, -100, -100))\r\n   // .setEmission(new Color(RED)),\r\n   // // down right\r\n   // new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new\r\n   // Point(100, -100, -100))\r\n   // .setEmission(new Color(BLUE)));\r\n   //\r\n   // Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1,\r\n   // 0)) //\r\n   // .setVPDistance(100) //\r\n   // .setVPSize(500, 500) //\r\n   // .setImageWriter(new ImageWriter(\"color render test\", 1000, 1000))\r\n   // .setRayTracer(new RayTracerBasic(scene));\r\n   //\r\n   // camera.renderImage();\r\n   // camera.printGrid(100, new Color(WHITE));\r\n   // camera.writeToImage();\r\n   // }\r\n\r\n   /** Test for XML based scene - for bonus */\r\n   @Test\r\n   public void basicRenderXml() {\r\n      Scene  scene  = new Scene(\"XML Test scene\");\r\n      // enter XML file name and parse from XML file into scene object\r\n      // using the code you added in appropriate packages\r\n      // ...\r\n      // NB: unit tests is not the correct place to put XML parsing code\r\n\r\n      Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0))     //\r\n         .setVPDistance(100)                                                                //\r\n         .setVPSize(500, 500).setImageWriter(new ImageWriter(\"xml render test\", 1000, 1000))\r\n         .setRayTracer(new RayTracerBasic(scene));\r\n      camera.renderImage();\r\n      camera.printGrid(100, new Color(YELLOW));\r\n      camera.writeToImage();\r\n   }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/unitTests/renderer/RenderTests.java b/unitTests/renderer/RenderTests.java
+--- a/unitTests/renderer/RenderTests.java	(revision 8b1a291257735b08a8be53f4c6a03248893b4888)
++++ b/unitTests/renderer/RenderTests.java	(date 1683446251284)
+@@ -20,17 +20,24 @@
+    @Test
+    public void basicRenderTwoColorTest() throws IllegalAccessException {
+       Scene scene = new Scene("Test scene")//
+-         .setAmbientLight(new AmbientLight(new Color(255, 191, 191), //
+-                                           new Double3(1, 1, 1))) //
++         .setAmbientLight(new AmbientLight(new Color(255, 191, 191), new Double3(1, 1, 1))) //
+          .setBackground(new Color(75, 127, 90));
+ 
+       scene.geometries.add(new Sphere(new Point(0, 0, -100), 50d),
+-                           new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100)), // up
++                           new Triangle(
++                                   new Point(-100, 0, -100),
++                                   new Point(0, 100, -100),
++                                   new Point(-100, 100, -100)), // up
+                            // left
+-                           new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100),
+-                                        new Point(-100, -100, -100)), // down
++                           new Triangle(
++                                   new Point(-100, 0, -100),
++                                   new Point(0, -100, -100),
++                                   new Point(-100, -100, -100)), // down
+                            // left
+-                           new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))); // down
++                           new Triangle(
++                                   new Point(100, 0, -100),
++                                   new Point(0, -100, -100),
++                                   new Point(100, -100, -100))); // down
+       // right
+       Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+          .setVPDistance(100) //
+Index: src/geometries/Geometries.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package geometries;\r\n\r\nimport primitives.Point;\r\nimport primitives.Ray;\r\n\r\nimport java.util.LinkedList;\r\nimport java.util.List;\r\n\r\npublic class Geometries implements Intersectable {\r\n    private final List<Intersectable> geometries= new LinkedList<>();\r\n\r\n    /**\r\n     *\r\n     */\r\n    public Geometries() {\r\n        //geometries = new LinkedList<>();\r\n    }\r\n\r\n\r\n    /**\r\n     * constructor for the class\r\n     *\r\n     * @param geometries list of geometries to add\r\n     */\r\n    public Geometries(Intersectable... geometries) {\r\n        add(geometries);\r\n    }\r\n\r\n    /**\r\n     * add geometries to the list\r\n     *\r\n     * @param geometries list of geometries to add\r\n     */\r\n    public void add(Intersectable... geometries) {\r\n        if (geometries.length > 0) this.geometries.addAll(List.of(geometries));\r\n    }\r\n\r\n\r\n    /**\r\n     * @param ray\r\n     * @return\r\n     */\r\n    @Override\r\n    public List<Point> findIntersections(Ray ray) {\r\n        List<Point> intersections = null;\r\n        for (Intersectable geometry : geometries) {\r\n            var temp = geometry.findIntersections(ray);\r\n            if (temp != null) {\r\n                if (intersections == null)\r\n                    intersections = new LinkedList<>(temp);\r\n                else\r\n                    intersections.addAll(temp);\r\n            }\r\n        }\r\n        return intersections;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/geometries/Geometries.java b/src/geometries/Geometries.java
+--- a/src/geometries/Geometries.java	(revision 8b1a291257735b08a8be53f4c6a03248893b4888)
++++ b/src/geometries/Geometries.java	(date 1683459336642)
+@@ -38,7 +38,7 @@
+ 
+     /**
+      * @param ray
+-     * @return
++     * @return 
+      */
+     @Override
+     public List<Point> findIntersections(Ray ray) {
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15_[Changes]/shelved.patch	(revision 8b1a291257735b08a8be53f4c6a03248893b4888)
++++ /dev/null	(revision 8b1a291257735b08a8be53f4c6a03248893b4888)
+@@ -1,55 +0,0 @@
+-Index: .idea/workspace.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"cd85df16-315c-4a3a-a242-2e29245d113c\" name=\"Changes\" comment=\"Intersectable\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/geometries/Geometries.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/unitTests/geometries/GeometriesTestTests.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/geometries/Cylinder.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/geometries/Cylinder.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/geometries/Intersectable.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/geometries/Intersectable.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/geometries/Plane.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/geometries/Plane.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/geometries/Polygon.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/geometries/Polygon.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/geometries/Sphere.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/geometries/Sphere.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/geometries/Triangle.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/geometries/Triangle.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/geometries/Tube.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/geometries/Tube.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n        <option value=\"JUnit5 Test Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"PUSH_TAGS\">\r\n      <GitPushTagMode>\r\n        <option name=\"argument\" value=\"--tags\" />\r\n        <option name=\"title\" value=\"All\" />\r\n      </GitPushTagMode>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2OV7lVSK63W6tEIpxe8AW34Ehsg\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,\r\n    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,\r\n    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,\r\n    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,\r\n    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,\r\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\r\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\r\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;fileTemplates&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Haim\\IdeaProjects\\ISE_5783_0586_5404\\unitTests\" />\r\n      <recent name=\"C:\\Users\\Haim\\IdeaProjects\\ISE_5783_0586_5404\\src\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"geometries\" />\r\n      <recent name=\"primitives\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"JUnit.PointTest.testTestToString\">\r\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"program.Main\" />\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"program.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"PointTest.testTestToString\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"primitives.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"primitives\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"primitives.PointTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testTestToString\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.PointTest.testTestToString\" />\r\n        <item itemvalue=\"Application.Main\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"cd85df16-315c-4a3a-a242-2e29245d113c\" name=\"Changes\" comment=\"\" />\r\n      <created>1681634049579</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1681634049579</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"stage 0\">\r\n      <created>1681634213332</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681634213332</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"stage 0\">\r\n      <created>1681634412653</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681634412653</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"sof sof stage 1\">\r\n      <created>1681634845568</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681634845568</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Intersectable\">\r\n      <created>1681826245666</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681826245666</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"5\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"stage 0\" />\r\n    <MESSAGE value=\"sof sof stage 1\" />\r\n    <MESSAGE value=\"Intersectable\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Intersectable\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+---- a/.idea/workspace.xml	(revision 01444ef1c3026f5cca7503edca68564dff06d41d)
+-+++ b/.idea/workspace.xml	(date 1681829690280)
+-@@ -4,17 +4,8 @@
+-     <option name="autoReloadType" value="SELECTIVE" />
+-   </component>
+-   <component name="ChangeListManager">
+--    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="Intersectable">
+--      <change afterPath="$PROJECT_DIR$/src/geometries/Geometries.java" afterDir="false" />
+--      <change afterPath="$PROJECT_DIR$/unitTests/geometries/GeometriesTestTests.java" afterDir="false" />
+-+    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="Intersectable functions beginning">
+-       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/src/geometries/Cylinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Cylinder.java" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/src/geometries/Intersectable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Intersectable.java" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/src/geometries/Plane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Plane.java" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/src/geometries/Polygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Polygon.java" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/src/geometries/Sphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Sphere.java" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/src/geometries/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Triangle.java" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/src/geometries/Tube.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Tube.java" afterDir="false" />
+-     </list>
+-     <option name="SHOW_DIALOG" value="false" />
+-     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-@@ -154,7 +145,14 @@
+-       <option name="project" value="LOCAL" />
+-       <updated>1681826245666</updated>
+-     </task>
+--    <option name="localTasksCounter" value="5" />
+-+    <task id="LOCAL-00005" summary="Intersectable functions beginning">
+-+      <created>1681827874290</created>
+-+      <option name="number" value="00005" />
+-+      <option name="presentableId" value="LOCAL-00005" />
+-+      <option name="project" value="LOCAL" />
+-+      <updated>1681827874290</updated>
+-+    </task>
+-+    <option name="localTasksCounter" value="6" />
+-     <servers />
+-   </component>
+-   <component name="Vcs.Log.Tabs.Properties">
+-@@ -173,6 +171,7 @@
+-     <MESSAGE value="stage 0" />
+-     <MESSAGE value="sof sof stage 1" />
+-     <MESSAGE value="Intersectable" />
+--    <option name="LAST_COMMIT_MESSAGE" value="Intersectable" />
+-+    <MESSAGE value="Intersectable functions beginning" />
+-+    <option name="LAST_COMMIT_MESSAGE" value="Intersectable functions beginning" />
+-   </component>
+- </project>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15__Changes_.xml	(revision 8b1a291257735b08a8be53f4c6a03248893b4888)
++++ /dev/null	(revision 8b1a291257735b08a8be53f4c6a03248893b4888)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_30_04_2023_11_15_[Changes]" date="1682842578493" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 30/04/2023 11:15 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"cd85df16-315c-4a3a-a242-2e29245d113c\" name=\"Changes\" comment=\"part 4 of stage 5 - test of image in process\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/renderer/Camera.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/renderer/Camera.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/scene/Scene.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/scene/Scene.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"JUnit5 Test Class\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"PUSH_TAGS\">\r\n      <GitPushTagMode>\r\n        <option name=\"argument\" value=\"--tags\" />\r\n        <option name=\"title\" value=\"All\" />\r\n      </GitPushTagMode>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2OV7lVSK63W6tEIpxe8AW34Ehsg\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,\r\n    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,\r\n    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,\r\n    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,\r\n    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/kayma/Downloads/ISE_5783_0586_5404/unitTests/renderer&quot;,\r\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\r\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\r\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;fileTemplates&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\kayma\\Downloads\\ISE_5783_0586_5404\\unitTests\\renderer\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Haim\\IdeaProjects\\ISE_5783_0586_5404\\unitTests\" />\r\n      <recent name=\"C:\\Users\\Haim\\IdeaProjects\\ISE_5783_0586_5404\\src\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"primitives\" />\r\n      <recent name=\"renderer\" />\r\n      <recent name=\"geometries\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"JUnit.RenderTests.basicRenderTwoColorTest\">\r\n    <configuration name=\"PointTest.testDistance\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"primitives.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"primitives\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"primitives.PointTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testDistance\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"RayTest.findClosestPoint\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"primitives.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"primitives\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"primitives.RayTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"findClosestPoint\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"RayTest.getPoint\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"primitives.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"primitives\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"primitives.RayTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"getPoint\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"RenderTests.basicRenderTwoColorTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"renderer.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"renderer\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"renderer.RenderTests\" />\r\n      <option name=\"METHOD_NAME\" value=\"basicRenderTwoColorTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"RenderTests.basicRenderXml\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"renderer.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"renderer\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"renderer.RenderTests\" />\r\n      <option name=\"METHOD_NAME\" value=\"basicRenderXml\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.RenderTests.basicRenderTwoColorTest\" />\r\n        <item itemvalue=\"JUnit.RenderTests.basicRenderXml\" />\r\n        <item itemvalue=\"JUnit.RayTest.getPoint\" />\r\n        <item itemvalue=\"JUnit.RayTest.findClosestPoint\" />\r\n        <item itemvalue=\"JUnit.PointTest.testDistance\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"cd85df16-315c-4a3a-a242-2e29245d113c\" name=\"Changes\" comment=\"\" />\r\n      <created>1681634049579</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1681634049579</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"stage 0\">\r\n      <created>1681634213332</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681634213332</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"stage 0\">\r\n      <created>1681634412653</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681634412653</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"sof sof stage 1\">\r\n      <created>1681634845568</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681634845568</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Intersectable\">\r\n      <created>1681826245666</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681826245666</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"unit tests for findIntersections finished besides Tube\">\r\n      <created>1682251398631</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682251398631</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"stage 3 tag\">\r\n      <created>1682251555241</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682251555241</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"beginning of camera\">\r\n      <created>1682423296985</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682423296985</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\" with integrations tests\">\r\n      <created>1682843187972</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682843187973</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"end of stage 4- integration tests and fixed sphere intersection\">\r\n      <created>1682963809711</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682963809711</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"tag for stage 4\">\r\n      <created>1683012264480</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683012264480</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"part 4 of stage 5 in the process\">\r\n      <created>1683128188572</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683128188572</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"part 4 of stage 5 - test of image in process\">\r\n      <created>1683444043485</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683444043485</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"13\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"stage 0\" />\r\n    <MESSAGE value=\"sof sof stage 1\" />\r\n    <MESSAGE value=\"Intersectable\" />\r\n    <MESSAGE value=\"unit tests for findIntersections finished besides Tube\" />\r\n    <MESSAGE value=\"stage 3 tag\" />\r\n    <MESSAGE value=\"beginning of camera\" />\r\n    <MESSAGE value=\" with integrations tests\" />\r\n    <MESSAGE value=\"end of stage 4- integration tests and fixed sphere intersection\" />\r\n    <MESSAGE value=\"tag for stage 4\" />\r\n    <MESSAGE value=\"part 4 of stage 5 in the process\" />\r\n    <MESSAGE value=\"part 4 of stage 5 - test of image in process\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"part 4 of stage 5 - test of image in process\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 8b1a291257735b08a8be53f4c6a03248893b4888)
++++ b/.idea/workspace.xml	(date 1683459336763)
+@@ -5,9 +5,12 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="part 4 of stage 5 - test of image in process">
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15__Changes_.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/Camera.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/scene/Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scene/Scene.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/geometries/Geometries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Geometries.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/renderer/RayTracerBasic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/RayTracerBasic.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/unitTests/renderer/RenderTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/renderer/RenderTests.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -43,24 +46,24 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
+-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kayma/Downloads/ISE_5783_0586_5404/unitTests/renderer&quot;,
+-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;fileTemplates&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "ASKED_ADD_EXTERNAL_FILES": "true",
++    "Downloaded.Files.Path.Enabled": "true",
++    "Repository.Attach.Annotations": "false",
++    "Repository.Attach.JavaDocs": "false",
++    "Repository.Attach.Sources": "false",
++    "RunOnceActivity.OpenProjectViewOnStart": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
++    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
++    "last_opened_file_path": "C:/Users/kayma/Downloads/ISE_5783_0586_5404/unitTests/renderer",
++    "project.structure.last.edited": "Modules",
++    "project.structure.proportion": "0.15",
++    "project.structure.side.proportion": "0.2",
++    "settings.editor.selected.configurable": "preferences.lookFeel"
+   }
+-}</component>
++}]]></component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\kayma\Downloads\ISE_5783_0586_5404\unitTests\renderer" />
