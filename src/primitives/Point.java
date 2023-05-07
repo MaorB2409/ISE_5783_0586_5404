@@ -96,12 +96,27 @@ public class Point {
     public double distance(Point p) {
         return (Math.sqrt(distanceSquared(p)));
     }
+
+    /**
+     *
+     * @return d1 = x
+     */
     public double getX(){
         return this.xyz.d1;
     }
+
+    /**
+     *
+     * @return d2 = y
+     */
     public double getY(){
         return this.xyz.d2;
     }
+
+    /**
+     *
+      * @return d3 = z
+     */
     public double getZ(){
         return this.xyz.d3;
     }

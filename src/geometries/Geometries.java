@@ -37,8 +37,9 @@ public class Geometries implements Intersectable {
 
 
     /**
+     * A function that finds the intersection points of ray with a geometry
      * @param ray
-     * @return
+     * @return list of intersection points
      */
     @Override
     public List<Point> findIntersections(Ray ray) {

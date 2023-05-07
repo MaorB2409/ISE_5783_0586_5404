@@ -28,15 +28,29 @@ public class Sphere extends RadialGeometry {
         this.center = point;
     }
 
+    /**
+     *
+     * @return center point of sphere
+     */
     public Point getCenter() {
         return center;
     }
 
+    /**
+     *
+     * @param point point to calculate the normal for
+     * @return normal vector
+     */
     @Override
     public Vector getNormal(Point point) {
         return point.subtract(center).normalize();
     }
 
+    /**
+     *
+     * @param ray
+     * @return list of intersection points
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
         try {

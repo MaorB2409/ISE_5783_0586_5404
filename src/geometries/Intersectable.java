@@ -9,7 +9,7 @@ public interface Intersectable {
     /**
      *
      * @param ray
-     * @return
+     * @return a list of intersection points
      */
     List<Point> findIntersections(Ray ray);
 

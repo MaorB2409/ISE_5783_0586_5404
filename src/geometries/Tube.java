@@ -53,6 +53,11 @@ public class Tube extends RadialGeometry {
         return point.subtract(o).normalize();
     }
 
+    /**
+     *
+     * @param o
+     * @return true if axisRay equals the tube's axisRay and the radius equals the tube's radius
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,6 +65,10 @@ public class Tube extends RadialGeometry {
         return this.axisRay.equals(tube.axisRay)&&this.radius==tube.radius;
     }
 
+    /**
+     *
+     * @return toString
+     */
     @Override
     public String toString() {
         return "Tube{" +

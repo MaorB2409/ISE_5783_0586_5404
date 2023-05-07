@@ -9,6 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GeometriesTest {
 
+    /**
+     *
+     * @throws IllegalAccessException
+     */
     @Test
     void findIntersections() throws IllegalAccessException {
         //Equivalence Partitions test ===========================================================

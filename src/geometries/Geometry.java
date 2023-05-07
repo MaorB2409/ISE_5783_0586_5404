@@ -5,7 +5,7 @@ import primitives.Vector;
 import static primitives.Util.*;
 
 /**
- * geometry interface as a base for all of the shapes
+ * geometry interface as a base for all the shapes
  */
 public interface Geometry extends Intersectable {
     /**

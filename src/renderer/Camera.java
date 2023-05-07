@@ -221,9 +221,11 @@ public class Camera {
 
     }
 
+
     /**
      * This function renders image's pixel color map from the scene included with
      * the Renderer object
+      * @return Camera after making changes
      */
     public Camera renderImage() {
         try {
@@ -373,6 +375,10 @@ public class Camera {
         return rays;
     }
 
+    /**
+     *
+     * @return Camera after changes
+     */
     public Camera writeToImage() {
         imageWriter.writeToImage();
         return this;

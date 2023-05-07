@@ -23,18 +23,36 @@ public class Ray {
         this.dir = dir.normalize();
     }
 
+    /**
+     *
+     * @param t
+     * @return the point
+     */
     public Point getPoint(double t) {
         return isZero(t) ? p0 : p0.add(dir.scale(t));
     }
 
+    /**
+     *
+     * @return the point p0
+     */
     public Point getP0() {
         return p0;
     }
 
+    /**
+     *
+     * @return vector dir
+     */
     public Vector getDir() {
         return dir;
     }
 
+    /**
+     *
+     * @param o
+     * @return true if equals
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,6 +69,10 @@ public class Ray {
         return result;
     }
 
+    /**
+     *
+     * @return toString
+     */
     @Override
     public String toString() {
         return "Ray{" +
