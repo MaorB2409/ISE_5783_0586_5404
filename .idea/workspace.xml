@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="tag for stage 4">
-      <change afterPath="$PROJECT_DIR$/src/lighting/AmbientLight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scene/Scene.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unitTests/primitives/RayTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2023_21_09__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2023_21_09__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_11_15__Changes_.xml" afterDir="false" />
+    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="part 4 of stage 5 in the process">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/primitives/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Point.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/primitives/Ray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Ray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unitTests/renderer/RenderTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/renderer/RenderTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -255,7 +246,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683012264480</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="part 4 of stage 5 in the process">
+      <created>1683128188572</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1683128188572</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -280,6 +278,7 @@
     <MESSAGE value=" with integrations tests" />
     <MESSAGE value="end of stage 4- integration tests and fixed sphere intersection" />
     <MESSAGE value="tag for stage 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="tag for stage 4" />
+    <MESSAGE value="part 4 of stage 5 in the process" />
+    <option name="LAST_COMMIT_MESSAGE" value="part 4 of stage 5 in the process" />
   </component>
 </project>
