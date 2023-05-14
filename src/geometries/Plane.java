@@ -2,7 +2,6 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
-import primitives.Util;
 import primitives.Vector;
 import java.util.List;
 import static primitives.Util.*;
@@ -12,7 +11,7 @@ import static primitives.Util.*;
 /**
  * Plane class that implements geometry shapes
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     final Point q0;
     final Vector normal;
 
@@ -58,37 +57,25 @@ public class Plane implements Geometry {
 
     /**
      * method calculates a list of Points that a ray from the light source to the object intersects
+     *
      * @param ray ray
      * @return returns a list of Points between the geometry and the light source
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        Point P0=ray.getP0();
-        Vector v = ray.getDir();
-        Vector n=normal;
-        //return null when p0 is on the plane, no intersections
-        if(q0.equals(P0)) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        double denominator = this.normal.dotProduct(ray.getDir());
+        if (isZero(denominator))
+            return null; // ray parallel to the plane- the ray direction orthogonal to the normal
+
+        Vector u;
+        try {
+            u = q0.subtract(ray.getP0());
+        } catch (IllegalArgumentException ignore) {
+            // the ray starts at the plane's reference point
             return null;
         }
-        Vector P0_Q0=q0.subtract(P0);
-        //numerator
-        double nP0Q0=alignZero(n.dotProduct(P0_Q0));
-        //return null when p0=q0, no intersections
-        if(isZero(nP0Q0)){
-            return null;
-        }
-        //denominator
-        double nv=alignZero(n.dotProduct(v));
-        //return null when ray is lying in the plane axis, infinite intersections
-        if(isZero(nv)){
-            return null;
-        }
-        double t=alignZero(nP0Q0/nv);
-        //return null when t is not positive, opposite to the plane direction
-        if(t<=0){
-            return null;
-        }
-        Point point=ray.getPoint(t);
-        return List.of(point);
+
+        double t = alignZero(this.normal.dotProduct(u) / denominator);
+        return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
     }
 }

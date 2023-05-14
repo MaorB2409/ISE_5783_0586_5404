@@ -2,45 +2,43 @@ package lighting;
 
 import primitives.*;
 
-public class AmbientLight {
+/**
+ * Class that represents an ambient light, extends the abstract class Light.
+ * Ambient light is an omnidirectional, fixed intensity and fixed color type of light.
+ */
+public class AmbientLight extends Light{
     //private field
-    private final Color intensity;
     public static final AmbientLight NONE = new AmbientLight(Color.BLACK,Double3.ZERO);
 
     /**
-     * Constructor that takes a Color object and an attenuation coefficient (Double3) and return
-     * the color object scaled by the attenuation coefficient.
-     * @param color Color of the ambient light
-     * @param double3 Attenuation coefficient
-     */
-    public AmbientLight(Color color, Double3 double3){
-        this.intensity = color;
-        this.intensity.scale(double3);
-    }
-
-    /**
+     * Constructor that takes a Color object and an attenuation coefficient (Double3) and calculates
+     * the color object scaled by the attenuation coefficient, by calling
+     * the base constructor.
      *
      * @param color Color of the ambient light
-     * @param kA Attenuation coefficient
+     * @param k     Attenuation coefficient
      */
-    public AmbientLight(Color color, double kA){
-        this.intensity = color;
-        this.intensity.scale(kA);
-        // super(color.scale(kA));
+    public AmbientLight(Color color, Double3 k) {
+        super(color.scale(k));
     }
 
     /**
-     * Default constructor, set the intensity field to Color.BLACK
+     * Constructor that takes a Color object and an attenuation coefficient (Double) and calculates
+     * the color object scaled by the attenuation coefficient, by calling
+     * the base constructor.
+     *
+     * @param color Color of the ambient light
+     * @param k     Attenuation coefficient
      */
-    public AmbientLight(){
-        this.intensity = Color.BLACK;
+    public AmbientLight(Color color, Double k) {
+        super(color.scale(k));
     }
 
     /**
-     * Intensity field getter
-     * @return intensity (Color)
+     * Default constructor, set the intensity field to Color. BLACK
      */
-    public Color getIntensity(){
-        return this.intensity;
+    public AmbientLight() {
+        super(Color.BLACK);
     }
+
 }

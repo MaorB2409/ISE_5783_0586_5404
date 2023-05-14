@@ -1,5 +1,8 @@
 package primitives;
 
+import geometries.Intersectable;
+import geometries.Intersectable.GeoPoint;
+
 import java.util.List;
 
 import static primitives.Util.isZero;
@@ -83,27 +86,62 @@ public class Ray {
 
     /**
      *
-     * @param pointList is a collection of points
+     * @param points is a collection of points
      * @return the closest Point to start of Ray
      */
 
-    public Point findClosestPoint(List<Point> pointList) {
+//    public Point findClosestPoint(List<Point> pointList) {
+//        //In case of empty list return null
+//        if (pointList == null || pointList.isEmpty()) {
+//            return null;
+//        }
+//
+//        Point p = null;
+//        double d = Double.POSITIVE_INFINITY;
+//        //Iterating through the list. Once we find smaller distance
+//        //than we have we replace the values.
+//        //This goes on until the end of the list.
+//        for (Point pnt : pointList) {
+//            if (d > this.getP0().distance(pnt)) {
+//                d = this.getP0().distance(pnt);
+//                p = pnt;
+//            }
+//        }
+//
+//        return p;
+//    }
+
+    public Point findClosestPoint(List<Point> points) {
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+    }
+
+
+    /**
+     * Method for finding the closest GeoPoint to the head of the ray in a given list of points
+     *
+     * @param lst List of points
+     * @return Closest GeoPoint to the head of the ray
+     */
+    public Intersectable.GeoPoint findClosestGeoPoint(List<Intersectable.GeoPoint> lst) {
         //In case of empty list return null
-        if (pointList == null || pointList.isEmpty()) {
+        if (lst == null) {
             return null;
         }
 
-        Point p = null;
+        Intersectable.GeoPoint p = null;
         double d = Double.POSITIVE_INFINITY;
         //Iterating through the list. Once we find smaller distance
         //than we have we replace the values.
         //This goes on until the end of the list.
-        for (Point pnt : pointList) {
-            if (d > this.getP0().distance(pnt)) {
-                d = this.getP0().distance(pnt);
+        for (Intersectable.GeoPoint pnt : lst) {
+            double distance = this.p0.distance(pnt.point);
+            if (d > distance) {
+                d = distance;
                 p = pnt;
             }
         }
 
-        return p;    }
+        return p;
+    }
 }

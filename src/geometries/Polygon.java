@@ -15,7 +15,7 @@ import static primitives.Util.*;
 /** Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
  * @author Dan */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
    /** List of polygon's vertices */
    protected final List<Point> vertices;
    /** Associated plane in which the polygon lays */
@@ -87,44 +87,54 @@ public class Polygon implements Geometry {
 
    /**
     * method calculates a list of Points that a ray from the light source to the object intersects
+    *
     * @param ray ray
     * @return returns a list of Points between the geometry and the light source
     */
    @Override
-   public List<Point> findIntersections(Ray ray) {
-      Vector v1;
-      Vector v2;
-      Vector n;
-      double t;
-      List<Point> resultPoints = plane.findIntersections(ray);
-      if (resultPoints == null) // In case there is no intersection with the plane return null
+   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+      List<GeoPoint> intersection = this.plane.findGeoIntersections(ray);
+      if (intersection == null)//checks if there is an intersection with the plane of the polygon
          return null;
-      boolean positive = true;
-      boolean negative = true;
-      for (int i = 0; i < vertices.size(); i++) {
-         if (i == vertices.size() - 1) {
-            v1 = vertices.get(i).subtract(ray.getP0());
-            v2 = vertices.get(0).subtract(ray.getP0());
-            n = v1.crossProduct(v2).normalize();
-            t = alignZero(n.dotProduct(ray.getDir()));
-         } else {
-            v1 = vertices.get(i).subtract(ray.getP0());
-            v2 = vertices.get(i + 1).subtract(ray.getP0());
-            n = v1.crossProduct(v2).normalize();
-            t = alignZero(n.dotProduct(ray.getDir()));
-         }
-         if (t == 0)
-            return null;
-         if (t * 1 < 0)
-            positive = false;
-         else if (t * -1 < 0)
-            negative = false;
+      List<GeoPoint> geoIntersection = new LinkedList<>();
+      for (var geoPoint : intersection)
+         geoIntersection.add(new GeoPoint(this, geoPoint.point));
+      //we will check if the point is inside or outside the polygon
+      Point p0 = ray.getP0();
+      Vector v = ray.getDir();
+      //V(i)= vertices[i]-p0
+      List<Vector> listVi = vertices.stream().map(p -> p.subtract(p0)).toList();
+      //N(i)= Normalize(V(i)*V(i+1))
+      List<Vector> listNi = new LinkedList<>();
+      //can't use map since I need to reach the i and i+1 (don't know how to do it)
+      //also can't use for each for the same reason
+      int i = 0;
+      for (; i < size - 1; i++) {
+         listNi.add(listVi.get(i).crossProduct(listVi.get(i + 1).normalize()));
       }
-      if (negative || positive) {
-         LinkedList<Point> result = new LinkedList<Point>();
-         result.add(resultPoints.get(0));
-         return result;
+      listNi.add((listVi.get(i).crossProduct(listVi.get(0))).normalize());//cross product the last and the first vectors
+      //Sign(i)= v*N(i)
+      double sign = v.dotProduct(listNi.get(0));
+      int counter = 1;
+      while (sign > 0)//all signs must be positive from now on in order the point to be inside the polygon
+      {
+         if (counter == size)//all signs are positive
+            return geoIntersection;
+         sign = v.dotProduct(listNi.get(counter));
+         if (!(sign > 0))//if the sign is not positive
+            return null;//not all signs are positive therefore no intersection
+         counter++;
       }
-      return null;
+      while (sign < 0)//all signs must be negative from now on in order the point to be inside the polygon
+      {
+         if (counter == size)//all signs are negative
+            return geoIntersection;
+         sign = v.dotProduct(listNi.get(counter));
+         if (!(sign < 0))//if the sign is not negative
+            return null;//not all signs are negative therefore no intersection
+         counter++;
+      }
+      return null;//if the first sign is zero
+
    }
 }

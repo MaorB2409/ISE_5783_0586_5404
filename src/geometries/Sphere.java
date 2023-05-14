@@ -8,6 +8,7 @@ import primitives.Vector;
 import java.util.List;
 import java.util.ArrayList;
 
+import static java.lang.Math.sqrt;
 import static primitives.Util.alignZero;
 
 /**
@@ -52,49 +53,31 @@ public class Sphere extends RadialGeometry {
      * @return list of intersection points
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        Vector vec;
         try {
-            Point P0 = ray.getP0();
-            Vector v = ray.getDir();
-
-            if (P0.equals(center)) {
-                return List.of(center.add(v.scale(radius)));
-            }
-            Vector u = center.subtract(P0);
-
-            double tm = alignZero(v.dotProduct(u));
-            double d = alignZero(Math.sqrt(Math.abs(u.dotProduct(u) - tm * tm)));
-
-            // no intersections : the ray direction is above the sphere
-            if (d >= radius) {
-                return null;
-            }
-
-            double th = alignZero(Math.sqrt(radius * radius - d * d));
-
-            double t1 = alignZero(tm - th);
-            double t2 = alignZero(tm + th);
-
-            if (t1 <= 0 && t2 <= 0) {
-                return null;
-            }
-
-            if (t1 > 0 && t2 > 0) {
-                Point P1 = ray.getPoint(t1);
-                Point P2 = ray.getPoint(t2);
-                return List.of(P1, P2);
-            }
-            if (t1 > 0) {
-                Point P1 = ray.getPoint(t1);
-                return List.of(P1);
-            }
-            if (t2 > 0) {
-                Point P2 = ray.getPoint(t2);
-                return List.of(P2);
-            }
-            return null;
-        } catch(IllegalArgumentException e) { //ray is orthogonal to sphere center line
-            return null;
+            vec = this.center.subtract(ray.getP0());
+        } catch (IllegalArgumentException ignore) {
+            return List.of(new GeoPoint(this, ray.getPoint(this.radius)));
         }
+
+        // Here we calculate the projection of the vector formed by the center of the
+        // circle and the head of the ray. Then we calculate the distance between then center
+        // and the projection and the distance between the projection to the intersections points.
+        // The idea is that the projection is the middle of the two intersection points
+        // so all we have to do is to add and subtract the distance to the intersection points
+        double tm = alignZero(vec.dotProduct(ray.getDir()));
+        double dSqr = vec.lengthSquared() - tm * tm;
+        double radiusSqr=this.radius*this.radius;
+        double thSqr = radiusSqr - dSqr;
+        // If the ray is tangent to the sphere or doesn't intersect the sphere at all return null
+        if (alignZero(thSqr) <= 0) return null;
+
+        double th = sqrt(thSqr);
+        double t2 = alignZero(tm + th);
+        if (t2 <= 0) return null;
+        double t1 = alignZero(tm - th);
+        // If only one is greater than 0 then the ray intersects the sphere only once
+        return t1 <= 0 ? List.of(new GeoPoint(this, ray.getPoint(t2))) : List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
     }
 }
