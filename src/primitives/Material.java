@@ -6,8 +6,22 @@ package primitives;
  */
 public class Material {
     //public fields
+    /**
+     * diffusive coefficient
+     */
     public Double3 kD = Double3.ZERO;
+    /**
+     * specular coefficient
+     */
     public Double3 kS = Double3.ZERO;
+    /**
+     * transparency coefficient
+     */
+    public Double3 kT = Double3.ZERO;
+    /**
+     * reflection coefficient
+     */
+    public Double3 kR = Double3.ZERO;
     public int nShininess = 0;
 
     /**
@@ -49,14 +63,73 @@ public class Material {
         this.kS = new Double3(kS);
         return this;
     }
+    /**
+     * Setter for the kT field
+     * @param kT parameter for the kT field
+     * @return The object itself
+     */
+    public Material setKt(Double3 kT) {
+        this.kT = kT;
+        return this;
+    }
+
+    /**
+     * Setter for the kT field
+     * @param kT double parameter for all three values in the kT field
+     * @return The object itself
+     */
+    public Material setKt(double kT) {
+        this.kT = new Double3(kT);
+        return this;
+    }
+
+    /**
+     * Setter for the kR field
+     * @param kR parameter for the kR field
+     * @return The object itself
+     */
+    public Material setKr(Double3 kR) {
+        this.kR = kR;
+        return this;
+    }
+
+    /**
+     * Setter for the kR field
+     * @param kR double parameter for all three values in the kR field
+     * @return The object itself
+     */
+    public Material setKr(double kR) {
+        this.kR = new Double3(kR);
+        return this;
+    }
 
     /**
      * Setter for the nShininess field
      * @param nShininess parameter for the nShininess field
      * @return The object itself
      */
-    public Material setnShininess(int nShininess) {
+    public Material setShininess(int nShininess) {
         this.nShininess = nShininess;
         return this;
+    }
+    //*********Getters for the fields*********
+    public Double3 getKs() {
+        return kS;
+    }
+
+    public Double3 getKd() {
+        return kD;
+    }
+
+    public int getShininess() {
+        return nShininess;
+    }
+
+    public Double3 getKt() {
+        return kT;
+    }
+
+    public Double3 getKr() {
+        return kR;
     }
 }

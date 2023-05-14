@@ -62,7 +62,7 @@ public class Plane extends Geometry {
      * @return returns a list of Points between the geometry and the light source
      */
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         double denominator = this.normal.dotProduct(ray.getDir());
         if (isZero(denominator))
             return null; // ray parallel to the plane- the ray direction orthogonal to the normal
@@ -76,6 +76,7 @@ public class Plane extends Geometry {
         }
 
         double t = alignZero(this.normal.dotProduct(u) / denominator);
-        return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
+        return alignZero(t - maxDistance) > 0 || t <= 0 ? null
+                : List.of(new GeoPoint(this, ray.getPoint(t)));
     }
 }

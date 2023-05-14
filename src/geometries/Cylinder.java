@@ -96,7 +96,7 @@ public class Cylinder extends Tube{
 //        return res;
 //    }
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
         // The procedure is as follows:
         // P1 and P2 in the cylinder, the center of the bottom and upper bases
         Point p1 = axisRay.getP0();
@@ -104,7 +104,7 @@ public class Cylinder extends Tube{
         Vector Va = axisRay.getDir();
 
 
-        List<GeoPoint> list = super.findGeoIntersectionsHelper(ray);
+        List<GeoPoint> list = super.findGeoIntersectionsHelper(ray,maxDistance);
 
         // the intersections with the cylinder
         List<GeoPoint> result = new LinkedList<>();

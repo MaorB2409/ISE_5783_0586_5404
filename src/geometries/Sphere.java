@@ -53,7 +53,7 @@ public class Sphere extends RadialGeometry {
      * @return list of intersection points
      */
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         Vector vec;
         try {
             vec = this.center.subtract(ray.getP0());

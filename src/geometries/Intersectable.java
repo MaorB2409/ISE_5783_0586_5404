@@ -48,17 +48,6 @@ public abstract class Intersectable {
         }
     }
 
-
-    /**
-     * Finds all intersection GeoPoints of a ray and a geometric entity.
-     *
-     * @param ray the ray that intersect with the geometric entity.
-     * @return list of intersection Geopoints.
-     */
-    public List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
-    }
-
     /**
      * Finds all intersection points of a ray and a geometric entity.
      *
@@ -67,8 +56,10 @@ public abstract class Intersectable {
      */
     public List<Point> findIntersections(Ray ray) {
         var geoList = findGeoIntersections(ray);
-        return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
+        return geoList == null ? null
+                : geoList.stream().map(gp -> gp.point).toList();
     }
+
 
     /**
      * Finds all intersection GeoPoints of a ray and a geometric entity.
@@ -76,7 +67,29 @@ public abstract class Intersectable {
      * @param ray the ray that intersect with the geometric entity.
      * @return list of intersection Geopoints.
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    public List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * Finds all intersection GeoPoints of a ray and a geometric entity within a given distance.
+     *
+     * @param ray         the ray that intersect with the geometric entity.
+     * @param maxDistance the maximal distance to find intersections points.
+     * @return list of intersection Geopoints.
+     */
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+
+    /**
+     * Finds all intersection GeoPoints of a ray and a geometric entity within a given distance.
+     *
+     * @param ray         the ray that intersect with the geometric entity.
+     * @param maxDistance the maximal distance to find intersections points.
+     * @return list of intersection Geopoints.
+     */
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
 
 }

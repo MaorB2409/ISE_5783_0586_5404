@@ -92,8 +92,8 @@ public class Polygon extends Geometry {
     * @return returns a list of Points between the geometry and the light source
     */
    @Override
-   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-      List<GeoPoint> intersection = this.plane.findGeoIntersections(ray);
+   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
+      List<GeoPoint> intersection = this.plane.findGeoIntersections(ray,maxDistance);
       if (intersection == null)//checks if there is an intersection with the plane of the polygon
          return null;
       List<GeoPoint> geoIntersection = new LinkedList<>();

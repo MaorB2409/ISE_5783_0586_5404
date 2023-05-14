@@ -37,8 +37,8 @@ public class Triangle extends Polygon{
      * @return returns a list of Points between the geometry and the light source
      */
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        var intersections = this.plane.findGeoIntersections(ray);
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
+        var intersections = this.plane.findGeoIntersections(ray,maxDistance);
         if (intersections == null)//checks if there is an intersection with the plane of the triangle
             return null;
 
