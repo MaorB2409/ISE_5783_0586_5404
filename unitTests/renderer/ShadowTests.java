@@ -97,9 +97,9 @@ public class ShadowTests {
      */
     @Test
     public void trianglesSphere() throws IllegalAccessException {
-        scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), new Double3(0.15)));
+        scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), new Double3(0.15)));//white light for the scene
 
-        scene.getGeometries().add( //
+        scene.getGeometries().add( //adding all the geometries of the scene
                 new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135), new Point(75, 75, -150)) //
                         .setMaterial(new Material().setKs(0.8).setShininess(60)), //
                 new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150)) //

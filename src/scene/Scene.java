@@ -13,7 +13,7 @@ import java.util.List;
 public class Scene {
 
     private final String name;
-    private final Color background;
+    private Color background;
     private final Geometries geometries;
     private List<LightSource> lights=new LinkedList<>();
     private AmbientLight ambientLight;
@@ -40,6 +40,16 @@ public class Scene {
 
     public Scene setAmbientLight(AmbientLight ambientLight) {
         this.ambientLight = ambientLight;
+        return this;
+    }
+
+    public Scene setBackground(Color background) {
+        this.background = background;
+        return this;
+    }
+
+    public Scene setLights(List<LightSource> lights) {
+        this.lights = lights;
         return this;
     }
 
