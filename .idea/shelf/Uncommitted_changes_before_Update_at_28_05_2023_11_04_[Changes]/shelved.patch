@@ -1,0 +1,897 @@
+Index: unitTests/FinalTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import geometries.Sphere;\r\nimport geometries.Triangle;\r\nimport lighting.AmbientLight;\r\nimport lighting.LightSource;\r\nimport lighting.SpotLight;\r\nimport org.junit.jupiter.api.Test;\r\nimport primitives.*;\r\nimport renderer.Camera;\r\nimport renderer.ImageWriter;\r\nimport renderer.RayTracerBasic;\r\nimport scene.Scene;\r\n\r\nimport java.util.List;\r\npublic class FinalTest {\r\n    private Scene scene = new Scene.SceneBuilder(\"Test scene\").build();\r\n\r\n    private Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //\r\n            .setVPSize(200, 200).setVPDistance(1000) //\r\n            .setRayTracer(new RayTracerBasic(scene));\r\n\r\n\r\n    @Test\r\n    public void imageTest() throws IllegalAccessException {\r\n\r\n        Point spotLocation = new Point(1,0,1);//////////////\r\n        scene.getLights().add( //\r\n                new SpotLight(new Color(400, 240, 0), spotLocation, new Vector(1, 1, -3)) //\r\n                        .setKl(1E-5).setKq(1.5E-7));\r\n        Color RED = new Color(255, 0 , 0);\r\n        scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), new Double3(0.15)));//white light for the scene\r\n        scene.setBackground(RED);\r\n\r\n        scene.getGeometries().add( //adding all the geometries of the scene\r\n                new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135), new Point(75, 75, -150)) //\r\n                        .setMaterial(new Material().setKs(0.8).setShininess(60)), //\r\n                new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150)) //\r\n                        .setMaterial(new Material().setKs(0.8).setShininess(60)), //\r\n                new Sphere(new Point(0, 0, -11), 30d) //\r\n                        .setEmission(new Color(java.awt.Color.BLUE)) //\r\n                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)) //\r\n        );\r\n        scene.getLights().add( //\r\n                new SpotLight(new Color(700, 400, 400), new Point(40, 40, 115), new Vector(-1, -1, -4)) //\r\n                        .setKl(4E-4).setKq(2E-5));\r\n\r\n        camera.setImageWriter(new ImageWriter(\"finalTestImage\", 600, 600)) //\r\n                .renderImage() //\r\n                .writeToImage();\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/unitTests/FinalTest.java b/unitTests/FinalTest.java
+--- a/unitTests/FinalTest.java	(revision 929722fd1f50d9487e79e3592af34a83eda2982b)
++++ b/unitTests/FinalTest.java	(date 1685261037402)
+@@ -1,3 +1,270 @@
++//import geometries.Plane;
++//import geometries.Sphere;
++//import geometries.Triangle;
++//import lighting.AmbientLight;
++//import lighting.LightSource;
++//import lighting.SpotLight;
++//import org.junit.jupiter.api.Test;
++//import primitives.*;
++//import renderer.Camera;
++//import renderer.ImageWriter;
++//import renderer.RayTracerBasic;
++//import scene.Scene;
++//
++//public class FinalTest {
++//
++//
++//    @Test
++//    public void imageTest() throws IllegalAccessException {
++//
++//        //scene and camera//
++//        Scene scene = new Scene.SceneBuilder("Test test scene").build();
++//        Camera camera = new Camera(new Point(-2500, 0, 200), new Vector(10, 0, 0), new Vector(0, 0, 1))//
++//                .setVPSize(200, 1200).setVPDistance(1000);
++//
++//
++//        //sky
++//        Sphere moon =new Sphere(new Point(5000, 400, 2600),100d);
++//        Sphere st1 =new Sphere(new Point(6000, -400, 4000),5);
++//        Sphere st2 =new Sphere(new Point(4000, 500, 4500),5);
++//        Sphere st3 =new Sphere(new Point(5000, 300, 3000),5);
++//        Sphere st4 =new Sphere(new Point(5000, 400, 3000),5);
++//        Sphere st5 =new Sphere(new Point(5000, 400, 2000),5);
++//        Sphere st6 =new Sphere(new Point(5000, 400, 4000),5);
++//        Sphere st7 =new Sphere(new Point(5000, -400, 4500),5);
++//        Sphere st8 =new Sphere(new Point(5000, -600, 3000),5);
++//        Sphere st9 =new Sphere(new Point(6000, -500, 4000),5);
++//        Sphere st10 =new Sphere(new Point(6000, -200, 3000),5);
++//        Sphere st11 =new Sphere(new Point(3000, -150, 3050),5);
++//        Sphere st12 =new Sphere(new Point(8000, -800, 2000),5);
++//        Sphere st13 =new Sphere(new Point(2000, -300, 5000),5);
++//        Sphere st14 =new Sphere(new Point(2000, -450, 5000),5);
++//        Sphere st15 =new Sphere(new Point(6000, -300, 3890),5);
++//        Sphere st16 =new Sphere(new Point(5000, -300, 2444),5);
++//        Sphere st17 =new Sphere(new Point(2000, -200, 3456),5);
++//        Sphere st18 =new Sphere(new Point(2000, -250, 5666),5);
++//        Sphere st19 =new Sphere(new Point(6500, -400, 4000),5);
++//        Sphere st20 =new Sphere(new Point(4444, 500, 3000),5);
++//        Sphere st21 =new Sphere(new Point(5333, 300, 1000),5);
++//        Sphere st22 =new Sphere(new Point(5000, 200, 1111),5);
++//        Sphere st23 =new Sphere(new Point(1000, 100, 3050),5);
++//        Sphere st24 =new Sphere(new Point(800, 200, 3890),5);
++//        Sphere st25 =new Sphere(new Point(1500, 500, 3478),5);
++//        Sphere st26 =new Sphere(new Point(1234, 600, 2098),5);
++//        Sphere st27 =new Sphere(new Point(4322, 540, 1200),5);
++//        Sphere st28 =new Sphere(new Point(2222, 333, 1111),5);
++//
++//
++//
++//
++//
++//        //create sand
++//        Sphere a1 = new Sphere(new Point(519.070390744984252, 440.107162582189176, -10), 50);
++//        Sphere a2 = new Sphere(new Point(568.560487306058349, 330.381775783034186, -20), 100);
++//        Sphere a3 = new Sphere(new Point(10507.452522044068246, 192.73059510366852, -300), 650);
++//        Sphere a4 = new Sphere(new Point(200500.713789922087472, 78.895843857937507, -200), 1450);
++//        Sphere a5 = new Sphere(new Point(1500.713789922087472, 78.895843857937507, -60), 117.774);
++//        Sphere a6 = new Sphere(new Point(10531.970492287884554, -117.758343954578777, -250), 320);
++//        Sphere a7 = new Sphere(new Point(10555.040695576198686, -2075.299697925167038, -50), 92.138);
++//        Sphere a8 = new Sphere(new Point(-10626.427425256983042, 450.751787923952179, -65), 102.8875);
++//        Sphere a9 = new Sphere(new Point(1600, 440.107162582189176, -100), 250);
++//        Sphere a10 = new Sphere(new Point(-40, 330.381775783034186, -5), 25);
++//        Sphere a11 = new Sphere(new Point(-507.452522044068246, 300, -40), 65);
++//        Sphere a12 = new Sphere(new Point(-160, 78.895843857937507, -80), 100);
++//        Sphere a13 = new Sphere(new Point(-700, 78.895843857937507, -250), 300);
++//        Sphere a14 = new Sphere(new Point(-650, -150, -50), 90);
++//        Sphere a15 = new Sphere(new Point(-90, -300, 0), 92);
++//        Sphere a16 = new Sphere(new Point(-150, -150.751787923952179, 0), 16);
++//        Sphere a17 = new Sphere(new Point(-25, 34, 0), 5);
++//        Sphere a18 = new Sphere(new Point(90, 450, 0), 19);
++//        Sphere a19 = new Sphere(new Point(420, 250, 0), 65);
++//        Sphere a20 = new Sphere(new Point(1640, 10, 0), 75);
++//        Sphere a21 = new Sphere(new Point(1800, 150, -50), 118);
++//        Sphere a22 = new Sphere(new Point(-670, 117, 0), 73);
++//        Sphere a23 = new Sphere(new Point(325, -75, -60), 92.138);
++//        Sphere a24 = new Sphere(new Point(-348, -162, -60), 102);
++//        Sphere a25 = new Sphere(new Point(-400, 440.107162582189176, 0), 16);
++//        Sphere a26 = new Sphere(new Point(-385, 721, 0), 64);
++//        Sphere a27 = new Sphere(new Point(-95, 100, 0), 38);
++//        Sphere a28 = new Sphere(new Point(-26, 30, 0), 40);
++//        Sphere a29 = new Sphere(new Point(1000, 78.895843857937507, -15), 62);
++//        Sphere a30 = new Sphere(new Point(-42, -100, 0), 34);
++//        Sphere a31 = new Sphere(new Point(-269, -742, 0), 79);
++//        Sphere a32 = new Sphere(new Point(-430, 150, 0), 23);
++//
++//        Sphere a33 = new Sphere(new Point(-1150, 150, -15), 50);
++//        Sphere a34 = new Sphere(new Point(-900, 340, -350), 400);
++//        Sphere a35 = new Sphere(new Point(10090, 2450, -1300), 1550);
++//        Sphere a36 = new Sphere(new Point(-1420, 2500, -500), 600);
++//        Sphere a37 = new Sphere(new Point(-1640, -100, -50), 75);
++//        Sphere a38 = new Sphere(new Point(-1800, 150, -150), 200);
++//        Sphere a39 = new Sphere(new Point(-1670, -1107, -650), 730);
++//        Sphere a40 = new Sphere(new Point(-1325, -750, -850), 900);
++//        Sphere a41 = new Sphere(new Point(-1348, -162, -75), 102);
++//        Sphere a42 = new Sphere(new Point(-1400, 440.107162582189176, -7), 16);
++//        Sphere a43 = new Sphere(new Point(-1385, 721, -250), 320);
++//        Sphere a44 = new Sphere(new Point(10195, -3000, -1490), 1800);
++//        Sphere a45 = new Sphere(new Point(-126, 300, -340), 400);
++//        Sphere a46 = new Sphere(new Point(-1300, -780, -600), 620);
++//        Sphere a47 = new Sphere(new Point(-1942, -100, -240), 280);
++//        Sphere a48 = new Sphere(new Point(-1430, 150, -180), 235);
++//        Sphere a49 = new Sphere(new Point(-1269, -742, -350), 451);
++//        Sphere a50 = new Sphere(new Point(-1430, 150, -190), 230);
++//
++//
++//
++//        //create pyramids
++//
++//
++//
++//        //parameters//
++//        Color Pyramid = new Color(193, 154, 107);
++//        Color Sky = new Color(0, 51, 102);
++//        Color moonlight = new Color(183,201,226);
++//        Color sand = new Color(150, 105, 25);
++//        Color dune1 = new Color(152, 118, 84);
++//        Color dune2 = new Color(111, 78, 55);
++//        Color dune3 = new Color(152, 118, 84);
++//        scene.setBackground(Sky);
++//
++//
++//
++//        //scene geometries
++//        scene.getGeometries().add(
++//                new Plane(new Point(0, -600, 0), new Point(0, -650, 0), new Point(-400, 0, 0))
++//                        .setEmission(sand)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5)),
++//                moon.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st1.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st2.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st3.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st4.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st5.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st6.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st7.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st8.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st9.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st10.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st11.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st12.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st13.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st14.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st15.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st16.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st17.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st18.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st19.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st20.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st21.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st22.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st23.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st24.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st25.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st26.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st27.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st28.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                a1.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a2.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a3.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a4.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a5.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a6.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a7.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a8.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a9.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a10.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a11.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a12.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a13.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a14.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a15.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a16.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a17.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a18.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a19.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a20.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a21.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a22.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a23.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a24.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a25.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a26.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a27.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a28.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a29.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a30.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a31.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a32.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//
++//                a33.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a34.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a35.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a36.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a37.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a38.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a39.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a40.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a41.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a42.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a43.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a45.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a44.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a46.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a47.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a48.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a49.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++//                a50.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5))
++//
++//
++//
++//        );
++//
++//        //scene lighting
++//        scene.getLights().add(new SpotLight(moonlight, new Point(5000, 400, 2600),
++//                new Vector(6000, 300, 100)).setKq(40));
++//
++//
++//
++//        //render image
++//        camera.setImageWriter(new ImageWriter("finalTestImage", 1500, 1500))
++//                .setRayTracer(new RayTracerBasic(scene))
++//                .renderImage()
++//                .writeToImage();
++//
++//    }
++//
++//}
++
++import geometries.Plane;
+ import geometries.Sphere;
+ import geometries.Triangle;
+ import lighting.AmbientLight;
+@@ -10,42 +277,281 @@
+ import renderer.RayTracerBasic;
+ import scene.Scene;
+ 
+-import java.util.List;
+ public class FinalTest {
+-    private Scene scene = new Scene.SceneBuilder("Test scene").build();
+-
+-    private Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+-            .setVPSize(200, 200).setVPDistance(1000) //
+-            .setRayTracer(new RayTracerBasic(scene));
+ 
+ 
+     @Test
+     public void imageTest() throws IllegalAccessException {
+ 
+-        Point spotLocation = new Point(1,0,1);//////////////
+-        scene.getLights().add( //
+-                new SpotLight(new Color(400, 240, 0), spotLocation, new Vector(1, 1, -3)) //
+-                        .setKl(1E-5).setKq(1.5E-7));
+-        Color RED = new Color(255, 0 , 0);
+-        scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), new Double3(0.15)));//white light for the scene
+-        scene.setBackground(RED);
++        //scene and camera//
++        Scene scene = new Scene.SceneBuilder("Test test scene").build();
++        Camera camera = new Camera(new Point(-2500, 0, 200), new Vector(10, 0, 0), new Vector(0, 0, 1))//
++                .setVPSize(200, 1200).setVPDistance(1000);
++
++
++        //sky
++        Sphere moon =new Sphere(new Point(5000, 400, 2600),100);
++        Sphere st1 =new Sphere(new Point(6000, -400, 4000),5);
++        Sphere st2 =new Sphere(new Point(4000, 500, 4500),5);
++        Sphere st3 =new Sphere(new Point(5000, 300, 3000),5);
++        Sphere st4 =new Sphere(new Point(5000, 400, 3000),5);
++        Sphere st5 =new Sphere(new Point(5000, 400, 2000),5);
++        Sphere st6 =new Sphere(new Point(5000, 400, 4000),5);
++        Sphere st7 =new Sphere(new Point(5000, -400, 4500),5);
++        Sphere st8 =new Sphere(new Point(5000, -600, 3000),5);
++        Sphere st9 =new Sphere(new Point(6000, -500, 4000),5);
++        Sphere st10 =new Sphere(new Point(6000, -200, 3000),5);
++        Sphere st11 =new Sphere(new Point(3000, -150, 3050),5);
++        Sphere st12 =new Sphere(new Point(8000, -800, 2000),5);
++//        Sphere st13 =new Sphere(new Point(2000, -300, 5000),5);
++//        Sphere st14 =new Sphere(new Point(2000, -450, 5000),5);
++//        Sphere st15 =new Sphere(new Point(6000, -300, 3890),5);
++//        Sphere st16 =new Sphere(new Point(5000, -300, 2444),5);
++//        Sphere st17 =new Sphere(new Point(2000, -200, 3456),5);
++//        Sphere st18 =new Sphere(new Point(2000, -250, 5666),5);
++//        Sphere st19 =new Sphere(new Point(6500, -400, 4000),5);
++//        Sphere st20 =new Sphere(new Point(4444, 500, 3000),5);
++//        Sphere st21 =new Sphere(new Point(5333, 300, 1000),5);
++        Sphere st22 =new Sphere(new Point(5000, 200, 1111),5);
++        Sphere st23 =new Sphere(new Point(1000, 100, 3050),5);
++        Sphere st24 =new Sphere(new Point(800, 200, 3890),5);
++        Sphere st25 =new Sphere(new Point(1500, 500, 3478),5);
++        Sphere st26 =new Sphere(new Point(1234, 600, 2098),5);
++        Sphere st27 =new Sphere(new Point(4322, 540, 1200),5);
++        Sphere st28 =new Sphere(new Point(2222, 333, 1111),5);
++
++
++
++
++
++        //create sand
++        Sphere a1 = new Sphere(new Point(519.070390744984252, 440.107162582189176, -10), 50);
++        Sphere a2 = new Sphere(new Point(568.560487306058349, 330.381775783034186, -20), 100);
++        Sphere a3 = new Sphere(new Point(10507.452522044068246, 192.73059510366852, -300), 650);
++        Sphere a4 = new Sphere(new Point(200500.713789922087472, 78.895843857937507, -200), 1450);
++        Sphere a5 = new Sphere(new Point(1500.713789922087472, 78.895843857937507, -60), 117.774);
++        Sphere a6 = new Sphere(new Point(10531.970492287884554, -117.758343954578777, -250), 320);
++        Sphere a7 = new Sphere(new Point(10555.040695576198686, -2075.299697925167038, -50), 92.138);
++        Sphere a8 = new Sphere(new Point(-10626.427425256983042, 450.751787923952179, -65), 102.8875);
++        Sphere a9 = new Sphere(new Point(1600, 440.107162582189176, -100), 250);
++        Sphere a10 = new Sphere(new Point(-40, 330.381775783034186, -5), 25);
++        Sphere a11 = new Sphere(new Point(-507.452522044068246, 300, -40), 65);
++        Sphere a12 = new Sphere(new Point(-160, 78.895843857937507, -80), 100);
++        Sphere a13 = new Sphere(new Point(-700, 78.895843857937507, -250), 300);
++        Sphere a14 = new Sphere(new Point(-650, -150, -50), 90);
++        Sphere a15 = new Sphere(new Point(-90, -300, 0), 92);
++        Sphere a16 = new Sphere(new Point(-150, -150.751787923952179, 0), 16);
++        Sphere a17 = new Sphere(new Point(-25, 34, 0), 5);
++        Sphere a18 = new Sphere(new Point(90, 450, 0), 19);
++        Sphere a19 = new Sphere(new Point(420, 250, 0), 65);
++        Sphere a20 = new Sphere(new Point(1640, 10, 0), 75);
++        Sphere a21 = new Sphere(new Point(1800, 150, -50), 118);
++        Sphere a22 = new Sphere(new Point(-670, 117, 0), 73);
++        Sphere a23 = new Sphere(new Point(325, -75, -60), 92.138);
++        Sphere a24 = new Sphere(new Point(-348, -162, -60), 102);
++        Sphere a25 = new Sphere(new Point(-400, 440.107162582189176, 0), 16);
++//        Sphere a26 = new Sphere(new Point(-385, 721, 0), 64);
++//        Sphere a27 = new Sphere(new Point(-95, 100, 0), 38);
++//        Sphere a28 = new Sphere(new Point(-26, 30, 0), 40);
++//        Sphere a29 = new Sphere(new Point(1000, 78.895843857937507, -15), 62);
++//        Sphere a30 = new Sphere(new Point(-42, -100, 0), 34);
++//        Sphere a31 = new Sphere(new Point(-269, -742, 0), 79);
++        Sphere a32 = new Sphere(new Point(-430, 150, 0), 23);
++
++        Sphere a33 = new Sphere(new Point(-1150, 150, -15), 50);
++        Sphere a34 = new Sphere(new Point(-900, 340, -350), 400);
++        Sphere a35 = new Sphere(new Point(10090, 2450, -1300), 1550);
++        Sphere a36 = new Sphere(new Point(-1420, 2500, -500), 600);
++        Sphere a37 = new Sphere(new Point(-1640, -100, -50), 75);
++        Sphere a38 = new Sphere(new Point(-1800, 150, -150), 200);
++        Sphere a39 = new Sphere(new Point(-1670, -1107, -650), 730);
++        Sphere a40 = new Sphere(new Point(-1325, -750, -850), 900);
++        Sphere a41 = new Sphere(new Point(-1348, -162, -75), 102);
++        Sphere a42 = new Sphere(new Point(-1400, 440.107162582189176, -7), 16);
++        Sphere a43 = new Sphere(new Point(-1385, 721, -250), 320);
++//        Sphere a44 = new Sphere(new Point(10195, -3000, -1490), 1800);
++//        Sphere a45 = new Sphere(new Point(-126, 300, -340), 400);
++//        Sphere a46 = new Sphere(new Point(-1300, -780, -600), 620);
++//        Sphere a47 = new Sphere(new Point(-1942, -100, -240), 280);
++//        Sphere a48 = new Sphere(new Point(-1430, 150, -180), 235);
++        Sphere a49 = new Sphere(new Point(-1269, -742, -350), 451);
++        Sphere a50 = new Sphere(new Point(-1430, 150, -190), 230);
++
++
++
++        //pyramids
++        Triangle pyramidAWigA = new Triangle(new Point(0, -200, 0), new Point(200, 0, 0), new Point(0, 0, 500));
++        Triangle pyramidAWigB = new Triangle(new Point(200, 0, 0), new Point(0, 200, 0), new Point(0, 0, 500));
++        Triangle pyramidAWigC = new Triangle(new Point(0, 200, 0), new Point(-200, 0, 0), new Point(0, 0, 500));
++        Triangle pyramidAWigD = new Triangle(new Point(-200, 0, 0), new Point(0, 0, 500), new Point(0, -200, 0));
++
++        Triangle pyramidB1 = new Triangle(new Point(-589.994341128794986, 450.286959177999051, 0)
++                , new Point(-694.538033043532778, 1117.952116537043594, 0)
++                , new Point(-976.098765765686153, 731.847691900152427, 675.800374275156287));
++        Triangle pyramidB2 = new Triangle(new Point(-694.538033043532778, 1117.952116537043594, 0)
++                , new Point(-1362.20319040257732, 1013.408424622305802, 0)
++                , new Point(-976.098765765686153, 731.847691900152427, 675.800374275156287));
++        Triangle pyramidB3 = new Triangle(new Point(-1257.659498487839528, 345.743267263261259, 0)
++                , new Point(-589.994341128794986, 450.286959177999051, 0)
++                , new Point(-976.098765765686153, 731.847691900152427, 675.800374275156287));
++        Triangle pyramidB4 = new Triangle(new Point(-1362.20319040257732, 1013.408424622305802, 0)
++                , new Point(-1257.659498487839528, 345.743267263261259, 0)
++                , new Point(-976.098765765686153, 731.847691900152427, 675.800374275156287));
++
++
++        //parameters//
++        Color Pyramid = new Color(101, 67, 33);
++        Color Sky = new Color(0, 51, 102);
++        Color moonlight = new Color(183,201,226);
++        Color sand = new Color(150, 105, 25);
++        Color dune1 = new Color(152, 118, 84);
++        Color dune2 = new Color(111, 78, 55);
++        Color dune3 = new Color(152, 118, 84);
++        scene.setBackground(Sky);
++
++
++
++        //scene geometries
++        scene.getGeometries().add(
++                new Plane(new Point(0, -600, 0), new Point(0, -650, 0), new Point(-400, 0, 0))
++                        .setEmission(sand)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5)),
++                moon.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st1.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st2.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st3.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st4.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st5.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st6.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st7.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st8.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st9.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st10.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st11.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st12.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st13.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st14.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st15.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st16.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st17.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st18.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st19.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st20.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++//                st21.setEmission(moonlight)
++//                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st22.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st23.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st24.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st25.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st26.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st27.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                st28.setEmission(moonlight)
++                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
++                a1.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a2.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a3.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a4.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a5.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a6.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a7.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a8.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a9.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a10.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a11.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a12.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a13.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a14.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a15.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a16.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a17.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a18.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a19.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a20.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a21.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a22.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a23.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a24.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a25.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a26.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a27.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a28.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a29.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a30.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a31.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a32.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++
++                a33.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a34.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a35.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a36.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a37.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a38.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a39.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a40.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a41.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a42.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a43.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a45.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a44.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a46.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a47.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a48.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a49.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++                a50.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
++
++                pyramidAWigA.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
++                pyramidAWigB.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
++                pyramidAWigC.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
++                pyramidAWigD.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
++
++                pyramidB1.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
++                pyramidB2.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
++                pyramidB3.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
++                pyramidB4.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30))
++
+ 
+-        scene.getGeometries().add( //adding all the geometries of the scene
+-                new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135), new Point(75, 75, -150)) //
+-                        .setMaterial(new Material().setKs(0.8).setShininess(60)), //
+-                new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150)) //
+-                        .setMaterial(new Material().setKs(0.8).setShininess(60)), //
+-                new Sphere(new Point(0, 0, -11), 30d) //
+-                        .setEmission(new Color(java.awt.Color.BLUE)) //
+-                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)) //
+         );
+-        scene.getLights().add( //
+-                new SpotLight(new Color(700, 400, 400), new Point(40, 40, 115), new Vector(-1, -1, -4)) //
+-                        .setKl(4E-4).setKq(2E-5));
++
++        //scene lighting
++        scene.getLights().add(new SpotLight(moonlight, new Point(5000, 400, 2600),
++                new Vector(6000, 300, 100)).setKq(40));
+ 
+-        camera.setImageWriter(new ImageWriter("finalTestImage", 600, 600)) //
+-                .renderImage() //
++
++
++        //render image
++        camera.setImageWriter(new ImageWriter("finalTestImage", 1500, 1500))
++                .setRayTracer(new RayTracerBasic(scene))
++                .renderImage()
+                 .writeToImage();
++
+     }
+ 
+ }
++
+Index: src/scene/Scene.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package scene;\r\n\r\nimport lighting.AmbientLight;\r\nimport geometries.Geometries;\r\n//import lighting.Light;\r\nimport lighting.LightSource;\r\nimport primitives.Color;\r\nimport primitives.Point;\r\n\r\nimport java.util.LinkedList;\r\nimport java.util.List;\r\n\r\npublic class Scene {\r\n\r\n    private final String name;\r\n    private Color background;\r\n    private final Geometries geometries;\r\n    private List<LightSource> lights=new LinkedList<>();\r\n    private AmbientLight ambientLight;\r\n\r\n    private Scene(SceneBuilder builder) {\r\n        name = builder.name;\r\n        background = builder.background;\r\n        ambientLight = builder.ambientLight;\r\n        geometries = builder.geometries;\r\n        lights = builder.lights;\r\n    }\r\n\r\n    public String getName() {\r\n        return name;\r\n    }\r\n\r\n    public Color getBackground() {\r\n        return background;\r\n    }\r\n\r\n    public AmbientLight getAmbientLight() {\r\n        return ambientLight;\r\n    }\r\n\r\n    public Scene setAmbientLight(AmbientLight ambientLight) {\r\n        this.ambientLight = ambientLight;\r\n        return this;\r\n    }\r\n\r\n    public Scene setBackground(Color background) {\r\n        this.background = background;\r\n        return this;\r\n    }\r\n\r\n    public Scene setLights(List<LightSource> lights) {\r\n        this.lights = lights;\r\n        return this;\r\n    }\r\n\r\n    public Geometries getGeometries() {\r\n        return geometries;\r\n    }\r\n\r\n    public List<LightSource> getLights() {\r\n        return lights;\r\n    }\r\n\r\n    public static class SceneBuilder {\r\n\r\n        private final String name;\r\n        private List<LightSource> lights = new LinkedList<>();\r\n        private Color background = Color.BLACK;\r\n        private AmbientLight ambientLight = new AmbientLight();\r\n        private Geometries geometries = new Geometries();\r\n\r\n        public SceneBuilder(String name) {\r\n            this.name = name;\r\n        }\r\n\r\n        public SceneBuilder setBackground(Color background) {\r\n            this.background = background;\r\n            return this;\r\n        }\r\n\r\n        public SceneBuilder setLights(List<LightSource> lights) {\r\n            this.lights = lights;\r\n            return this;\r\n        }\r\n\r\n        public SceneBuilder setAmbientLight(AmbientLight ambientLight) {\r\n            this.ambientLight = ambientLight;\r\n            return this;\r\n        }\r\n\r\n        public SceneBuilder setGeometries(Geometries geometries) {\r\n            this.geometries = geometries;\r\n            return this;\r\n        }\r\n\r\n        public Scene build() {\r\n            //            validateObject(scene);\r\n            return new Scene(this);\r\n        }\r\n\r\n        private void validateObject(Scene scene) {\r\n            //nothing to do\r\n        }\r\n\r\n        public SceneBuilder readXmlFile(String filename) {\r\n            //to do\r\n            return this;\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/scene/Scene.java b/src/scene/Scene.java
+--- a/src/scene/Scene.java	(revision 929722fd1f50d9487e79e3592af34a83eda2982b)
++++ b/src/scene/Scene.java	(date 1684870316520)
+@@ -15,7 +15,7 @@
+     private final String name;
+     private Color background;
+     private final Geometries geometries;
+-    private List<LightSource> lights=new LinkedList<>();
++    private final  List<LightSource> lights;
+     private AmbientLight ambientLight;
+ 
+     private Scene(SceneBuilder builder) {
+@@ -43,15 +43,7 @@
+         return this;
+     }
+ 
+-    public Scene setBackground(Color background) {
+-        this.background = background;
+-        return this;
+-    }
+-
+-    public Scene setLights(List<LightSource> lights) {
+-        this.lights = lights;
+-        return this;
+-    }
++
+ 
+     public Geometries getGeometries() {
+         return geometries;
+@@ -61,6 +53,11 @@
+         return lights;
+     }
+ 
++    public Scene setBackground(Color background) {
++        this.background = background;
++        return this;
++    }
++
+     public static class SceneBuilder {
+ 
+         private final String name;
+@@ -94,17 +91,9 @@
+         }
+ 
+         public Scene build() {
+-            //            validateObject(scene);
+             return new Scene(this);
+         }
+ 
+-        private void validateObject(Scene scene) {
+-            //nothing to do
+-        }
+-
+-        public SceneBuilder readXmlFile(String filename) {
+-            //to do
+-            return this;
+-        }
+-    }
+-}
+\ No newline at end of file
++    }
++}
++
+Index: src/lighting/DirectionalLight.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package lighting;\r\nimport primitives.*;\r\n\r\n/**\r\n * Class that represents a directional light, i.e.\r\n * light source with direction and without attenuation by distance.\r\n * This class extends the abstract class Light and the interface LightSource.\r\n * @author Yonatan Dahary\r\n */\r\npublic class DirectionalLight extends Light implements LightSource  {\r\n\r\n    private final Vector direction;\r\n\r\n    /**\r\n     * Constructor to initialize the fields (intensity and direction)\r\n     *\r\n     * @param color The color for the intensity field\r\n     * @param direction The vector for the direction field\r\n     */\r\n    protected DirectionalLight(Color color, Vector direction) {\r\n        super(color);\r\n        this.direction = direction.normalize();\r\n    }\r\n\r\n    @Override\r\n    public Color getIntensity(Point p) {\r\n        return this.getIntensity();\r\n    }\r\n\r\n    @Override\r\n    public Vector getL(Point p) {\r\n        return this.direction;\r\n    }\r\n    @Override\r\n    public double getDistance(Point point) {\r\n        //Since directional light doesn't have a real source and comes from infinity\r\n        return Double.POSITIVE_INFINITY;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/lighting/DirectionalLight.java b/src/lighting/DirectionalLight.java
+--- a/src/lighting/DirectionalLight.java	(revision 929722fd1f50d9487e79e3592af34a83eda2982b)
++++ b/src/lighting/DirectionalLight.java	(date 1684658465798)
+@@ -17,7 +17,7 @@
+      * @param color The color for the intensity field
+      * @param direction The vector for the direction field
+      */
+-    protected DirectionalLight(Color color, Vector direction) {
++    public DirectionalLight(Color color, Vector direction) {
+         super(color);
+         this.direction = direction.normalize();
+     }
+Index: unitTests/renderer/LightsTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>//package renderer;\r\n//\r\n//import static java.awt.Color.*;\r\n//\r\n//import org.junit.jupiter.api.Test;\r\n//\r\n//import geometries.*;\r\n//import lighting.*;\r\n//import primitives.*;\r\n//import renderer.*;\r\n//import scene.Scene;\r\n//\r\n///** Test rendering a basic image\r\n// * @author Dan */\r\n//public class LightsTests {\r\n//   private final Scene          scene1                  = new Scene(\"Test scene\");\r\n//   private final Scene          scene2                  = new Scene(\"Test scene\")\r\n//      .setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));\r\n//\r\n//   private final Camera         camera1                 = new Camera(new Point(0, 0, 1000),\r\n//                                                                     new Vector(0, 0, -1), new Vector(0, 1, 0))\r\n//      .setVPSize(150, 150).setVPDistance(1000);\r\n//   private final Camera         camera2                 = new Camera(new Point(0, 0, 1000),\r\n//                                                                     new Vector(0, 0, -1), new Vector(0, 1, 0))\r\n//      .setVPSize(200, 200).setVPDistance(1000);\r\n//\r\n//   private static final int     SHININESS               = 301;\r\n//   private static final double  KD                      = 0.5;\r\n//   private static final Double3 KD3                     = new Double3(0.2, 0.6, 0.4);\r\n//\r\n//   private static final double  KS                      = 0.5;\r\n//   private static final Double3 KS3                     = new Double3(0.2, 0.4, 0.3);\r\n//\r\n//   private final Material       material                = new Material().setKd(KD3).setKs(KS3).setShininess(SHININESS);\r\n//   private final Color          trianglesLightColor     = new Color(800, 500, 250);\r\n//   private final Color          sphereLightColor        = new Color(800, 500, 0);\r\n//   private final Color          sphereColor             = new Color(BLUE).reduce(2);\r\n//\r\n//   private final Point          sphereCenter            = new Point(0, 0, -50);\r\n//   private static final double  SPHERE_RADIUS           = 50d;\r\n//\r\n//   // The triangles' vertices:\r\n//   private final Point[]        vertices                =\r\n//      {\r\n//        // the shared left-bottom:\r\n//        new Point(-110, -110, -150),\r\n//        // the shared right-top:\r\n//        new Point(95, 100, -150),\r\n//        // the right-bottom\r\n//        new Point(110, -110, -150),\r\n//        // the left-top\r\n//        new Point(-75, 78, 100)\r\n//      };\r\n//   private final Point          sphereLightPosition     = new Point(-50, -50, 25);\r\n//   private final Point          trianglesLightPosition  = new Point(30, 10, -100);\r\n//   private final Vector         trianglesLightDirection = new Vector(-2, -2, -2);\r\n//\r\n//   private final Geometry       sphere                  = new Sphere(sphereCenter, SPHERE_RADIUS)\r\n//      .setEmission(sphereColor).setMaterial(new Material().setKd(KD).setKs(KS).setShininess(SHININESS));\r\n//   private final Geometry       triangle1               = new Triangle(vertices[0], vertices[1], vertices[2])\r\n//      .setMaterial(material);\r\n//   private final Geometry       triangle2               = new Triangle(vertices[0], vertices[1], vertices[3])\r\n//      .setMaterial(material);\r\n//\r\n//   /** Produce a picture of a sphere lighted by a directional light */\r\n//   @Test\r\n//   public void sphereDirectional() {\r\n//      scene1.geometries.add(sphere);\r\n//      scene1.lights.add(new DirectionalLight(sphereLightColor, new Vector(1, 1, -0.5)));\r\n//\r\n//      ImageWriter imageWriter = new ImageWriter(\"lightSphereDirectional\", 500, 500);\r\n//      camera1.setImageWriter(imageWriter) //\r\n//         .setRayTracer(new RayTracerBasic(scene1)) //\r\n//         .renderImage() //\r\n//         .writeToImage(); //\r\n//   }\r\n//\r\n//   /** Produce a picture of a sphere lighted by a point light */\r\n//   @Test\r\n//   public void spherePoint() {\r\n//      scene1.geometries.add(sphere);\r\n//      scene1.lights.add(new PointLight(sphereLightColor, sphereLightPosition)\r\n//         .setKl(0.001).setKq(0.0002));\r\n//\r\n//      ImageWriter imageWriter = new ImageWriter(\"lightSpherePoint\", 500, 500);\r\n//      camera1.setImageWriter(imageWriter) //\r\n//         .setRayTracer(new RayTracerBasic(scene1)) //\r\n//         .renderImage() //\r\n//         .writeToImage(); //\r\n//   }\r\n//\r\n//   /** Produce a picture of a sphere lighted by a spotlight */\r\n//   @Test\r\n//   public void sphereSpot() {\r\n//      scene1.geometries.add(sphere);\r\n//      scene1.lights.add(new SpotLight(sphereLightColor, sphereLightPosition, new Vector(1, 1, -0.5))\r\n//         .setKl(0.001).setKq(0.0001));\r\n//\r\n//      ImageWriter imageWriter = new ImageWriter(\"lightSphereSpot\", 500, 500);\r\n//      camera1.setImageWriter(imageWriter) //\r\n//         .setRayTracer(new RayTracerBasic(scene1)) //\r\n//         .renderImage() //\r\n//         .writeToImage(); //\r\n//   }\r\n//\r\n//   /** Produce a picture of two triangles lighted by a directional light */\r\n//   @Test\r\n//   public void trianglesDirectional() {\r\n//      scene2.geometries.add(triangle1, triangle2);\r\n//      scene2.lights.add(new DirectionalLight(trianglesLightColor, trianglesLightDirection));\r\n//\r\n//      ImageWriter imageWriter = new ImageWriter(\"lightTrianglesDirectional\", 500, 500);\r\n//      camera2.setImageWriter(imageWriter) //\r\n//         .setRayTracer(new RayTracerBasic(scene2)) //\r\n//         .renderImage() //\r\n//         .writeToImage(); //\r\n//   }\r\n//\r\n//   /** Produce a picture of two triangles lighted by a point light */\r\n//   @Test\r\n//   public void trianglesPoint() {\r\n//      scene2.geometries.add(triangle1, triangle2);\r\n//      scene2.lights.add(new PointLight(trianglesLightColor, trianglesLightPosition)\r\n//         .setKl(0.001).setKq(0.0002));\r\n//\r\n//      ImageWriter imageWriter = new ImageWriter(\"lightTrianglesPoint\", 500, 500);\r\n//      camera2.setImageWriter(imageWriter) //\r\n//         .setRayTracer(new RayTracerBasic(scene2)) //\r\n//         .renderImage() //\r\n//         .writeToImage(); //\r\n//   }\r\n//\r\n//   /** Produce a picture of two triangles lighted by a spotlight */\r\n//   @Test\r\n//   public void trianglesSpot() {\r\n//      scene2.geometries.add(triangle1, triangle2);\r\n//      scene2.lights.add(new SpotLight(trianglesLightColor, trianglesLightPosition, trianglesLightDirection)\r\n//         .setKl(0.001).setKq(0.0001));\r\n//\r\n//      ImageWriter imageWriter = new ImageWriter(\"lightTrianglesSpot\", 500, 500);\r\n//      camera2.setImageWriter(imageWriter) //\r\n//         .setRayTracer(new RayTracerBasic(scene2)) //\r\n//         .renderImage() //\r\n//         .writeToImage(); //\r\n//   }\r\n//\r\n//   /** Produce a picture of a sphere lighted by a narrow spotlight */\r\n//   @Test\r\n//   public void sphereSpotSharp() {\r\n//      scene1.geometries.add(sphere);\r\n//      scene1.lights\r\n//         .add(new SpotLight(sphereLightColor, sphereLightPosition, new Vector(1, 1, -0.5))\r\n//            .setNarrowBeam(10).setKl(0.001).setKq(0.00004));\r\n//\r\n//      ImageWriter imageWriter = new ImageWriter(\"lightSphereSpotSharp\", 500, 500);\r\n//      camera1.setImageWriter(imageWriter) //\r\n//         .setRayTracer(new RayTracerBasic(scene1)) //\r\n//         .renderImage() //\r\n//         .writeToImage(); //\r\n//   }\r\n//\r\n//   /** Produce a picture of two triangles lighted by a narrow spotlight */\r\n//   @Test\r\n//   public void trianglesSpotSharp() {\r\n//      scene2.geometries.add(triangle1, triangle2);\r\n//      scene2.lights.add(new SpotLight(trianglesLightColor, trianglesLightPosition, trianglesLightDirection)\r\n//         .setNarrowBeam(10).setKl(0.001).setKq(0.00004));\r\n//\r\n//      ImageWriter imageWriter = new ImageWriter(\"lightTrianglesSpotSharp\", 500, 500);\r\n//      camera2.setImageWriter(imageWriter) //\r\n//         .setRayTracer(new RayTracerBasic(scene2)) //\r\n//         .renderImage() //\r\n//         .writeToImage(); //\r\n//   }\r\n//\r\n//}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/unitTests/renderer/LightsTests.java b/unitTests/renderer/LightsTests.java
+--- a/unitTests/renderer/LightsTests.java	(revision 929722fd1f50d9487e79e3592af34a83eda2982b)
++++ b/unitTests/renderer/LightsTests.java	(date 1684658465829)
+@@ -65,8 +65,8 @@
+ //   /** Produce a picture of a sphere lighted by a directional light */
+ //   @Test
+ //   public void sphereDirectional() {
+-//      scene1.geometries.add(sphere);
+-//      scene1.lights.add(new DirectionalLight(sphereLightColor, new Vector(1, 1, -0.5)));
++//      scene1.getGeometries().add(sphere);
++//      scene1.getLights().add(new DirectionalLight(sphereLightColor, new Vector(1, 1, -0.5)));
+ //
+ //      ImageWriter imageWriter = new ImageWriter("lightSphereDirectional", 500, 500);
+ //      camera1.setImageWriter(imageWriter) //
+@@ -78,8 +78,8 @@
+ //   /** Produce a picture of a sphere lighted by a point light */
+ //   @Test
+ //   public void spherePoint() {
+-//      scene1.geometries.add(sphere);
+-//      scene1.lights.add(new PointLight(sphereLightColor, sphereLightPosition)
++//      scene1.getGeometries().add(sphere);
++//      scene1.getLights().add(new PointLight(sphereLightColor, sphereLightPosition)
+ //         .setKl(0.001).setKq(0.0002));
+ //
+ //      ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 500, 500);
+@@ -92,8 +92,8 @@
+ //   /** Produce a picture of a sphere lighted by a spotlight */
+ //   @Test
+ //   public void sphereSpot() {
+-//      scene1.geometries.add(sphere);
+-//      scene1.lights.add(new SpotLight(sphereLightColor, sphereLightPosition, new Vector(1, 1, -0.5))
++//      scene1.getGeometries().add(sphere);
++//      scene1.getLights().add(new SpotLight(sphereLightColor, sphereLightPosition, new Vector(1, 1, -0.5))
+ //         .setKl(0.001).setKq(0.0001));
+ //
+ //      ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 500, 500);
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"cd85df16-315c-4a3a-a242-2e29245d113c\" name=\"Changes\" comment=\"end of lighting and tests\">\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_05_2023_10_11_[Changes]/shelved.patch\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_05_2023_10_11__Changes_.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/images/First Picture.png\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/images/base render test.png\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/images/shadowSphereTriangleInitial.png\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/images/shadowSphereTriangleMove1.png\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/images/shadowSphereTriangleMove2.png\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/images/shadowSphereTriangleSpot1.png\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/images/shadowSphereTriangleSpot2.png\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/images/shadowTrianglesSphere.png\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/unitTests/FinalTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.gitignore\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gitignore\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/primitives/Color.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/primitives/Color.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/renderer/Camera.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/renderer/Camera.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/scene/Scene.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/scene/Scene.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/unitTests/renderer/ShadowTests.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/unitTests/renderer/ShadowTests.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"JUnit5 Test Class\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"PUSH_TAGS\">\r\n      <GitPushTagMode>\r\n        <option name=\"argument\" value=\"--tags\" />\r\n        <option name=\"title\" value=\"All\" />\r\n      </GitPushTagMode>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2OV7lVSK63W6tEIpxe8AW34Ehsg\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,\r\n    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,\r\n    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,\r\n    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,\r\n    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/kayma/Downloads/ISE_5783_0586_5404/unitTests/renderer&quot;,\r\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\r\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\r\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;fileTemplates&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\kayma\\Downloads\\ISE_5783_0586_5404\\unitTests\\renderer\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\kayma\\Downloads\\ISE_5783_0586_5404\\unitTests\\renderer\" />\r\n      <recent name=\"C:\\Users\\Haim\\IdeaProjects\\ISE_5783_0586_5404\\unitTests\" />\r\n      <recent name=\"C:\\Users\\Haim\\IdeaProjects\\ISE_5783_0586_5404\\src\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"primitives\" />\r\n      <recent name=\"renderer\" />\r\n      <recent name=\"geometries\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"JUnit.FinalTest.imageTest\">\r\n    <configuration name=\"CameraTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"renderer.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"renderer\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"renderer.CameraTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"FinalTest.imageTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <option name=\"PACKAGE_NAME\" value=\"\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"FinalTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"imageTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ImageWriterTest.testWriteToImage\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"renderer.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"renderer\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"renderer.ImageWriterTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testWriteToImage\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"IntegrationTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"renderer.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"renderer\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"renderer.IntegrationTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ShadowTests\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ISE_5783_0586_5404\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"renderer.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"renderer\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"renderer.ShadowTests\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.FinalTest.imageTest\" />\r\n        <item itemvalue=\"JUnit.CameraTest\" />\r\n        <item itemvalue=\"JUnit.ImageWriterTest.testWriteToImage\" />\r\n        <item itemvalue=\"JUnit.IntegrationTest\" />\r\n        <item itemvalue=\"JUnit.ShadowTests\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"cd85df16-315c-4a3a-a242-2e29245d113c\" name=\"Changes\" comment=\"\" />\r\n      <created>1681634049579</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1681634049579</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"stage 0\">\r\n      <created>1681634213332</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681634213332</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"stage 0\">\r\n      <created>1681634412653</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681634412653</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"sof sof stage 1\">\r\n      <created>1681634845568</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681634845568</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Intersectable\">\r\n      <created>1681826245666</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681826245666</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"unit tests for findIntersections finished besides Tube\">\r\n      <created>1682251398631</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682251398631</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"stage 3 tag\">\r\n      <created>1682251555241</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682251555241</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"beginning of camera\">\r\n      <created>1682423296985</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682423296985</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\" with integrations tests\">\r\n      <created>1682843187972</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682843187973</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"end of stage 4- integration tests and fixed sphere intersection\">\r\n      <created>1682963809711</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682963809711</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"tag for stage 4\">\r\n      <created>1683012264480</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683012264480</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"part 4 of stage 5 in the process\">\r\n      <created>1683128188572</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683128188572</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"part 4 of stage 5 - test of image in process\">\r\n      <created>1683444043485</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683444043485</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"cast ray\">\r\n      <created>1683446244035</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683446244035</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"end of lighting and tests\">\r\n      <created>1684049383754</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684049383754</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"15\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"stage 0\" />\r\n    <MESSAGE value=\"sof sof stage 1\" />\r\n    <MESSAGE value=\"Intersectable\" />\r\n    <MESSAGE value=\"unit tests for findIntersections finished besides Tube\" />\r\n    <MESSAGE value=\"stage 3 tag\" />\r\n    <MESSAGE value=\"beginning of camera\" />\r\n    <MESSAGE value=\" with integrations tests\" />\r\n    <MESSAGE value=\"end of stage 4- integration tests and fixed sphere intersection\" />\r\n    <MESSAGE value=\"tag for stage 4\" />\r\n    <MESSAGE value=\"part 4 of stage 5 in the process\" />\r\n    <MESSAGE value=\"part 4 of stage 5 - test of image in process\" />\r\n    <MESSAGE value=\"cast ray\" />\r\n    <MESSAGE value=\"end of lighting and tests\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"end of lighting and tests\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 929722fd1f50d9487e79e3592af34a83eda2982b)
++++ b/.idea/workspace.xml	(date 1685261037492)
+@@ -4,24 +4,14 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="end of lighting and tests">
+-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_05_2023_10_11_[Changes]/shelved.patch" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_05_2023_10_11__Changes_.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/images/First Picture.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/images/base render test.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/images/shadowSphereTriangleInitial.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/images/shadowSphereTriangleMove1.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/images/shadowSphereTriangleMove2.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/images/shadowSphereTriangleSpot1.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/images/shadowSphereTriangleSpot2.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/images/shadowTrianglesSphere.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/unitTests/FinalTest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
++    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="cast ray end of stage5">
++      <change afterPath="$PROJECT_DIR$/images/myTest.png" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/primitives/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Color.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/Camera.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/images/finalTestImage.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/finalTestImage.png" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/lighting/DirectionalLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lighting/DirectionalLight.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/scene/Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scene/Scene.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/unitTests/renderer/ShadowTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/renderer/ShadowTests.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/unitTests/FinalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/FinalTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/unitTests/renderer/LightsTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/renderer/LightsTests.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -93,85 +83,57 @@
+       <recent name="geometries" />
+     </key>
+   </component>
+-  <component name="RunManager" selected="JUnit.FinalTest.imageTest">
+-    <configuration name="CameraTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++  <component name="RunManager" selected="JUnit.FinalTest">
++    <configuration name="FinalTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="FinalTest" />
+       <module name="ISE_5783_0586_5404" />
+-      <extension name="coverage">
+-        <pattern>
+-          <option name="PATTERN" value="renderer.*" />
+-          <option name="ENABLED" value="true" />
+-        </pattern>
+-      </extension>
+-      <option name="PACKAGE_NAME" value="renderer" />
+-      <option name="MAIN_CLASS_NAME" value="renderer.CameraTest" />
+-      <option name="TEST_OBJECT" value="class" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="FinalTest.imageTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="PyramidScene" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="PyramidScene" />
+       <module name="ISE_5783_0586_5404" />
+-      <option name="PACKAGE_NAME" value="" />
+-      <option name="MAIN_CLASS_NAME" value="FinalTest" />
+-      <option name="METHOD_NAME" value="imageTest" />
+-      <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="ImageWriterTest.testWriteToImage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="FinalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ISE_5783_0586_5404" />
+-      <extension name="coverage">
+-        <pattern>
+-          <option name="PATTERN" value="renderer.*" />
+-          <option name="ENABLED" value="true" />
+-        </pattern>
+-      </extension>
+-      <option name="PACKAGE_NAME" value="renderer" />
+-      <option name="MAIN_CLASS_NAME" value="renderer.ImageWriterTest" />
+-      <option name="METHOD_NAME" value="testWriteToImage" />
+-      <option name="TEST_OBJECT" value="method" />
++      <option name="PACKAGE_NAME" value="" />
++      <option name="MAIN_CLASS_NAME" value="FinalTest" />
++      <option name="TEST_OBJECT" value="class" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="IntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="FinalTest.imageTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ISE_5783_0586_5404" />
+-      <extension name="coverage">
+-        <pattern>
+-          <option name="PATTERN" value="renderer.*" />
+-          <option name="ENABLED" value="true" />
+-        </pattern>
+-      </extension>
+-      <option name="PACKAGE_NAME" value="renderer" />
+-      <option name="MAIN_CLASS_NAME" value="renderer.IntegrationTest" />
+-      <option name="TEST_OBJECT" value="class" />
++      <option name="PACKAGE_NAME" value="" />
++      <option name="MAIN_CLASS_NAME" value="FinalTest" />
++      <option name="METHOD_NAME" value="imageTest" />
++      <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="ShadowTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="FinalTest.project2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ISE_5783_0586_5404" />
+-      <extension name="coverage">
+-        <pattern>
+-          <option name="PATTERN" value="renderer.*" />
+-          <option name="ENABLED" value="true" />
+-        </pattern>
+-      </extension>
+-      <option name="PACKAGE_NAME" value="renderer" />
+-      <option name="MAIN_CLASS_NAME" value="renderer.ShadowTests" />
+-      <option name="TEST_OBJECT" value="class" />
++      <option name="PACKAGE_NAME" value="" />
++      <option name="MAIN_CLASS_NAME" value="FinalTest" />
++      <option name="METHOD_NAME" value="project2" />
++      <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+     <recent_temporary>
+       <list>
++        <item itemvalue="JUnit.FinalTest" />
++        <item itemvalue="Application.FinalTest" />
++        <item itemvalue="Application.PyramidScene" />
+         <item itemvalue="JUnit.FinalTest.imageTest" />
+-        <item itemvalue="JUnit.CameraTest" />
+-        <item itemvalue="JUnit.ImageWriterTest.testWriteToImage" />
+-        <item itemvalue="JUnit.IntegrationTest" />
+-        <item itemvalue="JUnit.ShadowTests" />
++        <item itemvalue="JUnit.FinalTest.project2" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -282,7 +244,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1684049383754</updated>
+     </task>
+-    <option name="localTasksCounter" value="15" />
++    <task id="LOCAL-00015" summary="cast ray end of stage5">
++      <created>1684657928828</created>
++      <option name="number" value="00015" />
++      <option name="presentableId" value="LOCAL-00015" />
++      <option name="project" value="LOCAL" />
++      <updated>1684657928828</updated>
++    </task>
++    <option name="localTasksCounter" value="16" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -311,6 +280,7 @@
+     <MESSAGE value="part 4 of stage 5 - test of image in process" />
+     <MESSAGE value="cast ray" />
+     <MESSAGE value="end of lighting and tests" />
+-    <option name="LAST_COMMIT_MESSAGE" value="end of lighting and tests" />
++    <MESSAGE value="cast ray end of stage5" />
++    <option name="LAST_COMMIT_MESSAGE" value="cast ray end of stage5" />
+   </component>
+ </project>
+\ No newline at end of file
