@@ -11,19 +11,26 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Scene {
+    private final String name;               //name of the scene
+    private final Color background;          //the background color
+    private final AmbientLight ambientLight; //the ambient light
+    private final Geometries geometries;     //geometries in the scene
+    public List<LightSource> lights= new LinkedList<>();
 
-    private final String name;
-    private Color background;
-    private final Geometries geometries;
-    private List<LightSource> lights=new LinkedList<>();
-    private AmbientLight ambientLight;
+    public List<LightSource> getLights() {
+        return lights;
+    }
 
-    private Scene(SceneBuilder builder) {
+    public Scene setLights(List<LightSource> lights) {
+        this.lights = lights;
+        return this;
+    }
+
+    private Scene(SceneBuilder builder){
         name = builder.name;
         background = builder.background;
         ambientLight = builder.ambientLight;
         geometries = builder.geometries;
-        lights = builder.lights;
     }
 
     public String getName() {
@@ -38,48 +45,36 @@ public class Scene {
         return ambientLight;
     }
 
-    public Scene setAmbientLight(AmbientLight ambientLight) {
-        this.ambientLight = ambientLight;
-        return this;
-    }
-
-    public Scene setBackground(Color background) {
-        this.background = background;
-        return this;
-    }
-
-    public Scene setLights(List<LightSource> lights) {
-        this.lights = lights;
-        return this;
-    }
-
     public Geometries getGeometries() {
         return geometries;
     }
 
-    public List<LightSource> getLights() {
-        return lights;
+    public void setAmbientLight(AmbientLight ambientLight) {
+
     }
 
+    /**
+     * the builder class
+     */
     public static class SceneBuilder {
 
         private final String name;
-        private List<LightSource> lights = new LinkedList<>();
-        private Color background = Color.BLACK;
+        private Color background = Color.BLACK; //default color
         private AmbientLight ambientLight = new AmbientLight();
         private Geometries geometries = new Geometries();
 
-        public SceneBuilder(String name) {
+        /**
+         * constructor
+         * @param name name of the scene
+         */
+        public SceneBuilder(String name){
             this.name = name;
         }
 
+        //chaining methods
+
         public SceneBuilder setBackground(Color background) {
             this.background = background;
-            return this;
-        }
-
-        public SceneBuilder setLights(List<LightSource> lights) {
-            this.lights = lights;
             return this;
         }
 
@@ -93,18 +88,10 @@ public class Scene {
             return this;
         }
 
-        public Scene build() {
-            //            validateObject(scene);
-            return new Scene(this);
-        }
+        public Scene build(){
+            Scene scene = new Scene(this);
+            return scene;
 
-        private void validateObject(Scene scene) {
-            //nothing to do
-        }
-
-        public SceneBuilder readXmlFile(String filename) {
-            //to do
-            return this;
         }
     }
 }

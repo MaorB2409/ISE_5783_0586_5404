@@ -46,8 +46,12 @@ public class RayTracerBasic extends  RayTracerBase{
      */
     @Override
     public Color traceRay(Ray ray) {
-        Intersectable.GeoPoint closestIntersection = findClosestIntersection(ray);
-        return closestIntersection == null ? scene.getBackground() : calcColor(closestIntersection, ray);
+        Intersectable.GeoPoint closestPoint = findClosestIntersection(ray);
+        if (closestPoint == null) {
+            return scene.getBackground();
+        }
+        return calcColor(closestPoint, ray);
+
     }
     /**
      * calculate the color that needed to be returned from the pixel.
@@ -252,44 +256,6 @@ public class RayTracerBasic extends  RayTracerBase{
         }
         return ktr;
     }
-
-//    /**
-//     * The method checks whether there is any object shading the light source from a
-//     * point
-//     *
-//     * @param gp the point with its geometry
-//     * @param lightSource light source
-//     * @param l  direction from light to the point
-//     * @param n normal vector from the surface towards the geometry
-//     *
-//     * @return accumulated transparency attenuation factor
-//     */
-//
-//    private Double3 transparency(LightSource lightSource, Vector l, Vector n, Intersectable.GeoPoint gp) {
-//        // Pay attention to your method of distance screening
-//        Vector lightDirection = l.scale(-1); // from point to light source
-//        Point point = gp.point;
-//        Ray lightRay = new Ray(point, n, lightDirection);
-//
-//        //double maxdistance = lightSource.getDistance(point);
-//        List<Intersectable.GeoPoint> intersections = scene.getGeometries().findGeoIntersections(lightRay);
-//
-//        if (intersections == null)
-//            return Double3.ONE;
-//
-//        Double3 ktr = Double3.ONE;
-////        loop over intersections and for each intersection which is closer to the
-////        point than the light source multiply ktr by 𝒌𝑻 of its geometry.
-////        Performance:
-////        if you get close to 0 –it’s time to get out( return 0)
-//        for (var geo : intersections) {
-//            ktr = ktr.product(geo.geometry.getMaterial().getKt());
-//            if (ktr.lowerThan(MIN_CALC_COLOR_K)) {
-//                return Double3.ZERO;
-//            }
-//        }
-//        return ktr;
-//    }
 
 
     /**
