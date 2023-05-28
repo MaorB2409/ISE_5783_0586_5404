@@ -92,7 +92,7 @@ public class testtttttt {
         spotLight.setKc(lightKc);
         List<LightSource> lightSourceList = new ArrayList<>();
         lightSourceList.add(spotLight);
-        scene.setLights(lightSourceList);
+        scene.getLights().add((LightSource) lightSourceList);
 
 
 
