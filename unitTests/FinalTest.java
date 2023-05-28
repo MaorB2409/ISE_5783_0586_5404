@@ -17,11 +17,20 @@ public class FinalTest {
     @Test
     public void imageTest() throws IllegalAccessException {
 
+        //parameters//
+        Color Pyramid = new Color(101, 67, 33);
+        Color Sky = new Color(0, 51, 102);
+        Color moonlight = new Color(183,201,226);
+        Color sand = new Color(150, 105, 25);
+        Color dune1 = new Color(152, 118, 84);
+        Color dune2 = new Color(111, 78, 55);
+        Color dune3 = new Color(152, 118, 84);
+
+
         //scene and camera//
-        Scene scene = new Scene.SceneBuilder("Test test scene").build();
+        Scene scene = new Scene.SceneBuilder("Test test scene").setBackground(Sky).build();
         Camera camera = new Camera(new Point(-2500, 0, 200), new Vector(10, 0, 0), new Vector(0, 0, 1))//
                 .setVPSize(200, 1200).setVPDistance(1000);
-
 
         //sky
         Sphere moon =new Sphere(new Point(5000, 400, 2600),100d);
@@ -119,30 +128,10 @@ public class FinalTest {
         Triangle pyramidAWigC = new Triangle(new Point(0, 200, 0), new Point(-200, 0, 0), new Point(0, 0, 500));
         Triangle pyramidAWigD = new Triangle(new Point(-200, 0, 0), new Point(0, 0, 500), new Point(0, -200, 0));
 
-        Triangle pyramidB1 = new Triangle(new Point(-589.994341128794986, 450.286959177999051, 0)
-                , new Point(-694.538033043532778, 1117.952116537043594, 0)
-                , new Point(-976.098765765686153, 731.847691900152427, 675.800374275156287));
-        Triangle pyramidB2 = new Triangle(new Point(-694.538033043532778, 1117.952116537043594, 0)
-                , new Point(-1362.20319040257732, 1013.408424622305802, 0)
-                , new Point(-976.098765765686153, 731.847691900152427, 675.800374275156287));
-        Triangle pyramidB3 = new Triangle(new Point(-1257.659498487839528, 345.743267263261259, 0)
-                , new Point(-589.994341128794986, 450.286959177999051, 0)
-                , new Point(-976.098765765686153, 731.847691900152427, 675.800374275156287));
-        Triangle pyramidB4 = new Triangle(new Point(-1362.20319040257732, 1013.408424622305802, 0)
-                , new Point(-1257.659498487839528, 345.743267263261259, 0)
-                , new Point(-976.098765765686153, 731.847691900152427, 675.800374275156287));
-
-
-        //parameters//
-        Color Pyramid = new Color(101, 67, 33);
-        Color Sky = new Color(0, 51, 102);
-        Color moonlight = new Color(183,201,226);
-        Color sand = new Color(150, 105, 25);
-        Color dune1 = new Color(152, 118, 84);
-        Color dune2 = new Color(111, 78, 55);
-        Color dune3 = new Color(152, 118, 84);
-        scene.getBackground().add(Sky);
-
+        Triangle pyramidB1 = new Triangle(new Point(200, 0, 0), new Point(400, -200, 0), new Point(200, -200, 500));
+        Triangle pyramidB2 = new Triangle(new Point(400, -200, 0), new Point(200, 0, 0), new Point(200, 200, 500));
+        Triangle pyramidB3 = new Triangle(new Point(200, 200, 0), new Point(0, 0, 0), new Point(200, 200, 500));
+        Triangle pyramidB4 = new Triangle(new Point(0, 0, 0), new Point(200, -200, 0), new Point(200, 200, 500));
 
 
         //scene geometries
