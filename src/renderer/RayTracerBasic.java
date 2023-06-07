@@ -296,4 +296,5 @@ public class RayTracerBasic extends  RayTracerBase{
         }
         return ray.findClosestGeoPoint(intersections);
     }
+
 }

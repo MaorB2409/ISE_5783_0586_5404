@@ -10,8 +10,6 @@ import renderer.Camera;
 /**
  * Testing Camera Class
  *
- * @author Dan
- *
  */
 public class CameraTest {
     static final Point ZERO_POINT = new Point(0, 0, 0);

@@ -2,6 +2,7 @@ import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import lighting.AmbientLight;
+import lighting.DirectionalLight;
 import lighting.LightSource;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,9 @@ import renderer.ImageWriter;
 import renderer.RayTracerBasic;
 import scene.Scene;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FinalTest {
 
 
@@ -18,22 +22,30 @@ public class FinalTest {
     public void imageTest() throws IllegalAccessException {
 
         //parameters//
-        Color Pyramid = new Color(101, 67, 33);
+        Color Pyramid = new Color(74, 34, 4);
         Color Sky = new Color(0, 51, 102);
         Color moonlight = new Color(183,201,226);
-        Color sand = new Color(150, 105, 25);
-        Color dune1 = new Color(152, 118, 84);
-        Color dune2 = new Color(111, 78, 55);
-        Color dune3 = new Color(152, 118, 84);
+        Color sand = new Color(120, 87, 33);
+        Color dune1 = new Color(120, 87, 33);
+        Color dune2 = new Color(101, 67, 33);
+        Color dune3 = new Color(101, 67, 33);
 
-
+        LightSource spotLight = new SpotLight(new Color(255, 0, 0), new Point(5000, 400, 2600),
+                new Vector(10, 0, 100))
+                .setKl(0.0001).setKq(0.000005);
+        LightSource sp= new SpotLight(new Color(java.awt.Color.lightGray),
+                new Point(4000, 8000, 2000), new Vector(-1110,-1000,-1000));
+        LightSource shine=new DirectionalLight(new Color(java.awt.Color.YELLOW),new Vector(1110,1000,100));
+        List<LightSource> l=new ArrayList<>();
+        l.add(sp);
+        //l.add(shine);
         //scene and camera//
-        Scene scene = new Scene.SceneBuilder("Test test scene").setBackground(Sky).build();
+        Scene scene = new Scene.SceneBuilder("Test test scene").setBackground(Sky).setLights(l).build();
         Camera camera = new Camera(new Point(-2500, 0, 200), new Vector(10, 0, 0), new Vector(0, 0, 1))//
                 .setVPSize(200, 1200).setVPDistance(1000);
 
         //sky
-        Sphere moon =new Sphere(new Point(5000, 400, 2600),100d);
+        Sphere moon =new Sphere(new Point(4000, 300, 3000),100d);
         Sphere st1 =new Sphere(new Point(6000, -400, 4000),5);
         Sphere st2 =new Sphere(new Point(4000, 500, 4500),5);
         Sphere st3 =new Sphere(new Point(5000, 300, 3000),5);
@@ -128,144 +140,151 @@ public class FinalTest {
         Triangle pyramidAWigC = new Triangle(new Point(0, 200, 0), new Point(-200, 0, 0), new Point(0, 0, 500));
         Triangle pyramidAWigD = new Triangle(new Point(-200, 0, 0), new Point(0, 0, 500), new Point(0, -200, 0));
 
-        Triangle pyramidB1 = new Triangle(new Point(200, 0, 0), new Point(400, -200, 0), new Point(200, -200, 500));
-        Triangle pyramidB2 = new Triangle(new Point(400, -200, 0), new Point(200, 0, 0), new Point(200, 200, 500));
-        Triangle pyramidB3 = new Triangle(new Point(200, 200, 0), new Point(0, 0, 0), new Point(200, 200, 500));
-        Triangle pyramidB4 = new Triangle(new Point(0, 0, 0), new Point(200, -200, 0), new Point(200, 200, 500));
+        Triangle pyramidB1 =  new Triangle(new Point(100, -100, 0), new Point(200, 0, 200), new Point(300, -100, 0));
+        Triangle pyramidB2 = new Triangle(new Point(300, -100, 0), new Point(200, 0, 200), new Point(300, 100, 0));
+        Triangle pyramidB3 = new Triangle(new Point(300, 100, 0), new Point(200, 0, 200), new Point(100, 100, 0));
+        Triangle pyramidB4 = new Triangle(new Point(100, 100, 0), new Point(200, 0, 200), new Point(100, -100, 0));
 
+        Material pyramidMaterial = new Material().setKd(0.25).setKs(0.4).setShininess(100);
+        Material sandMaterial = new Material().setKd(0.4).setKs(0.4).setShininess(10);
+        Material moonMaterial = new Material().setKd(0.6).setKs(0.3).setShininess(100);
+        Material puddleMaterial=new Material().setKd(0.1).setKs(0.25).setShininess(300);
+        Material starMaterial= new Material().setKd(0.4).setKs(0.3).setShininess(100);
 
         //scene geometries
         scene.getGeometries().add(
                 new Plane(new Point(0, -600, 0), new Point(0, -650, 0), new Point(-400, 0, 0))
                         .setEmission(sand)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(5)),
+                        .setMaterial(sandMaterial),
                 moon.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(moonMaterial),
                 st1.setEmission(moonlight)
                         .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
                 st2.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st3.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st4.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st5.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st6.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st7.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st8.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st9.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st10.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st11.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st12.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st13.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st14.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st15.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st16.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st17.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st18.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st19.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st20.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st21.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st22.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st23.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st24.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st25.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st26.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st27.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
                 st28.setEmission(moonlight)
-                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(40)),
-                a1.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a2.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a3.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a4.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a5.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a6.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a7.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a8.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a9.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a10.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a11.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a12.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a13.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a14.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a15.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a16.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a17.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a18.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a19.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a20.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a21.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a22.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a23.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a24.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a25.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a26.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a27.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a28.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a29.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a30.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a31.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a32.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(40)),
+                a1.setEmission(dune1).setMaterial(puddleMaterial),
+                a2.setEmission(dune2).setMaterial(puddleMaterial),
+                a3.setEmission(dune1).setMaterial(puddleMaterial),
+                a4.setEmission(dune3).setMaterial(puddleMaterial),
+                a5.setEmission(dune1).setMaterial(puddleMaterial),
+                a6.setEmission(dune2).setMaterial(puddleMaterial),
+                a7.setEmission(dune3).setMaterial(puddleMaterial),
+                a8.setEmission(dune2).setMaterial(puddleMaterial),
+                a9.setEmission(dune1).setMaterial(puddleMaterial),
+                a10.setEmission(dune3).setMaterial(puddleMaterial),
+                a11.setEmission(dune2).setMaterial(puddleMaterial),
+                a12.setEmission(dune3).setMaterial(puddleMaterial),
+                a13.setEmission(dune1).setMaterial(puddleMaterial),
+                a14.setEmission(dune2).setMaterial(puddleMaterial),
+                a15.setEmission(dune3).setMaterial(puddleMaterial),
+                a16.setEmission(dune2).setMaterial(puddleMaterial),
+                a17.setEmission(dune1).setMaterial(puddleMaterial),
+                a18.setEmission(dune2).setMaterial(puddleMaterial),
+                a19.setEmission(dune3).setMaterial(puddleMaterial),
+                a20.setEmission(dune2).setMaterial(puddleMaterial),
+                a21.setEmission(dune2).setMaterial(puddleMaterial),
+                a22.setEmission(dune1).setMaterial(puddleMaterial),
+                a23.setEmission(dune3).setMaterial(puddleMaterial),
+                a24.setEmission(dune1).setMaterial(puddleMaterial),
+                a25.setEmission(dune2).setMaterial(puddleMaterial),
+                a26.setEmission(dune3).setMaterial(puddleMaterial),
+                a27.setEmission(dune2).setMaterial(puddleMaterial),
+                a28.setEmission(dune3).setMaterial(puddleMaterial),
+                a29.setEmission(dune2).setMaterial(puddleMaterial),
+                a30.setEmission(dune1).setMaterial(puddleMaterial),
+                a31.setEmission(dune3).setMaterial(puddleMaterial),
+                a32.setEmission(dune2).setMaterial(puddleMaterial),
 
-                a33.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a34.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a35.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a36.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a37.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a38.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a39.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a40.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a41.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a42.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a43.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a45.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a44.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a46.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a47.setEmission(dune3).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a48.setEmission(dune2).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a49.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
-                a50.setEmission(dune1).setMaterial(new Material().setKd(0.1).setKs(0.1).setShininess(5)),
+                a33.setEmission(dune2).setMaterial(puddleMaterial),
+                a34.setEmission(dune1).setMaterial(puddleMaterial),
+                a35.setEmission(dune3).setMaterial(puddleMaterial),
+                a36.setEmission(dune2).setMaterial(puddleMaterial),
+                a37.setEmission(dune1).setMaterial(puddleMaterial),
+                a38.setEmission(dune2).setMaterial(puddleMaterial),
+                a39.setEmission(dune3).setMaterial(puddleMaterial),
+                a40.setEmission(dune2).setMaterial(puddleMaterial),
+                a41.setEmission(dune2).setMaterial(puddleMaterial),
+                a42.setEmission(dune1).setMaterial(puddleMaterial),
+                a43.setEmission(dune3).setMaterial(puddleMaterial),
+                a45.setEmission(dune2).setMaterial(puddleMaterial),
+                a44.setEmission(dune1).setMaterial(puddleMaterial),
+                a46.setEmission(dune3).setMaterial(puddleMaterial),
+                a47.setEmission(dune3).setMaterial(puddleMaterial),
+                a48.setEmission(dune2).setMaterial(puddleMaterial),
+                a49.setEmission(dune1).setMaterial(puddleMaterial),
+                a50.setEmission(dune1).setMaterial(puddleMaterial),
 
-                pyramidAWigA.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidAWigB.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidAWigC.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidAWigD.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-
-                pyramidB1.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidB2.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidB3.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidB4.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30))
+                pyramidAWigA.setEmission(Pyramid).setMaterial(pyramidMaterial),
+                pyramidAWigB.setEmission(Pyramid).setMaterial(pyramidMaterial),
+                pyramidAWigC.setEmission(Pyramid).setMaterial(pyramidMaterial),
+                pyramidAWigD.setEmission(Pyramid).setMaterial(pyramidMaterial)
+//
+//                pyramidB1.setEmission(Pyramid).setMaterial(pyramidMaterial),
+//                pyramidB2.setEmission(Pyramid).setMaterial(pyramidMaterial),
+//                pyramidB3.setEmission(Pyramid).setMaterial(pyramidMaterial),
+//                pyramidB4.setEmission(Pyramid).setMaterial(pyramidMaterial)
 
 
                 );
 
         //scene lighting
-        scene.getLights().add(new SpotLight(moonlight, new Point(5000, 400, 2600),
-               new Vector(6000, 300, 100)).setKq(40)
-        );
+        AmbientLight ambientLight = new AmbientLight(new Color(20, 20, 20), 0.1);
+        scene.setAmbientLight(ambientLight);
+//        scene.getLights().add(new SpotLight(moonlight, new Point(5000, 400, 2600),
+//               new Vector(6000, 300, 100)).setKq(40)
+//        );
 
 
 

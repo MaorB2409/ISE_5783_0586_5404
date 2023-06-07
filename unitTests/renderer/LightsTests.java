@@ -10,8 +10,7 @@ import primitives.*;
 import renderer.*;
 import scene.Scene;
 
-/** Test rendering a basic image
- * @author Dan */
+/** Test rendering a basic image */
 public class LightsTests {
    private Scene scene1 = new Scene.SceneBuilder("Test scene").build();
    private Scene scene2 = new Scene.SceneBuilder("Test scene") //

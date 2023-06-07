@@ -11,8 +11,7 @@ import scene.Scene;
 
 import static java.awt.Color.*;
 
-/** Test rendering a basic image
- * @author Dan */
+/** Test rendering a basic image*/
 public class RenderTests {
 
    /** Produce a scene with basic 3D model and render it into a png image with a
