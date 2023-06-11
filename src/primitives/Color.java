@@ -105,9 +105,9 @@ public class Color {
 
 
    /**
-    * Checks if the color is almost equal
-    * @param color primitives
-    * @return
+    *
+    * @param color to compare
+    * @return if the color to compare is almost the same as this color
     */
    public  boolean isAlmostEquals(primitives.Color color) {
 
@@ -122,4 +122,6 @@ public class Color {
     */
    @Override
    public String toString() { return "rgb:" + rgb; }
+
+
 }

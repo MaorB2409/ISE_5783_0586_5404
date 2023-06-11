@@ -33,9 +33,17 @@ public class RayTracerBasic extends  RayTracerBase{
      * the initial value of k factor
      */
     private static final double INITIAL_K = 1.0;
-
+    /**
+     * number of rays for glossiness
+     */
     private int glossinessRaysNum = 36;
+    /**
+     * distance grid value
+     */
     private double distanceGrid = 25;
+    /**
+     * size of grid value
+     */
     private double sizeGrid=4;
 
     /**
@@ -46,6 +54,10 @@ public class RayTracerBasic extends  RayTracerBase{
         super(scene);
     }
 
+    /**
+     * setter for the grid distance
+     * @param distanceGrid
+     */
 
     public void setDistanceGrid(double distanceGrid) {
         this.distanceGrid = distanceGrid;

@@ -229,40 +229,45 @@ public class Camera {
      * setter for imageWriter
      *
      * @param imageWriter
-     * @return the image writer for the camera
+     * @return the camera with set image writer for the camera
      */
     public Camera setImageWriter(ImageWriter imageWriter) {
         this.imageWriter = imageWriter;
         return this;
     }
 
+    /**
+     *
+     * @param rayTracer
+     * @return the camera with set rayTracer for the camera
+     */
     public Camera setRayTracer(RayTracerBase rayTracer) {
         this.rayTracer = rayTracer;
         return this;
     }
 
     /**
-     * set the anti Aliasing
      *
-     * @return the Camera object
+     * @param antiAliasing
+     * @return the camera with set antiAliasing for the camera
      */
     public Camera setantiAliasing(int antiAliasing) {
         this.antiAliasing = antiAliasing;
         return this;
     }
     /**
-     * set the adaptive
      *
-     * @return the Camera object
+     * @param adaptive
+     * @return the camera with set adaptive for the camera
      */
     public Camera setadaptive(boolean adaptive) {
         this.adaptive = adaptive;
         return this;
     }
     /**
-     * set the threadsCount
      *
-     * @return the Camera object
+     * @param threadsCount
+     * @return the camera with set threadsCount for the camera
      */
     public Camera setthreadsCount(int threadsCount) {
         this.threadsCount = threadsCount;
@@ -327,26 +332,6 @@ public class Camera {
       * @return Camera after making changes
      */
     public Camera renderImage() {
-//        try {
-//            if (imageWriter == null) {
-//                throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
-//            }
-//            if (rayTracer == null) {
-//                throw new MissingResourceException("missing resource", RayTracerBase.class.getName(), "");
-//            }
-//            int nX = imageWriter.getNx();
-//            int nY = imageWriter.getNy();
-//
-//            //rendering the image
-//            for (int i = 0; i < nY; i++) {
-//                for (int j = 0; j < nX; j++) {
-//                    castRay(nX, nY, i, j);
-//                }
-//            }
-//        } catch (MissingResourceException e) {
-//            throw new UnsupportedOperationException("Not implemented yet" + e.getClassName());
-//        }
-//        return this;
 
         if (p0 == null || vRight == null
                 || vUp == null || vTo == null || distance == 0
@@ -527,58 +512,41 @@ public class Camera {
         imageWriter.printGrid(interval, color);
     }
 
-
-
-    /**
-     * moving the camera from her location
-     * @param newPosition the new position of the camera
-     * @param newPointOfView new point of view of the camera
-     * @return the new camera from the new position to the new point of view
-     */
-    public Camera moveCamera(Point newPosition, Point newPointOfView) {
-        // the new vTo of the the camera
-        Vector new_vTo = newPointOfView.subtract(newPosition).normalize();
-        // the angle between the new vTo and the old
-        double theta = new_vTo.dotProduct(vTo);
-        // axis vector for the rotation
-        Vector k = vTo.crossProduct(new_vTo).normalize();
-
-        vTo = new_vTo;
-        p0 = newPosition;
-
-        return rotateCamera(theta, k);
-    }
-    /**
-     * Rotate the camera by rotating the vectors of the camera directions <br/>
-     * According the Rodrigues' rotation formula
-     * @param theta angle theta according to the right hand rule in degrees
-     * @return this camera after the rotating
-     */
-    public Camera rotateCamera(double theta) {
-        return rotateCamera(theta, vTo);
-    }
+//    /**
+//     * moving the camera from her location
+//     * @param newPosition the new position of the camera
+//     * @param newPointOfView new point of view of the camera
+//     * @return the new camera from the new position to the new point of view
+//     */
+//    public Camera moveCamera(Point newPosition, Point newPointOfView) {
+//        // the new vTo of the the camera
+//        Vector new_vTo = newPointOfView.subtract(newPosition).normalize();
+//        // the angle between the new vTo and the old
+//        double theta = new_vTo.dotProduct(vTo);
+//        // axis vector for the rotation
+//        Vector k = vTo.crossProduct(new_vTo).normalize();
+//
+//        vTo = new_vTo;
+//        p0 = newPosition;
+//
+//        return rotateCamera(theta, k);
+//    }
 
     /**
-     * Rotate the camera by rotating the vectors of the camera directions <br/>
-     * According the Rodrigues' rotation formula
-     * @param theta angle theta according to the right hand rule in degrees
-     * @param k axis vector for the rotation
-     * @return this camera after the rotating
+     * Rotates the camera around the axes with the given angles
+     *
+     * @param x angles to rotate around the x axis
+     * @param y angles to rotate around the y axis
+     * @param z angles to rotate around the z axis
+     * @return the current camera
      */
-    private Camera rotateCamera(double theta, Vector k) {
-        double radianAngle = Math.toRadians(theta);
-        double cosTheta = alignZero(Math.cos(radianAngle));
-        double sinTheta = alignZero(Math.sin(radianAngle));
-
-        vRight.rotateVector(k, cosTheta, sinTheta);
-        vUp.rotateVector(k, cosTheta, sinTheta);
+    public Camera rotateCamera(double x, double y, double z) {
+        vTo = vTo.rotateX(x).rotateY(y).rotateZ(z);
+        vUp = vUp.rotateX(x).rotateY(y).rotateZ(z);
+        vRight = vTo.crossProduct(vUp);
 
         return this;
     }
-
-
-
-
     /**
      *
      * @return Camera after changes

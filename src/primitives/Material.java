@@ -147,6 +147,16 @@ public class Material {
         this.nShininess = nShininess;
         return this;
     }
+
+    /**
+     *
+     * @param Glossy parameter for the glossy field
+     * @return The object itself
+     */
+    public Material setGlossy(double Glossy) {
+        this.Glossy = Glossy;
+        return this;
+    }
     //*********Getters for the fields*********
     public Double3 getKs() {
         return kS;
@@ -173,8 +183,5 @@ public class Material {
         return Glossy;
     }
 
-    public Material setGlossy(double Glossy) {
-        this.Glossy = Glossy;
-        return this;
-    }
+
 }
