@@ -4,11 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="continue final image">
+    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="end of lighting and tests">
+      <change afterPath="$PROJECT_DIR$/images/finalTestImageHopefully.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/renderer/Pixel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_05_2023_10_11_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_05_2023_10_11__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/finalTestImage.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/finalTestImage.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scene/Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scene/Scene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/projectfocus.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/projectfocus.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/primitives/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Color.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/primitives/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Material.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/primitives/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Vector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/Camera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/RayTracerBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/RayTracerBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/RayTracerBasic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/RayTracerBasic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unitTests/FinalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/FinalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unitTests/renderer/ReflectionRefractionTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/renderer/ReflectionRefractionTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unitTests/testtttttt.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/testtttttt.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +92,7 @@
       <recent name="geometries" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.FinalTest">
+  <component name="RunManager" selected="JUnit.testtttttt">
     <configuration name="FinalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE_5783_0586_5404" />
       <option name="PACKAGE_NAME" value="" />
@@ -101,21 +112,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="testtttttt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Tryingg" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE_5783_0586_5404" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="testtttttt" />
+      <option name="MAIN_CLASS_NAME" value="Tryingg" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="testtttttt.project2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="testtttttt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE_5783_0586_5404" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="testtttttt" />
-      <option name="METHOD_NAME" value="project2" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -132,11 +142,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.FinalTest" />
         <item itemvalue="JUnit.testtttttt" />
-        <item itemvalue="JUnit.testtttttt.renderImage" />
-        <item itemvalue="JUnit.testtttttt.project2" />
+        <item itemvalue="JUnit.FinalTest" />
+        <item itemvalue="JUnit.Tryingg" />
         <item itemvalue="JUnit.FinalTest.imageTest" />
+        <item itemvalue="JUnit.testtttttt.renderImage" />
       </list>
     </recent_temporary>
   </component>

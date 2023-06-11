@@ -2,6 +2,7 @@ import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import lighting.AmbientLight;
+import lighting.DirectionalLight;
 import lighting.LightSource;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ public class FinalTest {
 
 
         //scene and camera//
-        Scene scene = new Scene.SceneBuilder("Test test scene").setBackground(Sky).build();
+        Scene scene = new Scene.SceneBuilder("Test test scene").setBackground(Sky).setAmbientLight(new AmbientLight(new Color(java.awt.Color.BLUE), new Double3(0.15))).build();
         Camera camera = new Camera(new Point(-2500, 0, 200), new Vector(10, 0, 0), new Vector(0, 0, 1))//
                 .setVPSize(200, 1200).setVPDistance(1000);
 
@@ -128,10 +129,15 @@ public class FinalTest {
         Triangle pyramidAWigC = new Triangle(new Point(0, 200, 0), new Point(-200, 0, 0), new Point(0, 0, 500));
         Triangle pyramidAWigD = new Triangle(new Point(-200, 0, 0), new Point(0, 0, 500), new Point(0, -200, 0));
 
-        Triangle pyramidB1 = new Triangle(new Point(200, 0, 0), new Point(400, -200, 0), new Point(200, -200, 500));
-        Triangle pyramidB2 = new Triangle(new Point(400, -200, 0), new Point(200, 0, 0), new Point(200, 200, 500));
-        Triangle pyramidB3 = new Triangle(new Point(200, 200, 0), new Point(0, 0, 0), new Point(200, 200, 500));
-        Triangle pyramidB4 = new Triangle(new Point(0, 0, 0), new Point(200, -200, 0), new Point(200, 200, 500));
+        Triangle pyramidBWigA = new Triangle(new Point(100, -20, 0), new Point(20, 60, 0), new Point(0, 0, 50));
+        Triangle pyramidBWigB = new Triangle(new Point(200, 60, 0), new Point(0, 60, 0), new Point(0, 0, 500));
+        Triangle pyramidBWigC = new Triangle(new Point(100, 20, 0), new Point(-20, 60, 0), new Point(0, 0, 50));
+        Triangle pyramidBWigD = new Triangle(new Point(-200, 60, 0), new Point(0, 60, 500), new Point(0, -200, 0));
+
+//        Triangle pyramidB1 = new Triangle(new Point(200, 0, 0), new Point(400, -200, 0), new Point(200, -200, 500));
+//        Triangle pyramidB2 = new Triangle(new Point(400, -200, 0), new Point(200, 0, 0), new Point(200, 200, 500));
+//        Triangle pyramidB3 = new Triangle(new Point(200, 200, 0), new Point(0, 0, 0), new Point(200, 200, 500));
+//        Triangle pyramidB4 = new Triangle(new Point(0, 0, 0), new Point(200, -200, 0), new Point(200, 200, 500));
 
 
         //scene geometries
@@ -252,20 +258,18 @@ public class FinalTest {
                 pyramidAWigA.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
                 pyramidAWigB.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
                 pyramidAWigC.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidAWigD.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-
-                pyramidB1.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidB2.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidB3.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30)),
-                pyramidB4.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30))
+                pyramidAWigD.setEmission(Pyramid).setMaterial(new Material().setKd(0.5).setKs(0.1).setShininess(30))
 
 
                 );
 
         //scene lighting
         scene.getLights().add(new SpotLight(moonlight, new Point(5000, 400, 2600),
-               new Vector(6000, 300, 100)).setKq(40)
-        );
+               new Vector(-10, 0, 0)).setKq(40));
+
+        scene.getLights().add(new DirectionalLight(new Color(50, 1500, 400), new Vector(-1, 1, 0)));
+        scene.getLights().add(new SpotLight(new Color(700, 400, 400), new Point(0, 80, 30), new Vector(0, -1, -10)) //
+                .setKl(4E-5).setKq(2E-7));
 
 
 
