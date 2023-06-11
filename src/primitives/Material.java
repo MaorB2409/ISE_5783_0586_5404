@@ -24,6 +24,41 @@ public class Material {
     public Double3 kR = Double3.ZERO;
     public int nShininess = 0;
 
+    public double Glossy=0;
+
+
+
+
+
+    //region Getters
+    /**
+     * getting of nShininess
+     * @return nShininess
+     */
+    public int getnShininess() {return nShininess;}
+    /**
+     * getting of kD
+     * @return kD
+     */
+    public Double3 getkD() {return kD;}
+    /**
+     * getting of kS
+     * @return kS
+     */
+    public Double3 getkS() {return kS;}
+    /**
+     * getting of kD
+     * @return kD
+     */
+    public Double3 getkT() {return kT;}
+    /**
+     * getting of kD
+     * @return kD
+     */
+    public Double3 getkR() {return kR;}
+    //endregion
+
+
     /**
      * Setter for the kD field
      * @param kD parameter for the kD field
@@ -131,5 +166,15 @@ public class Material {
 
     public Double3 getKr() {
         return kR;
+    }
+
+
+    public double getGlossy() {
+        return Glossy;
+    }
+
+    public Material setGlossy(double Glossy) {
+        this.Glossy = Glossy;
+        return this;
     }
 }

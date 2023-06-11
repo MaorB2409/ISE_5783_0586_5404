@@ -89,28 +89,57 @@ public class Vector extends Point{
         Vector newV=new Vector(xyz.reduce(this.length()));
         return newV;
     }
-    /**
-     * Given a vector and an angle, rotate the vector about the given axis by the given angle
-     *
-     * @param axis The axis of rotation.
-     * @param theta the angle of rotation in degrees
-     * @return A rotated new vector.
-     */
-    public Vector rotateVector(Vector axis, double theta) {
-        double x = getX();
-        double y = getY();
-        double z = getZ();
-        double u = axis.getX();
-        double v = axis.getY();
-        double w = axis.getZ();
-        double v1 = u * x + v * y + w * z;
-        double thetaRad = Math.toRadians(theta);
-        double thetaCos = Math.cos(thetaRad);
-        double thetaSin = Math.sin(thetaRad);
-        double xPrime = u * v1 * (1d - thetaCos) + x * thetaCos + (-w * y + v * z) * thetaSin;
-        double yPrime = v * v1 * (1d - thetaCos) + y * thetaCos + (w * x - u * z) * thetaSin;
-        double zPrime = w * v1 * (1d - thetaCos) + z * thetaCos + (-v * x + u * y) * thetaSin;
 
-        return new Vector(xPrime, yPrime, zPrime);
+
+
+    /**
+     *Compares two vectors
+     * @param o Vector for comparison
+     * @return Boolean value
+     */
+    /**
+     * rotate the vectors by Rodrigues' rotation formula:
+     * vRot = V * cos(theta) + (K x V) * sin(theta) + K * (K*V) * (1 - cos(theta))
+     * V is this vector
+     * @param k the axis vector of rotation
+     * @param cosTheta cos(theta)
+     * @param sinTheta sin(theta)
+     */
+    public void rotateVector(Vector k,  double cosTheta, double sinTheta) {
+        Vector vRot;
+        if (cosTheta == 0d) {
+            vRot = k.crossProduct(this).scale(sinTheta);
+        }
+        else {
+            vRot = this.scale(cosTheta);
+            if (sinTheta != 0d) {
+                vRot = vRot.add(k.crossProduct(this).scale(sinTheta));
+            }
+        }
+        xyz = vRot.normalize().xyz;
     }
+//    /**
+//     * Given a vector and an angle, rotate the vector about the given axis by the given angle
+//     *
+//     * @param axis The axis of rotation.
+//     * @param theta the angle of rotation in degrees
+//     * @return A rotated new vector.
+//     */
+//    public Vector rotateVector(Vector axis, double theta) {
+//        double x = getX();
+//        double y = getY();
+//        double z = getZ();
+//        double u = axis.getX();
+//        double v = axis.getY();
+//        double w = axis.getZ();
+//        double v1 = u * x + v * y + w * z;
+//        double thetaRad = Math.toRadians(theta);
+//        double thetaCos = Math.cos(thetaRad);
+//        double thetaSin = Math.sin(thetaRad);
+//        double xPrime = u * v1 * (1d - thetaCos) + x * thetaCos + (-w * y + v * z) * thetaSin;
+//        double yPrime = v * v1 * (1d - thetaCos) + y * thetaCos + (w * x - u * z) * thetaSin;
+//        double zPrime = w * v1 * (1d - thetaCos) + z * thetaCos + (-v * x + u * y) * thetaSin;
+//
+//        return new Vector(xPrime, yPrime, zPrime);
+//    }
 }
