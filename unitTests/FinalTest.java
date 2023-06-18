@@ -29,8 +29,7 @@ public class FinalTest {
         //scene and camera of the image//
         Scene scene = new Scene.SceneBuilder("Test scene").setBackground(Sky).build();
         Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-                .setVPSize(200, 200).setVPDistance(1000) //
-                .setRayTracer(new RayTracerBasic(scene));
+                .setVPSize(200, 200).setVPDistance(1000); //
 
         scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), new Double3(0.15)));//white light for the scene
 
@@ -376,9 +375,13 @@ public class FinalTest {
 
         //render the image//
         camera.setImageWriter(new ImageWriter("finalTestImage", 600, 600))
-                .setantiAliasing(3)//
-                .renderImage() //
+                .setthreadsCount(4)
+                .setadaptive(true)
+                .setantiAliasing(10)
+                .setRayTracer(new RayTracerBasic(scene))
+                .renderImage()
                 .writeToImage();
+
 
 //        camera.setImageWriter(new ImageWriter("finalTestImageRotate", 600, 600)).rotateCamera(0,0,-10) //
 //                .renderImage() //

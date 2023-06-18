@@ -79,7 +79,6 @@ public class RayTracerBasic extends  RayTracerBase{
 
     }
 
-
     /**
      * Trace the ray and calculates the color of the point that interact with the geometries of the scene
      * @param rays the ray that came out of the camera
