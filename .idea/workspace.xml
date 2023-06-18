@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="stage 7 picture finished">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_05_2023_11_04__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_05_2023_11_04__Changes_.xml" afterDir="false" />
+    <list default="true" id="cd85df16-315c-4a3a-a242-2e29245d113c" name="Changes" comment="starting supersampling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/FinalImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/Bonus image.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/images/finalTestImage.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/finalTestImage.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/primitives/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Color.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/primitives/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Material.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/primitives/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Vector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/finalTestImageHopefully.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/projectfocus.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/RayTracerBasic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/RayTracerBasic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unitTests/FinalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/FinalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unitTests/testtttttt.java" beforeDir="false" afterPath="$PROJECT_DIR$/unitTests/testtttttt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unitTests/testtttttt.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -281,7 +278,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686154482099</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="starting supersampling">
+      <created>1686472396949</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1686472396949</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -312,6 +316,7 @@
     <MESSAGE value="end of lighting and tests" />
     <MESSAGE value="continue final image" />
     <MESSAGE value="stage 7 picture finished" />
-    <option name="LAST_COMMIT_MESSAGE" value="stage 7 picture finished" />
+    <MESSAGE value="starting supersampling" />
+    <option name="LAST_COMMIT_MESSAGE" value="starting supersampling" />
   </component>
 </project>

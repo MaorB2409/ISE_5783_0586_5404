@@ -67,8 +67,6 @@ public class Camera {
 
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
-    private boolean adaptive = false;
-    private int threadsCount = 1;
 
     /**
      * simple Camera constructor which get as input location point and two orthogonal vectors represent the direction
@@ -164,29 +162,6 @@ public class Camera {
         return centerPoint;
     }
 
-//    /**
-//     * setter - chaining method
-//     *
-//     * @param distance - the object's actual distance from the camera center
-//     * @return the camera with the configured distance
-//     */
-//    public Camera setVPDistance(int distance) {
-//        this.distance = distance;
-//        return this;
-//    }
-//
-//    /**
-//     * setter - chaining method
-//     *
-//     * @param width   - the width of the view plane
-//     * @param height- the height of the view plane
-//     * @return the camera with the configured view plane
-//     */
-//    public Camera setVPSize(double width, double height) {
-//        this.width = width;
-//        this.height = height;
-//        return this;
-//    }
 
     /**
      * set the view plane size
@@ -255,25 +230,6 @@ public class Camera {
         this.antiAliasing = antiAliasing;
         return this;
     }
-    /**
-     *
-     * @param adaptive
-     * @return the camera with set adaptive for the camera
-     */
-    public Camera setadaptive(boolean adaptive) {
-        this.adaptive = adaptive;
-        return this;
-    }
-    /**
-     *
-     * @param threadsCount
-     * @return the camera with set threadsCount for the camera
-     */
-    public Camera setthreadsCount(int threadsCount) {
-        this.threadsCount = threadsCount;
-        return this;
-    }
-
 
 
     // ***************** Operations ******************** //
@@ -289,13 +245,6 @@ public class Camera {
      * @return - the ray which goes through the pixel
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
-
-//        Point pIJ = getCenterOfPixel(nX, nY, j, i); // center point of the pixel
-//
-//        //Vi,j = Pi,j - P0, the direction of the ray to the pixel(j, i)
-//        Vector vIJ = pIJ.subtract(p0);
-//        return new Ray(p0, vIJ);
-
 
         //view plane center Point
         Point Pc = p0.add(vTo.scale(distance));
@@ -332,67 +281,18 @@ public class Camera {
       * @return Camera after making changes
      */
     public Camera renderImage() {
-
         if (p0 == null || vRight == null
                 || vUp == null || vTo == null || distance == 0
                 || width == 0 || height == 0 || centerPoint == null
                 || imageWriter == null || rayTracer == null) {
             throw new MissingResourceException("Missing camera data", Camera.class.getName(), null);
         }
-        Pixel.initialize(imageWriter.getNy(), imageWriter.getNx(), 1);
-
-
-        if (!adaptive) {
-            while (threadsCount-- > 0) {
-                new Thread(() -> {
-                    for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
-                        imageWriter.writePixel(pixel.col, pixel.row, rayTracer.TraceRays(constructRays(imageWriter.getNx(), imageWriter.getNy(), pixel.col, pixel.row, antiAliasing)));
-                }).start();
-            }
-            Pixel.waitToFinish();
-        } else {
-            while (threadsCount-- > 0) {
-                new Thread(() -> {
-                    for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
-                        imageWriter.writePixel(pixel.col, pixel.row, AdaptiveSuperSampling(imageWriter.getNx(), imageWriter.getNy(), pixel.col, pixel.row, antiAliasing));
-                }).start();
-            }
-            Pixel.waitToFinish();
-        }
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+        for (int i = 0; i < nX; i++)
+            for (int j = 0; j < nY; j++)
+                imageWriter.writePixel(i, j, this.castRay(nX, nY, j, i));
         return this;
-
-    }
-
-
-
-
-    /**
-     * Checks the color of the pixel with the help of individual rays and averages between them and only
-     * if necessary continues to send beams of rays in recursion
-     * @param nX Pixel length
-     * @param nY Pixel width
-     * @param j The position of the pixel relative to the y-axis
-     * @param i The position of the pixel relative to the x-axis
-     * @param numOfRays The amount of rays sent
-     * @return Pixel color
-     */
-    private Color AdaptiveSuperSampling(int nX, int nY, int j, int i,  int numOfRays)  {
-        Vector Vright = vRight;
-        Vector Vup = vUp;
-        Point cameraLoc = this.getP0();
-        int numOfRaysInRowCol = (int)Math.floor(Math.sqrt(numOfRays));
-        if(numOfRaysInRowCol == 1)  return rayTracer.traceRay(constructRayThroughPixel(nX, nY, j, i));
-
-        Point pIJ = getCenterOfPixel(nX, nY, j, i);
-
-        double rY = alignZero(height / nY);
-        // the ratio Rx = w/Nx, the width of the pixel
-        double rX = alignZero(width / nX);
-
-
-        double PRy = rY/numOfRaysInRowCol;
-        double PRx = rX/numOfRaysInRowCol;
-        return rayTracer.AdaptiveSuperSamplingRec(pIJ, rX, rY, PRx, PRy,cameraLoc,Vright, Vup,null);
     }
 
 
@@ -401,13 +301,17 @@ public class Camera {
      *
      * @param nX   - resolution on X axis (number of pixels in row)
      * @param nY   - resolution on Y axis (number of pixels in column)
-     * @param icol - pixel's column number (pixel index in row)
-     * @param jrow - pixel's row number (pixel index in column)
+     * @param i - pixel's column number (pixel index in row)
+     * @param j - pixel's row number (pixel index in column)
      */
-    private void castRay(int nX, int nY, int icol, int jrow) {
-        Ray ray = constructRay(nX, nY, jrow, icol); //build a ray with the given parameters
-        Color pixelColor = rayTracer.traceRay(ray);
-        imageWriter.writePixel(jrow, icol, pixelColor); //color the pixel
+    private Color castRay(int nX, int nY, int i, int j) {
+        // anti aliasing
+        List<Ray> rays = constructRays(nX, nY, j, i,antiAliasing);
+        Color color = Color.BLACK;
+        for (int k = 0; k < rays.size(); k++)
+            color = color.add(rayTracer.traceRay(rays.get(k)));
+        color = color.reduce(rays.size());
+        return color;
     }
 
 

@@ -43,18 +43,46 @@ public class FinalTest {
                 // Big Pyramid
                 new Triangle(new Point(0, -80, -400), new Point(-100, -80, -1000), new Point(100, -80, -1000))
                         .setEmission(Pyramid)
-                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(20)),
                 new Triangle(new Point(0, -80, -400), new Point(-100, -80, -1000), new Point(0, 40, -700))
                         .setEmission(Pyramid)
-                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(20)),
                 new Triangle(new Point(0, -80, -400), new Point(100, -80, -1000), new Point(0, 40, -700))
                         .setEmission(Pyramid)
-                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(20)),
                 new Triangle(new Point(-100, -80, -1000), new Point(100, -80, -1000), new Point(0, 40, -700))
                         .setEmission(Pyramid)
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(20)),
+
+                //small pyramid 1
+                new Triangle(new Point(-80, -320, -100), new Point(-150, -320, -250), new Point(80, -320, -250))
+                        .setEmission(Pyramid)
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                new Triangle(new Point(-80, -320, -100), new Point(-150, -320, -250), new Point(-80, 5, -175))
+                        .setEmission(Pyramid)
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                new Triangle(new Point(-80, -320, -100), new Point(80, -320, -250), new Point(-80, 5, -175))
+                        .setEmission(Pyramid)
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                new Triangle(new Point(-150, -320, -250), new Point(80, -320, -250), new Point(-80, 5, -175))
+                        .setEmission(Pyramid)
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                //small pyramid 2
+                new Triangle(new Point(160, -320, -250), new Point(300, -320, -700), new Point(-150, -320, -700))
+                        .setEmission(Pyramid)
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                new Triangle(new Point(160, -320, -250), new Point(300, -320, -700), new Point(160, 5, -475))
+                        .setEmission(Pyramid)
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                new Triangle(new Point(160, -320, -250), new Point(-150, -320, -700), new Point(160, 5, -475))
+                        .setEmission(Pyramid)
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                new Triangle(new Point(300, -320, -700), new Point(-150, -320, -700), new Point(160, 5, -475))
+                        .setEmission(Pyramid)
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+
                 //moon
-                new Sphere(new Point(-50, 55, -11), 15d) //
+                new Sphere(new Point(-70, 55, -11), 15d) //
                         .setEmission(new Color(241,235,156)) //
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
                 //Stars
@@ -150,9 +178,9 @@ public class FinalTest {
                         .setEmission(new Color(241,235,156))
                         .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
-                new Sphere(new Point(-75, -10, -100), 0.6d)
-                        .setEmission(new Color(241,235,156))
-                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
+//                new Sphere(new Point(-75, -10, -100), 0.6d)
+//                        .setEmission(new Color(241,235,156))
+//                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
                 new Sphere(new Point(-95 , 95,-100), 0.55d)
                         .setEmission(new Color(241,235,156))
@@ -178,9 +206,9 @@ public class FinalTest {
                         .setEmission(new Color(241,235,156))
                         .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
-                new Sphere(new Point(-70, 45, -100), 0.6d)
-                        .setEmission(new Color(241,235,156))
-                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
+//                new Sphere(new Point(-70, 45, -100), 0.6d)
+//                        .setEmission(new Color(241,235,156))
+//                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
                 new Sphere(new Point(50 , 46,-100), 0.55d)
                         .setEmission(new Color(241,235,156))
@@ -242,9 +270,9 @@ public class FinalTest {
                         .setEmission(new Color(241,235,156))
                         .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
-                new Sphere(new Point(88, -34, -100), 1d)
-                        .setEmission(new Color(241,235,156))
-                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
+//                new Sphere(new Point(88, -34, -100), 1d)
+//                        .setEmission(new Color(241,235,156))
+//                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
                 new Sphere(new Point(-15, 33, -100), 1d)
                         .setEmission(new Color(241,235,156))
@@ -262,9 +290,9 @@ public class FinalTest {
                         .setEmission(new Color(241,235,156))
                         .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
-                new Sphere(new Point(-75, 5, -100), 0.6d)
-                        .setEmission(new Color(241,235,156))
-                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
+//                new Sphere(new Point(-75, 5, -100), 0.6d)
+//                        .setEmission(new Color(241,235,156))
+//                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
                 new Sphere(new Point(75, 5, -100), 0.6d)
                         .setEmission(new Color(241,235,156))
@@ -306,17 +334,17 @@ public class FinalTest {
                         .setEmission(new Color(241,235,156))
                         .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
-                new Sphere(new Point(-72, -5, -100), 0.6d)
-                        .setEmission(new Color(241,235,156))
-                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
+//                new Sphere(new Point(-72, -5, -100), 0.6d)
+//                        .setEmission(new Color(241,235,156))
+//                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
                 new Sphere(new Point(-95 , -7,-100), 0.55d)
                         .setEmission(new Color(241,235,156))
                         .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
-                new Sphere(new Point(100, -37, -100), 1d)
-                        .setEmission(new Color(241,235,156))
-                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
+//                new Sphere(new Point(100, -37, -100), 1d)
+//                        .setEmission(new Color(241,235,156))
+//                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
 
                 new Sphere(new Point(-90, -10, -100), 1d)
                         .setEmission(new Color(241,235,156))
@@ -324,7 +352,11 @@ public class FinalTest {
 
                 new Sphere(new Point(5, 100, -100), 0.6d)
                         .setEmission(new Color(241,235,156))
-                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30))
+                        .setMaterial(new Material().setKd(0.2).setKs(0.5).setShininess(30)),
+                //
+                new Sphere(new Point(30, -160, -80), 100d)
+                        .setEmission(Sky)
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setKr(1).setShininess(10))
 
 
         );
@@ -335,19 +367,22 @@ public class FinalTest {
                         .setKl(4E-4).setKq(2E-5));
         scene.getLights().add(new PointLight(moonlight, new Point(-200, 200, 0)).setKl(0.0001).setKq(0.00001));
         scene.getLights().add(
-                new SpotLight(new Color(700, 400, 400),new Point(-50, 35, -750),new Vector(1,-1,-1))
+                new SpotLight(new Color(700, 400, 400),new Point(-50, 35, -750),new Vector(1,1,4))
                         .setKl(4E-4).setKq(2E-5));
         scene.getLights().add(
-                new DirectionalLight(moonlight,new Vector(1,-0.5,1))
+                new DirectionalLight(new Color(10,40,50),new Vector(1,-0.5,1))
         );
 
 
         //render the image//
-        camera.setImageWriter(new ImageWriter("finalTestImage", 600, 600)) //
+        camera.setImageWriter(new ImageWriter("finalTestImage", 600, 600))
+                .setantiAliasing(3)//
                 .renderImage() //
                 .writeToImage();
 
-
+//        camera.setImageWriter(new ImageWriter("finalTestImageRotate", 600, 600)).rotateCamera(0,0,-10) //
+//                .renderImage() //
+//                .writeToImage();
     }
 }
 
