@@ -375,8 +375,8 @@ public class FinalTest {
 
         //render the image//
         camera.setImageWriter(new ImageWriter("finalTestImage", 600, 600))
-                .setthreadsCount(4)
-                .setadaptive(true)
+                //.setthreadsCount(4)
+                //.setadaptive(true)
                 .setantiAliasing(10)
                 .setRayTracer(new RayTracerBasic(scene))
                 .renderImage()
