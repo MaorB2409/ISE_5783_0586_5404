@@ -435,49 +435,55 @@ public class RayTracerBasic extends  RayTracerBase{
      * @return Pixel color
      */
     @Override
-    public Color AdaptiveSuperSamplingRec(Point centerP, double Width, double Height, double minWidth, double minHeight, Point cameraLoc, Vector Vright, Vector Vup, List<Point> prePoints) {
-        if (Width < minWidth * 2 || Height < minHeight * 2) {
+    public Color AdaptiveSuperSamplingRec(Point centerP, double Width, double Height, double minWidth,
+                                          double minHeight, Point cameraLoc, Vector Vright,
+                                          Vector Vup, List<Point> prePoints)
+    {
+        if (Width < minWidth * 2 || Height < minHeight * 2) {//stop if reached this size
             return this.traceRay(new Ray(cameraLoc, centerP.subtract(cameraLoc))) ;
         }
 
-        List<Point> nextCenterPList = new LinkedList<>();
-        List<Point> cornersList = new LinkedList<>();
-        List<primitives.Color> colorList = new LinkedList<>();
+        List<Point> nextCenterPList = new LinkedList<>();//list of center points
+        List<Point> cornersList = new LinkedList<>();//list of corner points
+        List<primitives.Color> colorList = new LinkedList<>();//list of colors
         Point tempCorner;
         Ray tempRay;
+        //add all the colors of corner rays to color list
         for (int i = -1; i <= 1; i += 2){
             for (int j = -1; j <= 1; j += 2) {
-                tempCorner = centerP.add(Vright.scale(i * Width / 2)).add(Vup.scale(j * Height / 2));
-                cornersList.add(tempCorner);
-                if (prePoints == null || !isInList(prePoints, tempCorner)) {
-                    tempRay = new Ray(cameraLoc, tempCorner.subtract(cameraLoc));
-                    nextCenterPList.add(centerP.add(Vright.scale(i * Width / 4)).add(Vup.scale(j * Height / 4)));
-                    colorList.add(traceRay(tempRay));
+                tempCorner = centerP.add(Vright.scale(i * Width / 2)).add(Vup.scale(j * Height / 2));//save a temp corner point using the center point
+                cornersList.add(tempCorner);//add that corner point to our list
+                if (prePoints == null || !isInList(prePoints, tempCorner)) {//at the beginning
+                    tempRay = new Ray(cameraLoc, tempCorner.subtract(cameraLoc));//create ray from camera to that corner
+                    nextCenterPList.add(centerP.add(Vright.scale(i * Width / 4)).add(Vup.scale(j * Height / 4)));//add a center point
+                    colorList.add(traceRay(tempRay));//add the color of the corner ray to color list
                 }
             }
         }
 
 
-        if (nextCenterPList == null || nextCenterPList.size() == 0) {
-            return primitives.Color.BLACK;
+        if (nextCenterPList == null || nextCenterPList.size() == 0) {//if we did not add a center point
+            return primitives.Color.BLACK;//def color
         }
 
 
         boolean isAllEquals = true;
-        primitives.Color tempColor = colorList.get(0);
-        for (primitives.Color color : colorList) {
-            if (!tempColor.isAlmostEquals(color))
-                isAllEquals = false;
+        primitives.Color tempColor = colorList.get(0);//save the first corner color
+        for (primitives.Color color : colorList) {//for each corner color
+            if (!tempColor.isAlmostEquals(color))//if not all almost equal
+                isAllEquals = false;//we will predict that they are not equal
         }
-        if (isAllEquals && colorList.size() > 1)
-            return tempColor;
+        if (isAllEquals && colorList.size() > 1)//when all corners are almost the same color
+            return tempColor;//return that color(one of the corners that we saved above)
 
 
         tempColor = primitives.Color.BLACK;
-        for (Point center : nextCenterPList) {
-            tempColor = tempColor.add(AdaptiveSuperSamplingRec(center, Width/2,  Height/2,  minWidth,  minHeight ,  cameraLoc, Vright, Vup, cornersList));
+        for (Point center : nextCenterPList) {//for each center point
+            //calling the recur func because we did not reach a similar color
+            tempColor = tempColor.add(AdaptiveSuperSamplingRec(center, Width/2,  Height/2,
+                    minWidth,  minHeight ,  cameraLoc, Vright, Vup, cornersList));
         }
-        return tempColor.reduce(nextCenterPList.size());
+        return tempColor.reduce(nextCenterPList.size());//return a med of temp color
 
 
     }

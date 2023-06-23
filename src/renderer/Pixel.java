@@ -6,7 +6,6 @@ package renderer;
  * There is a main follow up object and several secondary objects - one in each
  * thread.
  *
- * @author Dan
  *
  */
 class Pixel {

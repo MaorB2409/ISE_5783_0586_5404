@@ -8,7 +8,6 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.MissingResourceException;
-import java.util.Random;
 
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
@@ -227,7 +226,7 @@ public class Camera {
      * @param antiAliasing
      * @return the camera with set antiAliasing for the camera
      */
-    public Camera setantiAliasing(int antiAliasing) {
+    public Camera setantiAliasingRays(int antiAliasing) {
         this.antiAliasing = antiAliasing;
         return this;
     }
@@ -309,22 +308,25 @@ public class Camera {
         Pixel.initialize(imageWriter.getNy(), imageWriter.getNx(), 1);
 
 
-        if (!adaptive) {
+        if (!adaptive) {//if not adaptive- regular trace ray like anti aliasing
             while (threadsCount-- > 0) {
                 new Thread(() -> {
                     for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
-                        imageWriter.writePixel(pixel.col, pixel.row, rayTracer.TraceRays(constructRays(imageWriter.getNx(), imageWriter.getNy(), pixel.col, pixel.row, antiAliasing)));
-                }).start();
+                        imageWriter.writePixel(pixel.col, pixel.row, rayTracer.TraceRays(constructRays(imageWriter.getNx()
+                                , imageWriter.getNy(), pixel.col, pixel.row, antiAliasing)));
+                }).start();//start the thread
             }
             Pixel.waitToFinish();
-        } else {
+        }
+        else {//if adaptive use AdaptiveSuperSampling in raytracerbasic instead
             while (threadsCount-- > 0) {
                 new Thread(() -> {
                     for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
-                        imageWriter.writePixel(pixel.col, pixel.row, AdaptiveSuperSampling(imageWriter.getNx(), imageWriter.getNy(), pixel.col, pixel.row, antiAliasing));
+                        imageWriter.writePixel(pixel.col, pixel.row, AdaptiveSuperSampling(imageWriter.getNx()
+                                , imageWriter.getNy(), pixel.col, pixel.row, antiAliasing));
                 }).start();
             }
-            Pixel.waitToFinish();
+            Pixel.waitToFinish();//wait until all the threads finish
         }
         return this;
 
@@ -344,37 +346,42 @@ public class Camera {
      * @return Pixel color
      */
     private Color AdaptiveSuperSampling(int nX, int nY, int j, int i,  int numOfRays)  {
+        //save all the parameters that we need from the camera
         Vector Vright = vRight;
         Vector Vup = vUp;
         Point cameraLoc = this.getP0();
         int numOfRaysInRowCol = (int)Math.floor(Math.sqrt(numOfRays));
-        if(numOfRaysInRowCol == 1)  return rayTracer.traceRay(constructRayThroughPixel(nX, nY, j, i));
+        if(numOfRaysInRowCol == 1)  return rayTracer.traceRay(constructRayThroughPixel(nX, nY, j, i));//if only 1 ray then return the color of the pixel center
 
-        Point pIJ = getCenterOfPixel(nX, nY, j, i);
+        Point pIJ = getCenterOfPixel(nX, nY, j, i);//save the center of this pixel
 
-        double rY = alignZero(height / nY);
+        double rY = alignZero(height / nY);//all the height devided to pixel height=how many pixels in the height
         // the ratio Rx = w/Nx, the width of the pixel
-        double rX = alignZero(width / nX);
+        double rX = alignZero(width / nX);//all the width devided to pixel width=how many pixels in the width
 
 
         double PRy = rY/numOfRaysInRowCol;
         double PRx = rX/numOfRaysInRowCol;
-        return rayTracer.AdaptiveSuperSamplingRec(pIJ, rX, rY, PRx, PRy,cameraLoc,Vright, Vup,null);
+        return rayTracer.AdaptiveSuperSamplingRec(pIJ, rX, rY, PRx, PRy,cameraLoc,Vright, Vup,null);//use the adaptive func in raytracerbase with center point,amount of pixels,and camera params
     }
-
 
     /**
      * Cast ray from camera in order to color a pixel
      *
      * @param nX   - resolution on X axis (number of pixels in row)
      * @param nY   - resolution on Y axis (number of pixels in column)
-     * @param icol - pixel's column number (pixel index in row)
-     * @param jrow - pixel's row number (pixel index in column)
+     * @param i - pixel's column number (pixel index in row)
+     * @param j - pixel's row number (pixel index in column)
+     * @return med of the color for a pixel according to anti aliasing size
      */
-    private void castRay(int nX, int nY, int icol, int jrow) {
-        Ray ray = constructRay(nX, nY, jrow, icol); //build a ray with the given parameters
-        Color pixelColor = rayTracer.traceRay(ray);
-        imageWriter.writePixel(jrow, icol, pixelColor); //color the pixel
+    private Color castRay(int nX, int nY, int i, int j) {
+        // anti aliasing
+        List<Ray> rays = constructRays(nX, nY, j, i,antiAliasing);//creates list of rays for each pixel given instead of just one
+        Color color = Color.BLACK;//default color
+        for (int k = 0; k < rays.size(); k++)//for each ray in the list of a pixel
+            color = color.add(rayTracer.traceRay(rays.get(k)));//save the sum of colors for each ray
+        color = color.reduce(rays.size());//save the color (-antialiasing size)
+        return color;//returns med of color
     }
 
 

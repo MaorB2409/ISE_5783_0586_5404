@@ -12,7 +12,6 @@ import geometries.Triangle;
 import lighting.AmbientLight;
 import lighting.SpotLight;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 
 /** Tests for reflection and transparency functionality, test for partial
@@ -100,7 +99,7 @@ public class ReflectionRefractionTests {
                 .setKl(4E-5).setKq(2E-7));
 
         ImageWriter imageWriter = new ImageWriter("refractionShadow", 600, 600);
-        camera.setImageWriter(imageWriter).setantiAliasing(1) //
+        camera.setImageWriter(imageWriter).setantiAliasingRays(1) //
                 .setRayTracer(new RayTracerBasic(scene)) //
                 .renderImage() //
                 .writeToImage();
