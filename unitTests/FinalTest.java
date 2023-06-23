@@ -16,9 +16,6 @@ public class FinalTest {
         Color Sky = new Color(0, 51, 102);
         Color moonlight = new Color(183,201,226);
         Color sand = new Color(120, 87, 33);
-        Color dune1 = new Color(120, 87, 33);
-        Color dune2 = new Color(101, 67, 33);
-        Color dune3 = new Color(101, 67, 33);
 
         //scene and camera of the image//
         Scene scene = new Scene.SceneBuilder("Test scene").setBackground(Sky).build();
